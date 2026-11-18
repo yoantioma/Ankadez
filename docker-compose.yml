@@ -1,0 +1,60 @@
+# ReadyMatch · production sur le VPS : nginx (réseau « web » de Nginx Proxy Manager) + Django/Gunicorn + PostgreSQL.
+# Aucun port n'est publié : seul le conteneur nginx rejoint le réseau partagé « web ».
+name: readymatch
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: readymatch_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: Africa/Douala
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [interne]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    image: readymatch-app
+    container_name: readymatch_app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - static:/app/staticfiles
+      - media:/app/media
+      - ./donnees:/app/donnees:ro        # CSV à importer (jamais commités)
+    networks: [interne]
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: readymatch_nginx
+    restart: unless-stopped
+    depends_on: [app]
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static:/app/staticfiles:ro
+      - media:/app/media:ro
+    networks: [interne, web]
+
+volumes:
+  pgdata:
+  static:
+  media:
+
+networks:
+  interne: {}
+  web:
+    external: true

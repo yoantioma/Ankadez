@@ -1,0 +1,13 @@
+# Test en local uniquement : ouvre le site sur http://localhost:8080, en conditions proches de la production (DEBUG désactivé, sans HTTPS).
+#   docker network create web          (une seule fois)
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+services:
+  app:
+    environment:
+      DJANGO_DEBUG: "False"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,readymatch_nginx"
+      DJANGO_CSRF_TRUSTED_ORIGINS: "http://localhost:8080"
+      DJANGO_SECURE_SSL: "False"
+  nginx:
+    ports:
+      - "127.0.0.1:8080:80"

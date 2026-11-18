@@ -50,7 +50,53 @@ passé à `seed_demo` (en local, il est noté dans `.env`, variable `DEMO_PASSWO
 Les profils importés n’ont pas de comptes financiers : ils comptent dans l’effectif, pas dans « l’argent à se faire ».
 Seules les 6 PME de démonstration (`seed_demo`) portent des chiffres, marqués « démonstration ».
 
-## Déployer sur un VPS (Ubuntu 22.04 ou 24.04)
+## Déployer avec Docker sur le VPS Contabo (méthode retenue)
+
+Schéma : `https://readymatch.aaprovidir.com` → DNS o2switch (A → IP du VPS) → Nginx Proxy Manager (ports 80/443, Let's Encrypt)
+→ réseau Docker `web` → `readymatch_nginx` (aucun port public) → réseau interne → `readymatch_app` (Gunicorn) + `readymatch_db` (PostgreSQL).
+
+| Conteneur | Rôle | Réseaux |
+|---|---|---|
+| `readymatch_nginx` | fichiers statiques, pièces protégées (X-Accel), proxy vers l’application | `interne`, `web` |
+| `readymatch_app` | Django + Gunicorn ; migrations et `collectstatic` automatiques au démarrage | `interne` |
+| `readymatch_db` | PostgreSQL 16 (volume `pgdata`) | `interne` |
+
+**Tester en local** (Docker Desktop lancé) :
+```bash
+docker network create web
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+```
+puis http://localhost:8080 (avec `DJANGO_SECURE_SSL=False` dans `.env`).
+
+**Sur le VPS** :
+1. DNS o2switch, cPanel → Éditeur de zone : enregistrement **A** `readymatch` → IP du VPS, TTL 300. Vérifier : `nslookup readymatch.aaprovidir.com`.
+2. Cloner (dépôt public : HTTPS suffit ; dépôt privé : deploy key + alias `Host github-readymatch`) :
+   `git clone https://github.com/yoantioma/Ankadez.git ~/apps/readymatch && cd ~/apps/readymatch`
+3. `.env` de production (à partir de `.env.example`) :
+   ```
+   DJANGO_SECRET_KEY=<longue chaîne aléatoire>
+   DJANGO_DEBUG=False
+   DJANGO_ALLOWED_HOSTS=readymatch.aaprovidir.com,readymatch_nginx
+   DJANGO_CSRF_TRUSTED_ORIGINS=https://readymatch.aaprovidir.com
+   DJANGO_SECURE_SSL=True
+   POSTGRES_DB=readymatch
+   POSTGRES_USER=readymatch
+   POSTGRES_PASSWORD=<lettres et chiffres uniquement>
+   ```
+4. `docker compose up -d --build` puis `docker compose logs -f app` (attendre « Démarrage »).
+5. Vérifier que NPM voit le site : `docker exec npm curl -sI http://readymatch_nginx/static/img/favicon.svg | head -n 1` → `HTTP/1.1 200 OK`.
+6. NPM → Proxy Host : domaine `readymatch.aaprovidir.com`, schéma `http`, hôte `readymatch_nginx`, port `80`,
+   certificat Let's Encrypt, Force SSL, HTTP/2.
+7. Données : déposer les CSV dans `~/apps/readymatch/donnees/`, puis
+   ```bash
+   docker compose exec app python manage.py import_panaf "donnees/ajouts_panaf_*.csv"
+   docker compose exec app python manage.py seed_demo
+   docker compose exec app python manage.py createsuperuser
+   ```
+8. Mise à jour : `git pull && docker compose up -d --build` (migrations et fichiers statiques refaits au démarrage).
+   Sauvegarde : `docker exec readymatch_db pg_dump -U readymatch readymatch > sauvegarde_$(date +%F).sql`.
+
+## Déployer sans Docker (Ubuntu 22.04 ou 24.04)
 
 1. **Paquets et utilisateur**
    ```bash
