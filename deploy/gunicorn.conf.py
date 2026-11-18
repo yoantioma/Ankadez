@@ -2,7 +2,7 @@
 import multiprocessing
 
 bind = 'unix:/run/readymatch/gunicorn.sock'
-workers = max(2, multiprocessing.cpu_count() * 2 + 1)
+workers = min(max(2, multiprocessing.cpu_count() * 2 + 1), 5)   # plafonné pour garder de la mémoire sur un petit VPS
 threads = 2
 timeout = 60
 graceful_timeout = 30
