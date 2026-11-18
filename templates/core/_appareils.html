@@ -1,0 +1,42 @@
+{% load rm %}
+<div class="sv-sec appareils" id="essayer">
+  <div class="ldh"><div><p class="kk">Essayez l’app</p><h2>Sur votre appareil, <em>tel que vous le tenez.</em></h2>
+    <p>Touchez les écrans pour naviguer, ouvrez le Flip, comparez iOS et Android, et parcourez la version ordinateur.</p></div>
+    <div class="acts"><button type="button" class="cta-s" data-theme-toggle>{% ic 'eclat' 18 %} Clair / sombre</button><button type="button" class="cta-s" data-reset>Revenir au début</button></div></div>
+
+  <div class="ap-tabs" role="tablist" aria-label="Appareils">
+    <button type="button" role="tab" id="tab-pc" aria-controls="pan-pc" aria-selected="true" data-tab="pc">{% ic 'liste' 16 %} Ordinateur</button>
+    <button type="button" role="tab" id="tab-iphone" aria-controls="pan-iphone" aria-selected="false" tabindex="-1" data-tab="iphone">iPhone 17</button>
+    <button type="button" role="tab" id="tab-samsung" aria-controls="pan-samsung" aria-selected="false" tabindex="-1" data-tab="samsung">Android · Galaxy S27 Ultra</button>
+    <button type="button" role="tab" id="tab-flip" aria-controls="pan-flip" aria-selected="false" tabindex="-1" data-tab="flip">Galaxy Z Flip 8</button>
+    <button type="button" role="tab" id="tab-duo" aria-controls="pan-duo" aria-selected="false" tabindex="-1" data-tab="duo">Duo iPhone + Android</button>
+  </div>
+  <div class="ap-txt" aria-live="polite">
+    <p data-for="pc">La version web, sur grand écran : tableau de bord, entreprises compatibles, fiche d’une PME. Ce sont les vrais écrans de l’application.</p>
+    <p data-for="iphone" hidden>Pilule de navigation flottante, « + » central, grand titre : l’app parle iOS.</p>
+    <p data-for="samsung" hidden>Barre Material, bouton flottant, onglets soulignés : l’app parle Android.</p>
+    <p data-for="flip" hidden>Fermé, l’écran externe montre le score et la prochaine action. Ouvert, l’app complète.</p>
+    <p data-for="duo" hidden>Le même contenu, deux grammaires : iOS et Android côte à côte.</p>
+  </div>
+
+  <div class="ap-stage">
+    <div class="rv-pan" role="tabpanel" id="pan-pc" aria-labelledby="tab-pc">
+      <div class="pc">
+        <div class="pc-ecran"><div class="pc-cam"></div>
+          <div class="pc-fen"><div class="pc-barre"><i></i><i></i><i></i><span class="pc-url" data-pc-url>readymatch.cm/pme</span></div>
+            <div class="pc-vue"><iframe data-pc-frame src="{% url 'core:apercu' 'pme' %}" title="Aperçu de la version web de ReadyMatch" loading="lazy"></iframe></div></div></div>
+        <div class="pc-base"><span></span></div>
+      </div>
+      <div class="pc-onglets" role="group" aria-label="Écran affiché sur l’ordinateur">
+        <button type="button" class="on" data-pc="{% url 'core:apercu' 'pme' %}" data-url="readymatch.cm/pme">Tableau de bord PME</button>
+        <button type="button" data-pc="{% url 'core:apercu' 'entreprises' %}" data-url="readymatch.cm/investisseur">Entreprises compatibles</button>
+        <button type="button" data-pc="{% url 'core:apercu' 'fiche' %}" data-url="readymatch.cm/investisseur/entreprise/savane-agro-sa">Fiche d’une PME</button>
+        <button type="button" data-pc="{% url 'core:apercu' 'pipeline' %}" data-url="readymatch.cm/investisseur/pipeline">Pipeline</button>
+      </div>
+    </div>
+    {% include 'core/_cadre_iphone.html' %}
+    {% include 'core/_cadre_samsung.html' %}
+    {% include 'core/_cadre_flip.html' %}
+    {% include 'core/_cadre_duo.html' %}
+  </div>
+</div>

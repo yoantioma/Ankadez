@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Écosystème{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="kk">Écosystème d’accompagnement</p><h1>Les PME ne sont pas seules. <em>Vous non plus.</em></h1>
+  <p class="lead">Incubateurs, institutions, associations, consultants et investisseurs référencés au Cameroun et dans la diaspora.</p></div></div>
+<div class="g g5" style="margin-bottom:16px">{% for k, lab in types %}{% if k %}<div class="card" style="padding:14px 16px"><p class="big" style="font-size:28px">{{ compteurs|get:k|default:0 }}</p><p class="t1">{{ lab }}</p></div>{% endif %}{% endfor %}</div>
+<form class="filters" method="get" action="{% url 'annuaire:ecosysteme' %}" data-async data-target="#zone-orgs" data-skeleton="liste" role="search">
+  <input type="search" name="q" value="{{ q }}" placeholder="Rechercher une structure, une ville…" aria-label="Rechercher">
+  <select name="type" aria-label="Type">{% for k, lab in types %}<option value="{{ k }}"{% if k == kind %} selected{% endif %}>{{ lab }}</option>{% endfor %}</select>
+  <select name="secteur" aria-label="Secteur"><option value="">Tous les secteurs</option>{% for s in secteurs %}<option value="{{ s.slug }}"{% if s.slug == secteur %} selected{% endif %}>{{ s.nom }}</option>{% endfor %}</select>
+</form>
+<div id="zone-orgs" data-async-zone>{% include 'annuaire/_liste.html' %}</div>
+<p class="note">{% ic 'info' 14 %} Profils issus de sources publiques, marqués « à vérifier » tant qu’ils ne sont pas confirmés. Un badge d’accompagnement n’apparaît qu’avec une attestation.</p>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% load static rm %}
+<p class="t1" style="margin-bottom:12px">{{ page.paginator.count }} entreprise{{ page.paginator.count|pluralize }} au-dessus du seuil de {{ seuil }}{% if masquees %} · {{ masquees }} sous le seuil, non affichée{{ masquees|pluralize }}{% endif %}</p>
+{% if page.object_list %}
+<div class="g g3">{% for l in page.object_list %}{% with o=l.org %}
+  <article class="card" style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;gap:12px;align-items:center"><span class="lgm" style="width:52px;height:52px;border-radius:16px;background:var(--vd);color:var(--vp)">{{ o.initiales }}</span>
+      <div style="min-width:0;flex:1"><b style="display:block;font-size:16px">{{ o.nom }}</b><span class="t1">{{ o.secteur.nom|default:'Secteur non renseigné' }}{% if o.ville %} · {{ o.ville }}{% endif %}</span></div>
+      <div style="text-align:right"><p class="big" style="font-size:32px;color:var(--vp)">{{ l.c.total }}</p><p class="t1" style="font-size:11px">indice</p></div></div>
+    <p class="muted" style="font-size:13px;min-height:40px">{{ o.description|truncatechars:120|default:'Description à compléter.' }}</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      {% if l.profil.ticket_recherche %}<span class="chip">lève {{ l.profil.ticket_recherche|fcfa }}</span>{% endif %}
+      {% if l.ex %}<span class="chip ok">comptes {{ l.ex.annee }}</span>{% else %}<span class="chip n">sans comptes</span>{% endif %}
+      {% if o.est_demo %}<span class="chip n">démonstration</span>{% elif o.a_verifier %}<span class="chip warn">profil à vérifier</span>{% endif %}
+      {% if o.pk in demandees %}<span class="chip ok">accès demandé</span>{% endif %}</div>
+    <a class="btn w" href="{% url 'investissement:fiche' o.slug %}" data-loader="Ouverture du tableau de bord de {{ o.nom }}…">Voir le tableau de bord {% ic 'fleche-d' 16 %}</a>
+  </article>{% endwith %}{% endfor %}</div>
+{% if page.has_other_pages %}<nav class="pag" aria-label="Pages">{% if page.has_previous %}<a class="btn sm" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if secteur %}secteur={{ secteur }}&{% endif %}{% if comptes %}comptes=1&{% endif %}tri={{ tri }}&page={{ page.previous_page_number }}">Précédent</a>{% endif %}
+  <span class="chip n">Page {{ page.number }} sur {{ page.paginator.num_pages }}</span>
+  {% if page.has_next %}<a class="btn sm" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if secteur %}secteur={{ secteur }}&{% endif %}{% if comptes %}comptes=1&{% endif %}tri={{ tri }}&page={{ page.next_page_number }}">Suivant</a>{% endif %}</nav>{% endif %}
+{% else %}<div class="empty"><div class="ico">{% ic 'loupe' 26 %}</div><b>Aucune entreprise ne correspond.</b><p>Élargissez vos filtres ou votre thèse.</p></div>{% endif %}

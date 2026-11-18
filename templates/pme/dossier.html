@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Data room{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'pme:tableau' %}">{{ org.nom }}</a> › Data room</p><h1>Data room <em>· {{ preuves.deposees }} / {{ preuves.exigees }}</em></h1></div>
+  <div class="acts"><span class="chip n">{{ preuves.manquantes }} pièce{{ preuves.manquantes|pluralize }} à déposer</span><span class="chip ok">{{ preuves.pct_verifiees }} % vérifiées</span></div></div>
+<div class="g" style="grid-template-columns:minmax(0,1fr) 380px;align-items:start">
+  <div class="g">{% for code, lab, pieces in dossiers %}
+    <section class="card"><div class="ch"><div><h3 style="font-size:17px">{{ lab }}</h3><p class="t1">{{ pieces|length }} pièce{{ pieces|length|pluralize }}</p></div></div>
+      {% if pieces %}<div class="tbl"><table><tbody>{% for p in pieces %}<tr><td><b>{{ p.titre }}</b><br><span class="t1">{{ p.created_at|date:'d/m/Y' }}{% if p.fichier %} · <a href="{% url 'pme:telecharger_piece' p.pk %}" target="_blank" rel="noopener">voir le fichier</a>{% endif %}</span></td>
+        <td><span class="chip {% if p.niveau_preuve == 'certifie' or p.niveau_preuve == 'recoupe' %}ok{% elif p.niveau_preuve == 'coherent' %}warn{% else %}n{% endif %}">{{ p.get_niveau_preuve_display }}</span></td>
+        <td style="text-align:right"><form method="post" action="{% url 'pme:supprimer_piece' p.pk %}" data-confirm="Retirer cette pièce de la data room ?" data-loader="Retrait…">{% csrf_token %}<button class="btn sm t" type="submit">Retirer</button></form></td></tr>{% endfor %}</tbody></table></div>
+      {% else %}<p class="muted" style="font-size:13px">Aucune pièce pour l’instant.</p>{% endif %}</section>{% endfor %}</div>
+  <aside class="card" style="position:sticky;top:16px"><h3>Ajouter une pièce</h3><p class="muted" style="font-size:13px;margin:4px 0 14px">Chaque pièce arrive en « déclaratif ». Elle monte de niveau quand elle est recoupée ou certifiée par un tiers.</p>
+    <form method="post" enctype="multipart/form-data" class="form" novalidate data-loader="Envoi de la pièce…">{% csrf_token %}
+      {% for f in form %}{% include 'partials/champ.html' with f=f %}{% endfor %}
+      <button class="btn p w" type="submit">{% ic 'plus' 16 %} Ajouter à la data room</button></form>
+    <p class="note">{% ic 'cadenas' 14 %} Visible par un investisseur seulement après votre accord de confidentialité.</p></aside>
+</div>
+{% endblock %}

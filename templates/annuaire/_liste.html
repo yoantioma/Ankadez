@@ -1,0 +1,11 @@
+{% load rm %}
+<p class="t1" style="margin-bottom:12px">{{ page.paginator.count }} structure{{ page.paginator.count|pluralize }}</p>
+{% if page.object_list %}<div class="g g3">{% for o in page.object_list %}
+  <article class="card" style="display:flex;flex-direction:column;gap:10px"><div class="org"><span class="lgm">{{ o.initiales }}</span><div style="min-width:0"><b style="display:block">{{ o.nom }}</b><span class="t1">{{ o.get_kind_display }}{% if o.ville %} · {{ o.ville }}{% endif %}{% if o.pays and o.pays != 'Cameroun' %} · {{ o.pays }}{% endif %}</span></div></div>
+    <p class="muted" style="font-size:13px">{{ o.description|truncatechars:140|default:o.categorie }}</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto">{% if o.secteur %}<span class="chip n">{{ o.secteur.nom|truncatechars:34 }}</span>{% endif %}{% if o.a_verifier %}<span class="chip warn">à vérifier</span>{% endif %}
+      {% if o.site_web %}<a class="chip" href="{{ o.site_web }}" target="_blank" rel="noopener" data-no-loader>Site web</a>{% endif %}</div></article>{% endfor %}</div>
+{% if page.has_other_pages %}<nav class="pag" aria-label="Pages">{% if page.has_previous %}<a class="btn sm" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if kind %}type={{ kind }}&{% endif %}{% if secteur %}secteur={{ secteur }}&{% endif %}page={{ page.previous_page_number }}">Précédent</a>{% endif %}
+  <span class="chip n">Page {{ page.number }} sur {{ page.paginator.num_pages }}</span>
+  {% if page.has_next %}<a class="btn sm" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if kind %}type={{ kind }}&{% endif %}{% if secteur %}secteur={{ secteur }}&{% endif %}page={{ page.next_page_number }}">Suivant</a>{% endif %}</nav>{% endif %}
+{% else %}<div class="empty"><div class="ico">{% ic 'loupe' 26 %}</div><b>Aucune structure ne correspond.</b></div>{% endif %}

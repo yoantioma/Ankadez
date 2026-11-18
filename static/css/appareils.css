@@ -1,0 +1,42 @@
+/* Section « Essayez l'app » : onglets, scène, ordinateur. Le moteur des téléphones est dans appareils_moteur.css (repris du site v2). */
+@import url('appareils_moteur.css');
+@import url('chargement.css');
+body{margin:0;background:#F8F8FB;font-family:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif}
+#vitrine{min-height:100vh;overflow:visible}
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:#fff;color:#15132B;padding:8px 12px;border-radius:10px}.skip:focus{left:16px}
+#vitrine .ldnav,#vitrine .ldwrap{max-width:1440px;margin-left:auto;margin-right:auto}
+#vitrine .ldnav .pn a{text-decoration:none}
+:root[data-theme="dark"] body{background:#0E0D19}
+.appareils .ap-tabs{display:flex;gap:4px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--ligne);border-radius:999px;padding:5px;align-self:flex-start}
+.appareils .ap-tabs button{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--t2);font:600 14px var(--f);padding:10px 18px;border-radius:999px;cursor:pointer;min-height:44px}
+.appareils .ap-tabs button[aria-selected="true"]{background:#5536E8;color:#fff}
+.appareils .ap-tabs button:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.appareils .ap-txt{min-height:24px;color:var(--t2);font-size:15px;margin:2px 2px 0}
+.appareils .ap-stage{position:relative;border-radius:34px;padding:48px 24px 40px;min-height:720px;display:flex;justify-content:center;align-items:center;overflow:hidden;
+  background:radial-gradient(70% 70% at 50% 30%,var(--vd),transparent 70%),var(--creux)}
+.appareils .rv-pan{display:flex;flex-direction:column;align-items:center;gap:22px;width:100%}
+.appareils .rv-pan[hidden]{display:none}
+.appareils .rv-duo{display:flex;gap:48px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
+/* les classes génériques des écrans (.big…) ne doivent pas toucher les cadres : on repart d'une typographie neutre */
+.appareils .rv-duo.big,.appareils .dev,.appareils .foldable{font-size:16px;line-height:normal;letter-spacing:normal;font-weight:400}
+.appareils .fold-btn{margin-top:18px;border:0;background:#5536E8;color:#fff;font:700 14px var(--f);padding:12px 20px;border-radius:999px;cursor:pointer;min-height:44px}
+.appareils .foldable{display:flex;flex-direction:column;align-items:center}
+/* ordinateur portable */
+.appareils .pc{display:flex;flex-direction:column;align-items:center;width:min(1000px,100%)}
+.appareils .pc-ecran{position:relative;width:100%;aspect-ratio:16/10.4;background:#0B0B10;border-radius:22px 22px 10px 10px;padding:18px 18px 22px;
+  box-shadow:0 0 0 2px #2b2a33,0 40px 80px -30px rgba(21,19,43,.55)}
+.appareils .pc-cam{position:absolute;top:7px;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:#1d1c25;box-shadow:inset 0 0 0 1.5px #34333f}
+.appareils .pc-fen{width:100%;height:100%;border-radius:8px;overflow:hidden;background:var(--fond);display:flex;flex-direction:column}
+.appareils .pc-barre{flex:none;height:34px;display:flex;align-items:center;gap:7px;padding:0 12px;background:#ECEBF3;border-bottom:1px solid #DCDAE6}
+.wapp.sombre .appareils .pc-barre{background:#22213A;border-color:#2E2C47}
+.appareils .pc-barre i{width:11px;height:11px;border-radius:50%;background:#FF5F57}.appareils .pc-barre i:nth-child(2){background:#FEBC2E}.appareils .pc-barre i:nth-child(3){background:#28C840}
+.appareils .pc-url{margin:0 auto;font-size:12px;color:#5E5B70;background:#fff;border-radius:999px;padding:4px 18px;min-width:40%;text-align:center}
+.wapp.sombre .appareils .pc-url{background:#191827;color:#B6B3CB}
+.appareils .pc-vue{position:relative;flex:1;overflow:hidden;container-type:inline-size}
+.appareils .pc-vue iframe{position:absolute;left:0;top:0;width:1440px;height:calc(100% / var(--pcs, .62));border:0;transform:scale(var(--pcs, .62));transform-origin:0 0;background:var(--fond)}
+.appareils .pc-base{width:112%;height:18px;background:linear-gradient(180deg,#d4d3dc,#a9a8b3);border-radius:0 0 18px 18px;position:relative;box-shadow:0 18px 30px -18px rgba(21,19,43,.6)}
+.appareils .pc-base span{position:absolute;left:50%;top:0;width:16%;height:7px;margin-left:-8%;background:#bdbcc6;border-radius:0 0 8px 8px}
+.appareils .pc-onglets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.appareils .pc-onglets button{border:1px solid var(--ligne);background:var(--surface);color:var(--encre);font:600 13px var(--f);padding:9px 16px;border-radius:999px;cursor:pointer;min-height:40px}
+.appareils .pc-onglets button.on{border-color:#5536E8;background:var(--vd);color:var(--vp)}
+@media (max-width:860px){.appareils .ap-stage{padding:28px 8px;min-height:0}.appareils .ap-tabs{border-radius:20px}.appareils .rv-duo{gap:16px}}

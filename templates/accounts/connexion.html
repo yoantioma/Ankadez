@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}Connexion{% endblock %}
+{% block chrome %}{% endblock %}{% block footer %}{% endblock %}
+{% block body %}
+<div class="ob">
+  <div class="ob-l" style="background-image:url('{% static 'img/photos/L.webp' %}')">
+    <a class="brand" href="{% url 'core:landing' %}"><span class="lg">R</span>ReadyMatch</a>
+    <div class="bas"><p class="kk" style="color:#FFD166">Connexion sécurisée</p><h2>Content de vous <span style="font-weight:300">revoir.</span></h2>
+      <p>Vos accès aux data rooms sont protégés : chaque ouverture est inscrite au journal.</p></div>
+  </div>
+  <div class="ob-r" style="max-width:560px">
+    <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--t2)"><span>Se connecter</span><a href="{% url 'accounts:inscription' %}">Créer un compte</a></div>
+    <h1 style="font-size:32px">Connexion</h1>
+    <form method="post" class="form" novalidate data-loader="Ouverture de votre espace…">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors|join:' ' }}</div>{% endif %}
+      {% for f in form %}{% include 'partials/champ.html' with f=f %}{% endfor %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="btn p lg w" type="submit">Se connecter {% ic 'fleche-d' 16 %}</button>
+    </form>
+    <a class="btn t" href="{% url 'core:landing' %}">Revenir à l’accueil</a>
+  </div>
+</div>
+{% endblock %}

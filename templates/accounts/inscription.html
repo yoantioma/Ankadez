@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}Créer mon compte{% endblock %}
+{% block chrome %}{% endblock %}{% block footer %}{% endblock %}
+{% block body %}
+<div class="ob">
+  <div class="ob-l" style="background-image:url('{% static 'img/photos/D.webp' %}')">
+    <a class="brand" href="{% url 'core:landing' %}"><span class="lg">R</span>ReadyMatch</a>
+    <div class="bas"><p class="kk" style="color:#FFD166">CIF 2026 · Défi n°3 · Cameroun</p><h2>Lever des fonds, preuves à l’appui.</h2>
+      <p>La plateforme qui prépare les PME à l’investissement, explique la compatibilité avec chaque investisseur et relie tout l’écosystème.</p>
+      <ul class="ob-steps"><li class="f"><i>✓</i>Score de préparation sur 100</li><li class="f"><i>✓</i>Preuves sur 4 niveaux</li><li class="f"><i>✓</i>Compatibilité expliquée, jamais une probabilité</li></ul></div>
+  </div>
+  <div class="ob-r">
+    <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--t2)"><span>Bienvenue</span><a href="{% url 'accounts:connexion' %}">J’ai déjà un compte · Me connecter</a></div>
+    <div><h1 style="font-size:34px">Qui êtes-vous ?</h1><p class="lead">Choisissez votre espace. Chaque profil a son parcours d’accueil et ses droits.</p></div>
+    <div class="g g2">
+      <a class="selc" href="{% url 'accounts:inscription_compte' 'pme' %}" data-loader="Préparation de votre diagnostic…"><span class="ico">{% ic 'financer' 22 %}</span><b>Je dirige une PME</b><span>Préparer mon dossier, calculer un montant juste, rencontrer des investisseurs.</span></a>
+      <a class="selc" href="{% url 'accounts:inscription_compte' 'investisseur' %}" data-loader="Préparation de votre profil…"><span class="ico">{% ic 'invest' 22 %}</span><b>J’investis</b><span>Découvrir des PME au dossier vérifié, selon ma thèse.</span></a>
+      <a class="selc" href="{% url 'annuaire:ecosysteme' %}"><span class="ico">{% ic 'reseau' 22 %}</span><b>J’accompagne des PME</b><span>Incubateur, institution, conseil : retrouvez l’écosystème. Inscription des structures bientôt.</span></a>
+      <a class="selc" href="{% url 'core:landing' %}#cameroun"><span class="ico">{% ic 'carte' 22 %}</span><b>Je découvre</b><span>Le Cameroun en chiffres et le potentiel des entreprises inscrites, sans compte.</span></a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,3225 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}Investir au Cameroun, preuves à l’appui{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{% static 'css/vitrine.css' %}"><link rel="stylesheet" href="{% static 'css/appareils.css' %}">{% endblock %}
+{% block chrome %}{% endblock %}{% block footer %}{% endblock %}
+{% block body %}<div class="wapp" id="vitrine">
+<div class="ldnav">
+<a class="brand" href="{% url 'accounts:inscription' %}">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+<rect width="32" height="32" rx="9" fill="var(--violet)"/>
+<path d="M10 23V9h6.5a4.5 4.5 0 0 1 0 9H10" fill="none" stroke="var(--sv)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="m16.5 18 5 5" stroke="var(--soleil)" stroke-width="2.6" stroke-linecap="round"/>
+</svg>ReadyMatch</a>
+<nav class="pn" aria-label="Sections">
+<a href="#cameroun" aria-current=page>Le Cameroun</a>
+<a href="#app">L’app</a>
+<a href="#histoire">L’histoire</a>
+<a href="#preparer">Préparer</a>
+<a href="#financer">Financer</a>
+<a href="#rencontrer">Rencontrer</a>
+<a href="#ecosysteme">Écosystème</a>
+<a href="#outils">Outils PME</a>
+</nav>
+<div class="tbr">
+<a class="pbtn" href="{% url 'accounts:connexion' %}">Se connecter</a>
+<a class="pbtn p" href="{% url 'accounts:inscription' %}">Essayer l’app</a>
+</div>
+</div>
+<div class="ldwrap">
+<div class="ldh" id="cameroun">
+<div>
+<p class="kk">Le Cameroun en chiffres · sans inscription</p>
+<h1>Investir au Cameroun, <em>preuves à l’appui.</em>
+</h1>
+<p>Ce que les entreprises inscrites peuvent rapporter, ce que le pays offre, et dans quel cadre. Tous secteurs confondus.</p>
+</div>
+<div class="acts">
+<a class="cta-s" href="{% url 'accounts:inscription_compte' 'pme' %}">Je suis une PME</a>
+<a class="cta-p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>{{ v.hero }}<div class="sh6">
+<span class="n">01</span>
+<h3>Cible à 36 mois</h3>
+<span class=r>jamais additionnée au potentiel</span>
+</div>
+<div class="tg5">
+<section class="tc">
+<div class="hd">
+<span class="ico">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M4 16a8 8 0 0 1 16 0"/>
+<path d="M12 16l4-5"/>
+</svg>
+</span>
+<span class="tag5">cible</span>
+</div>
+<b class="">600</b>
+<span class="l">entreprises scorées</span>
+</section>
+<section class="tc">
+<div class="hd">
+<span class="ico">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="3" y="6" width="18" height="12" rx="2"/>
+<circle cx="12" cy="12" r="2.5"/>
+<path d="M7 9v.01M17 15v.01"/>
+</svg>
+</span>
+<span class="tag5">cible</span>
+</div>
+<b class="">40 à 45</b>
+<span class="l">financements</span>
+</section>
+<section class="tc">
+<div class="hd">
+<span class="ico">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="9" cy="8" r="3.5"/>
+<path d="M2.5 20a6.5 6.5 0 0 1 13 0"/>
+<path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>
+</svg>
+</span>
+<span class="tag5">cible</span>
+</div>
+<b class="">10 à 12 Md</b>
+<span class="l">FCFA levés</span>
+</section>
+<section class="tc">
+<div class="hd">
+<span class="ico">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 20V10l6 4V10l6 4V6h6v14z"/>
+</svg>
+</span>
+<span class="tag5">cible</span>
+</div>
+<b class="">≥ 2 000</b>
+<span class="l">emplois créés</span>
+<small class=sub>directs et indirects</small>
+</section>
+<section class="tc">
+<div class="hd">
+<span class="ico">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m5 12.5 4.5 4.5L19 7.5"/>
+</svg>
+</span>
+<span class="tag5">cible</span>
+</div>
+<b class="tbd">à fixer</b>
+<span class="l">entreprises rentables</span>
+<small class=sub>dès la 2e ou la 3e année</small>
+</section>
+</div>
+<div class="cv5">
+<section class="cvc">
+<div>
+<p class="k">Hypothèse de conversion</p>
+<b class="v">≈ 10 %</b>
+<p>des entreprises scorées obtiennent un financement. Une hypothèse, pas un historique.</p>
+<div class="dg100" aria-hidden="true">
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i class=on>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+</div>
+</div>
+<div>
+<p class="k">Projets réalisés sans investissement</p>
+<b class="v" style="color:var(--t3);font-style:italic;font-size:26px">cible à fixer</b>
+<p>Entreprises qui mènent leur projet grâce aux outils, incitations et leviers de la plateforme, sans lever de fonds. Réalisé à ce jour : 0.</p>
+<div class="dg4" aria-hidden="true">
+<i class="on" style="background:#FFD166">
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+</div>
+</div>
+</section>
+<section class="rz">
+<p class="k">Réalisé à ce jour</p>
+<b>0<small>closing</small>
+</b>
+<p>Aucun track record extérieur emprunté. Le réalisé reste à zéro tant qu’aucun closing n’est enregistré.</p>
+</section>
+</div>
+<div class="sh6">
+<span class="n">02</span>
+<h3>Le Cameroun en un coup d’œil</h3>
+<span class=r>l’état du pays, tous secteurs confondus</span>
+</div>
+<div class="bento">
+<section class="bx bph" style="grid-area:ph;background-image:url('{% static 'img/photos/D.webp' %}')">
+<span class="tag">
+<i>
+</i>Cameroun · CEMAC</span>
+<span class="ov">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+<circle cx="12" cy="12" r="3"/>
+</svg>ReadyMatch suit {{ m.n_entreprises }} entreprises inscrites</span>
+<div class="pn2">
+<div>
+<b>Cameroun</b>
+<span>29 M d’habitants · OHADA · ZLECAf</span>
+</div>
+<a href="#cameroun" aria-label="Ouvrir Cameroun">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+<section class="bx" style="grid-area:bg">
+<div class="bbig">
+<div>
+<div class="kpi1">
+<span class="ic">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M4 16a8 8 0 0 1 16 0"/>
+<path d="M12 16l4-5"/>
+</svg>
+</span>
+<b>2,9 %</b>
+<span class="chipv">▼ −0,5 pt vs 2025</span>
+</div>
+<p class="t1" style="margin-top:8px">d’inflation prévue en 2026 : sous le plafond CEMAC de 3 %</p>
+<div class="dmw" style="--ds:10px;--dg:4px">
+<div class="dmx" role="img" aria-label="Matrice de points">
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2019</b> · 2,5 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2020</b> · 2,5 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2021</b> · 2,3 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2022</b> · 6,3 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2023</b> · 7,4 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2024</b> · 4,5 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-h">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2025</b> · 3,4 %</span>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-f">
+</i>
+<i class="c-h">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>2026</b> · 2,9 % · prévision</span>
+<i class="c-pj">
+</i>
+<i class="c-pj">
+</i>
+<i class="c-pj">
+</i>
+<i class="c-pj">
+</i>
+<i class="c-pj">
+</i>
+<i class="c-pj">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<span class="dceil" style="bottom:82px">
+</span>
+</div>
+<div class="dlx">
+<span>2019</span>
+<span>2020</span>
+<span>2021</span>
+<span>2022</span>
+<span>2023</span>
+<span>2024</span>
+<span>2025</span>
+<span>2026</span>
+</div>
+</div>
+<div class="lg2">
+<span>
+<i class="c-f">
+</i>sous 3 %</span>
+<span>
+<i class="c-h">
+</i>au-dessus de 3 %</span>
+<span>
+<i class="c-pj">
+</i>prévision</span>
+<span>
+<i class="c-ceil">
+</i>plafond CEMAC</span>
+<span>
+<i class="">
+</i>1 point = 0,5 %</span>
+</div>
+</div>
+<div class="bv">
+<div class="top">
+<span class="ic">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0zM17 7l-3 7a3 3 0 0 0 6 0z"/>
+</svg>
+</span>
+<span class="chip">BEAC</span>
+</div>
+<span class="big">4,50 %</span>
+<span class="lb">taux directeur, sept. 2026</span>
+<div class="in">
+<div class="r">
+<span>Taux réel</span>
+<span>taux − inflation</span>
+</div>
+<b>+1,6 pt</b>
+<span class="s">L’argent coûte plus que l’inflation : monnaie tenue.</span>
+</div>
+</div>
+</div>
+</section>
+<section class="bx" style="grid-area:ls">
+<p class="t1">Le pays, pas un secteur</p>
+<div class="bh">
+<h3 style="font-size:24px">Pourquoi le Cameroun</h3>
+<span class="cnt">
+<i>
+</i>6 atouts</span>
+</div>
+<ol class="nl">
+<li class="on">
+<a href="#cameroun">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/>
+<path d="M9 4v14M15 6v14"/>
+</svg>
+</span>
+<span class="tx">
+<b>Première économie de la CEMAC</b>
+<span class="s">6 pays, une seule monnaie</span>
+</span>
+</a>
+</li>
+<li class="">
+<a href="#cameroun">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="5" r="2.5"/>
+<circle cx="5" cy="18" r="2.5"/>
+<circle cx="19" cy="18" r="2.5"/>
+<path d="M11 7 6 16M13 7l5 9M7.5 18h9"/>
+</svg>
+</span>
+<span class="tx">
+<b>Une population jeune</b>
+<span class="s">≈ 29 M d’habitants</span>
+</span>
+</a>
+</li>
+<li class="">
+<a href="#cameroun">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>
+</svg>
+</span>
+<span class="tx">
+<b>Deux ports majeurs</b>
+<span class="s">Douala et Kribi, porte du Tchad et de la RCA</span>
+</span>
+</a>
+</li>
+<li class="">
+<a href="#cameroun">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0zM17 7l-3 7a3 3 0 0 0 6 0z"/>
+</svg>
+</span>
+<span class="tx">
+<b>Droit des affaires OHADA</b>
+<span class="s">les mêmes règles dans 17 pays</span>
+</span>
+</a>
+</li>
+<li class="">
+<a href="#cameroun">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 3l7 3v5.5c0 4.3-3 7.9-7 9.5-4-1.6-7-5.2-7-9.5V6z"/>
+<path d="m9 12 2 2 4-4"/>
+</svg>
+</span>
+<span class="tx">
+<b>FCFA arrimé à l’euro</b>
+<span class="s">parité fixe depuis 1999</span>
+</span>
+</a>
+</li>
+<li class="">
+<a href="#cameroun">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="3"/>
+<path d="M9 8h6M9 12h6"/>
+</svg>
+</span>
+<span class="tx">
+<b>Ouvert sur la ZLECAf</b>
+<span class="s">le marché continental africain</span>
+</span>
+</a>
+</li>
+</ol>
+</section>
+<section class="bx" style="grid-area:ln">
+<div class="bh">
+<div>
+<p class="t1">Croissance du PIB</p>
+<h3>Une économie régulière</h3>
+</div>
+</div>
+<div class="vh">
+<b>3,3 %</b>
+<span class="chipv">prévision 2026</span>
+</div>
+<div class="stc" role="img" aria-label="Évolution">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+<path d="M3.0,33.3 H26.5 V55.6 H50.0 V38.9 H73.5 V61.1 V100 H3.0 Z" fill="var(--vd)" opacity=".8"/>
+<path d="M3.0,33.3 H26.5 V55.6 H50.0 V38.9 H73.5 V61.1" fill="none" stroke="var(--violet)" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+<path d="M73.5,61.1 H97.0 V50.0" fill="none" stroke="var(--violet)" stroke-width="2.5" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>
+</svg>
+<span class="yl" style="top:11.1%">4 %</span>
+<span class="yl" style="top:66.7%">3 %</span>
+<span class="vl" style="left:97.0%;top:50.0%">
+</span>
+<span class="pin" style="left:97.0%;top:50.0%">2026 · 3,3 % prévu</span>
+<span class="dp" style="left:3.0%;top:33.3%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>2022</b> · 3,6 %</span>
+</span>
+<span class="dp" style="left:26.5%;top:55.6%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>2023</b> · 3,2 %</span>
+</span>
+<span class="dp" style="left:50.0%;top:38.9%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>2024</b> · 3,5 %</span>
+</span>
+<span class="dp" style="left:73.5%;top:61.1%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>2025</b> · 3,1 %</span>
+</span>
+<span class="dp pj on" style="left:97.0%;top:50.0%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>2026</b> · 3,3 % · projection</span>
+</span>
+</div>
+<div class="lx">
+<span style="left:3.0%">2022</span>
+<span style="left:26.5%">2023</span>
+<span style="left:50.0%">2024</span>
+<span style="left:73.5%">2025</span>
+<span style="left:97.0%">2026</span>
+</div>
+<p class="src2">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 11v5M12 8v.01"/>
+</svg>FMI, mars 2026 · 2022–2023 à vérifier</p>
+</section>{{ v.ck }}<section class="bx" style="grid-area:le">
+<div class="bh">
+<div>
+<p class="t1">Notation souveraine</p>
+<h3>Coût du risque</h3>
+</div>
+</div>
+<div class="tiles">
+<div class="tile v">
+<span>S&amp;P</span>
+<b>B-</b>
+</div>
+<div class="tile ">
+<span>Moody’s</span>
+<b>Caa1</b>
+</div>
+<div class="tile d">
+<span class="ic">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 3l7 3v5.5c0 4.3-3 7.9-7 9.5-4-1.6-7-5.2-7-9.5V6z"/>
+<path d="m9 12 2 2 4-4"/>
+</svg>
+</span>
+<div>
+<span>Perspective</span>
+<b style="display:block;font-size:15px">stable</b>
+</div>
+</div>
+</div>
+<div class="lph">Qualité de crédit<span>spéculatif à partir de BB</span>
+</div>
+<div class="lps" role="img" aria-label="Diagramme en sucettes">
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>AAA</b> · catégorie investissement</span>
+<span class="stm" style="height:88%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>AA</b> · catégorie investissement</span>
+<span class="stm" style="height:80%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>A</b> · catégorie investissement</span>
+<span class="stm" style="height:71%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>BBB</b> · catégorie investissement</span>
+<span class="stm" style="height:63%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>BB</b> · spéculatif</span>
+<span class="stm" style="height:55%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>B+</b> · spéculatif</span>
+<span class="stm" style="height:46%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>B</b> · spéculatif</span>
+<span class="stm" style="height:38%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>B-</b> · Cameroun</span>
+<span class="stm" style="height:29%">
+<i class="on">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>CCC</b> · spéculatif</span>
+<span class="stm" style="height:21%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">
+<b>D</b> · spéculatif</span>
+<span class="stm" style="height:13%">
+<i class="">
+</i>
+</span>
+</div>
+</div>
+<div class="lpx">
+<span>AAA</span>
+<span>AA</span>
+<span>A</span>
+<span>BBB</span>
+<span>BB</span>
+<span>B+</span>
+<span>B</span>
+<span>B-</span>
+<span>CCC</span>
+<span>D</span>
+</div>
+<div class="lg2">
+<span>
+<i class="c-h">
+</i>Cameroun</span>
+<span>
+<i class="c-f">
+</i>autres crans</span>
+</div>
+</section>
+<section class="bd" style="grid-area:dk">
+<p class="t1">Ce qui protège votre mise</p>
+<h3 style="margin:3px 0 0;font-size:19px;color:#fff">Cadre et monnaie</h3>
+<div class="pl2">
+<span class="on" style="width:100%">1 € = 655,957 FCFA<b>fixe</b>
+</span>
+<span class="" style="width:80%">Droit OHADA<b>17 pays</b>
+</span>
+<span class="" style="width:86%">ZLECAf<b>54 pays</b>
+</span>
+</div>
+<div class="ft">
+<div class="ics">
+<span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 3l7 3v5.5c0 4.3-3 7.9-7 9.5-4-1.6-7-5.2-7-9.5V6z"/>
+<path d="m9 12 2 2 4-4"/>
+</svg>
+</span>
+<span class="v">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m5 12.5 4.5 4.5L19 7.5"/>
+</svg>
+</span>
+</div>
+<div class="r">
+<small>Capitaux étrangers 2025</small>
+<b>599 M$</b>
+</div>
+</div>
+</section>
+</div>
+<p class="srcs">Sources : FMI (mars 2026), BEAC (sept. 2026), CNUCED 2026 (selon la presse), S&P et Moody’s. Inflation 2019–2024 à vérifier. Comptage des dossiers : démonstration.</p>
+<div class="sh6">
+<span class="n">03</span>
+<h3>Cinq ratios</h3>
+<span class=r>calculés sur les {{ m.n_entreprises }} entreprises inscrites</span>
+</div>{{ v.ratios }}<section class="band v">
+<span class="bi">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8"/>
+<circle cx="12" cy="12" r="4"/>
+<circle cx="12" cy="12" r=".5"/>
+</svg>
+</span>
+<div>
+<h3>Vous avez vu le potentiel. Passez à l’action.</h3>
+<p>Investisseur : votre thèse fixe les entreprises que vous verrez. PME : votre diagnostic est gratuit.</p>
+</div>
+<div class="acts">
+<a class="cta-s" href="{% url 'accounts:inscription_compte' 'pme' %}">Je suis une PME<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+<a class="cta-y" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+<div id="app" class="sv-sec">
+<div class="ldh">
+<div>
+<p class="kk">CIF 2026 · Défi n°3 · Financement des PME au Cameroun</p>
+<h1>Lever des fonds, <em>preuves à l’appui.</em>
+</h1>
+<p>ReadyMatch prépare votre dossier, calcule un montant que vous pouvez défendre et vous présente les investisseurs dont la thèse vous correspond.</p>
+<div class="chips5" style="margin-top:14px">
+<span class="v">/100 · score de préparation</span>
+<span class="v">4 niveaux de preuve</span>
+<span class="v">6 critères de compatibilité</span>
+</div>
+</div>
+<div class="acts">
+<a class="cta-s" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis</a>
+<a class="cta-p" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+<p class="grp">Aperçu de l’app · Savane Agro, entreprise de démonstration</p>
+<div class="bento">
+<section class="bx bph" style="grid-area:ph;background-image:url('{% static 'img/photos/agro.webp' %}')">
+<span class="tag">
+<i>
+</i>Pre-Series A · 68/100</span>
+<span class="ov">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+<circle cx="12" cy="12" r="3"/>
+</svg>3 investisseurs suivent votre dossier</span>
+<div class="pn2">
+<div>
+<b>Savane Agro SA</b>
+<span>Douala · farines de manioc et de plantain</span>
+</div>
+<a href="{% url 'accounts:inscription_compte' 'pme' %}" aria-label="Ouvrir Savane Agro SA">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+<section class="bx" style="grid-area:bg">
+<div class="bbig">
+<div>
+<div class="kpi1">
+<span class="ic">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+</svg>
+</span>
+<b>34</b>
+<span class="chipv">+3 cette semaine</span>
+</div>
+<p class="t1" style="margin-top:8px">pièces versées sur 43 exigées, par dossier et par niveau de preuve</p>
+<div class="dmw" style="--ds:14px;--dg:7px">
+<div class="dmx" role="img" aria-label="Matrice de points">
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>01 Pitch</b> · 2 certifiée, 2 cohérente, 1 déclarative</span>
+<i class="c-cert">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-cert">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>02 États</b> · 2 certifiée, 1 cohérente, 1 déclarative, 2 manquante</span>
+<i class="c-cert">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-cert">
+</i>
+<i class="c-vide">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>03 Juridique</b> · 1 certifiée, 1 cohérente, 1 déclarative, 1 manquante</span>
+<i class="c-decl">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-cert">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>04 Fiscal</b> · 1 cohérente, 2 déclarative, 1 manquante</span>
+<i class="c-decl">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>05 RH</b> · 1 cohérente, 1 déclarative, 1 manquante</span>
+<i class="c-coh">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>06 Contrats</b> · 1 recoupée, 2 cohérente, 1 déclarative, 1 manquante</span>
+<i class="c-coh">
+</i>
+<i class="c-rec">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>07 Clients</b> · 1 recoupée, 1 cohérente, 1 déclarative, 1 manquante</span>
+<i class="c-rec">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>08 Risques</b> · 1 recoupée, 1 déclarative, 1 manquante</span>
+<i class="c-rec">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-decl">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>09 ESG</b> · 1 recoupée, 2 cohérente, 1 manquante</span>
+<i class="c-coh">
+</i>
+<i class="c-rec">
+</i>
+<i class="c-vide">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-e">
+</i>
+<i class="c-e">
+</i>
+</div>
+<div class="dcol" tabindex="0">
+<span class="tipc">
+<b>10 Sortie</b> · 4 recoupée, 1 cohérente</span>
+<i class="c-rec">
+</i>
+<i class="c-coh">
+</i>
+<i class="c-rec">
+</i>
+<i class="c-rec">
+</i>
+<i class="c-rec">
+</i>
+<i class="c-e">
+</i>
+</div>
+</div>
+<div class="dlx">
+<span>01</span>
+<span>02</span>
+<span>03</span>
+<span>04</span>
+<span>05</span>
+<span>06</span>
+<span>07</span>
+<span>08</span>
+<span>09</span>
+<span>10</span>
+</div>
+</div>
+<div class="lg2">
+<span>
+<i class="c-cert">
+</i>Certifié</span>
+<span>
+<i class="c-rec">
+</i>Recoupé</span>
+<span>
+<i class="c-coh">
+</i>Cohérent</span>
+<span>
+<i class="c-decl">
+</i>Déclaratif</span>
+<span>
+<i class="c-vide">
+</i>Manquante</span>
+</div>
+</div>
+<div class="bv">
+<div class="top">
+<span class="ic">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="3" y="6" width="18" height="12" rx="2"/>
+<circle cx="12" cy="12" r="2.5"/>
+<path d="M7 9v.01M17 15v.01"/>
+</svg>
+</span>
+<span class="chip">calcul indicatif</span>
+</div>
+<span class="big">440–490 M</span>
+<span class="lb">montant légitime à lever</span>
+<div class="in">
+<div class="r">
+<span>Votre demande</span>
+<span>500 M FCFA</span>
+</div>
+<b>92 %</b>
+<span class="s">de votre demande est justifiée par vos chiffres.</span>
+</div>
+</div>
+</div>
+</section>
+<section class="bx" style="grid-area:ls">
+<p class="t1">En attente de vous</p>
+<div class="bh">
+<h3 style="font-size:24px">À faire</h3>
+<span class="cnt">
+<i>
+</i>5 actions</span>
+</div>
+<ol class="nl">
+<li class="on">
+<a href="{% url 'accounts:inscription_compte' 'pme' %}">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M14 4h5v16h-5M10 8l-4 4 4 4M6 12h10"/>
+</svg>
+</span>
+<span class="tx">
+<b>Stratégie de sortie</b>
+<span class="s">Exigée pour Institutional Ready</span>
+</span>
+<span class="st"> <small class="tr-up">+4 pts</small>
+</span>
+</a>
+</li>
+<li class="">
+<a href="{% url 'accounts:inscription_compte' 'pme' %}">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+</svg>
+</span>
+<span class="tx">
+<b>LOI du distributeur gabonais</b>
+<span class="s">Dossier 06 · contrats</span>
+</span>
+<span class="st"> <small class="tr-up">+2 pts</small>
+</span>
+</a>
+</li>
+<li class="">
+<a href="{% url 'accounts:inscription_compte' 'pme' %}">
+<span class="av4 ico2">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+</svg>
+</span>
+<span class="tx">
+<b>Prévisionnel international</b>
+<span class="s">Gabon et Congo</span>
+</span>
+<span class="st"> <small class="tr-up">+2 pts</small>
+</span>
+</a>
+</li>
+<li class="">
+<a href="{% url 'accounts:inscription_compte' 'pme' %}">
+<span class="av4" style="background-image:url('{% static 'img/photos/A.webp' %}')">
+</span>
+<span class="tx">
+<b>NDA · Fonds Baobab</b>
+<span class="s">À relire avant signature</span>
+</span>
+<span class="st">
+<i>
+</i>Lire</span>
+</a>
+</li>
+<li class="">
+<a href="{% url 'accounts:inscription_compte' 'pme' %}">
+<span class="av4" style="background-image:url('{% static 'img/photos/F.webp' %}')">
+</span>
+<span class="tx">
+<b>Réunion · 10 nov.</b>
+<span class="s">Fonds Baobab Croissance</span>
+</span>
+<span class="st">
+<i>
+</i>Agenda</span>
+</a>
+</li>
+</ol>
+</section>
+<section class="bx" style="grid-area:ln">
+<div class="bh">
+<div>
+<p class="t1">Score de préparation</p>
+<h3>Votre progression</h3>
+</div>
+</div>
+<div class="vh">
+<b>68</b>
+<span style="color:var(--t3)">/100</span>
+<span class="chipv">+6 ce mois</span>
+</div>
+<div class="stc" role="img" aria-label="Évolution">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+<path d="M3.0,86.7 H16.4 V80.0 H29.9 V73.3 H43.3 V62.2 H56.7 V55.6 H70.1 V48.9 H83.6 V40.0 H97.0 V26.7 V100 H3.0 Z" fill="var(--vd)" opacity=".8"/>
+<path d="M3.0,86.7 H16.4 V80.0 H29.9 V73.3 H43.3 V62.2 H56.7 V55.6 H70.1 V48.9 H83.6 V40.0 H97.0 V26.7" fill="none" stroke="var(--violet)" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+</svg>
+<span class="yl" style="top:11.1%">A 75</span>
+<span class="yl" style="top:88.9%">40</span>
+<span class="vl" style="left:97.0%;top:26.7%">
+</span>
+<span class="pin" style="left:97.0%;top:26.7%">nov. · 68/100</span>
+<span class="dp" style="left:3.0%;top:86.7%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>avr.</b> · 41/100</span>
+</span>
+<span class="dp" style="left:16.4%;top:80.0%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>mai</b> · 44/100</span>
+</span>
+<span class="dp" style="left:29.9%;top:73.3%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>juin</b> · 47/100</span>
+</span>
+<span class="dp" style="left:43.3%;top:62.2%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>juil.</b> · 52/100</span>
+</span>
+<span class="dp" style="left:56.7%;top:55.6%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>août</b> · 55/100</span>
+</span>
+<span class="dp" style="left:70.1%;top:48.9%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>sept.</b> · 58/100</span>
+</span>
+<span class="dp" style="left:83.6%;top:40.0%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>oct.</b> · 62/100</span>
+</span>
+<span class="dp on" style="left:97.0%;top:26.7%" tabindex="0">
+<i>
+</i>
+<span class="tipc">
+<b>nov.</b> · 68/100</span>
+</span>
+</div>
+<div class="lx">
+<span style="left:3.0%">avr.</span>
+<span style="left:16.4%">mai</span>
+<span style="left:29.9%">juin</span>
+<span style="left:43.3%">juil.</span>
+<span style="left:56.7%">août</span>
+<span style="left:70.1%">sept.</span>
+<span style="left:83.6%">oct.</span>
+<span style="left:97.0%">nov.</span>
+</div>
+<p class="src2">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 11v5M12 8v.01"/>
+</svg>Series A / Growth Ready à 75 : encore 7 points</p>
+</section>
+<section class="bx" style="grid-area:ck">
+<div class="bh">
+<div>
+<p class="t1">Votre levée en cours</p>
+<h3>Investisseurs</h3>
+</div>
+<a class="arr" href="{% url 'accounts:inscription_compte' 'pme' %}" aria-label="Voir">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+<div class="rad">
+<svg width="184" height="184" viewBox="0 0 184 184" role="img" aria-label="2 / 6 NDA signés">
+<circle cx="92" cy="92" r="58" fill="none" stroke="var(--vd)" stroke-width="12" opacity=".7"/>
+<circle cx="92.0" cy="16.0" r="4.4" fill="var(--violet)" opacity="0.30"/>
+<circle cx="102.8" cy="16.8" r="4.4" fill="var(--violet)" opacity="0.35"/>
+<circle cx="113.4" cy="19.1" r="4.4" fill="var(--violet)" opacity="0.40"/>
+<circle cx="123.6" cy="22.9" r="4.4" fill="var(--violet)" opacity="0.45"/>
+<circle cx="133.1" cy="28.1" r="4.4" fill="var(--violet)" opacity="0.50"/>
+<circle cx="141.8" cy="34.6" r="4.4" fill="var(--violet)" opacity="0.55"/>
+<circle cx="149.4" cy="42.2" r="4.4" fill="var(--violet)" opacity="0.60"/>
+<circle cx="155.9" cy="50.9" r="4.4" fill="var(--violet)" opacity="0.65"/>
+<circle cx="161.1" cy="60.4" r="4.4" fill="var(--violet)" opacity="0.70"/>
+<circle cx="164.9" cy="70.6" r="4.4" fill="var(--violet)" opacity="0.75"/>
+<circle cx="167.2" cy="81.2" r="4.4" fill="var(--violet)" opacity="0.80"/>
+<circle cx="168.0" cy="92.0" r="4.4" fill="var(--violet)" opacity="0.85"/>
+<circle cx="167.2" cy="102.8" r="4.4" fill="var(--violet)" opacity="0.90"/>
+<circle cx="164.9" cy="113.4" r="4.4" fill="var(--violet)" opacity="0.95"/>
+<circle cx="161.1" cy="123.6" r="4.4" fill="var(--violet)" opacity="1.00"/>
+<circle cx="155.9" cy="133.1" r="4.4" fill="var(--creux)"/>
+<circle cx="149.4" cy="141.8" r="4.4" fill="var(--creux)"/>
+<circle cx="141.8" cy="149.4" r="4.4" fill="var(--creux)"/>
+<circle cx="133.1" cy="155.9" r="4.4" fill="var(--creux)"/>
+<circle cx="123.6" cy="161.1" r="4.4" fill="var(--creux)"/>
+<circle cx="113.4" cy="164.9" r="4.4" fill="var(--creux)"/>
+<circle cx="102.8" cy="167.2" r="4.4" fill="var(--creux)"/>
+<circle cx="92.0" cy="168.0" r="4.4" fill="var(--creux)"/>
+<circle cx="81.2" cy="167.2" r="4.4" fill="var(--creux)"/>
+<circle cx="70.6" cy="164.9" r="4.4" fill="var(--creux)"/>
+<circle cx="60.4" cy="161.1" r="4.4" fill="var(--creux)"/>
+<circle cx="50.9" cy="155.9" r="4.4" fill="var(--creux)"/>
+<circle cx="42.2" cy="149.4" r="4.4" fill="var(--creux)"/>
+<circle cx="34.6" cy="141.8" r="4.4" fill="var(--creux)"/>
+<circle cx="28.1" cy="133.1" r="4.4" fill="var(--creux)"/>
+<circle cx="22.9" cy="123.6" r="4.4" fill="var(--creux)"/>
+<circle cx="19.1" cy="113.4" r="4.4" fill="var(--creux)"/>
+<circle cx="16.8" cy="102.8" r="4.4" fill="var(--creux)"/>
+<circle cx="16.0" cy="92.0" r="4.4" fill="var(--creux)"/>
+<circle cx="16.8" cy="81.2" r="4.4" fill="var(--creux)"/>
+<circle cx="19.1" cy="70.6" r="4.4" fill="var(--creux)"/>
+<circle cx="22.9" cy="60.4" r="4.4" fill="var(--creux)"/>
+<circle cx="28.1" cy="50.9" r="4.4" fill="var(--creux)"/>
+<circle cx="34.6" cy="42.2" r="4.4" fill="var(--creux)"/>
+<circle cx="42.2" cy="34.6" r="4.4" fill="var(--creux)"/>
+<circle cx="50.9" cy="28.1" r="4.4" fill="var(--creux)"/>
+<circle cx="60.4" cy="22.9" r="4.4" fill="var(--creux)"/>
+<circle cx="70.6" cy="19.1" r="4.4" fill="var(--creux)"/>
+<circle cx="81.2" cy="16.8" r="4.4" fill="var(--creux)"/>
+<text x="92" y="96" text-anchor="middle" style="font:400 34px var(--f);fill:var(--encre);letter-spacing:-1px">2 / 6</text>
+<text x="92" y="116" text-anchor="middle" style="font:500 11.5px var(--f);fill:var(--t3)">NDA signés</text>
+</svg>
+</div>
+<div class="rws">
+<div>
+<i style="background:var(--violet)">
+</i>
+<span>Compatibles ≥ 55</span>
+<b>6</b>
+</div>
+<div>
+<i style="background:#8B78F0">
+</i>
+<span>Accès demandé</span>
+<b>3</b>
+</div>
+<div>
+<i style="background:#B8ABF7">
+</i>
+<span>Réunion fixée</span>
+<b>1</b>
+</div>
+</div>
+</section>
+<section class="bx" style="grid-area:le">
+<div class="bh">
+<div>
+<p class="t1">14 derniers jours</p>
+<h3>Qui regarde votre fiche</h3>
+</div>
+<a class="arr" href="{% url 'accounts:inscription_compte' 'pme' %}" aria-label="Voir">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+<div class="tiles">
+<div class="tile img" style="background-image:url('{% static 'img/photos/A.webp' %}')">
+<span>Fonds</span>
+<b>Baobab</b>
+</div>
+<div class="tile img" style="background-image:url('{% static 'img/photos/F.webp' %}')">
+<span>Incubateur</span>
+<b>Agro Hub</b>
+</div>
+<div class="tile d">
+<span class="ic">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>
+</svg>
+</span>
+<div>
+<span>Conseil</span>
+<b style="display:block;font-size:15px">Préparer le pitch</b>
+</div>
+</div>
+</div>
+<div class="lph">Consultations par jour<span>12 téléchargements</span>
+</div>
+<div class="lps" role="img" aria-label="Diagramme en sucettes">
+<div class="lp" tabindex="0">
+<span class="tipc">1 consultation</span>
+<span class="stm" style="height:18%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">0 consultation</span>
+<span class="stm" style="height:0%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">2 consultations</span>
+<span class="stm" style="height:35%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">1 consultation</span>
+<span class="stm" style="height:18%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">3 consultations · téléchargement</span>
+<span class="stm" style="height:53%">
+<i class="on">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">2 consultations</span>
+<span class="stm" style="height:35%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">0 consultation</span>
+<span class="stm" style="height:0%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">1 consultation</span>
+<span class="stm" style="height:18%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">4 consultations · téléchargement</span>
+<span class="stm" style="height:70%">
+<i class="on">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">2 consultations</span>
+<span class="stm" style="height:35%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">3 consultations · téléchargement</span>
+<span class="stm" style="height:53%">
+<i class="on">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">5 consultations · téléchargement</span>
+<span class="stm" style="height:88%">
+<i class="on">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">2 consultations</span>
+<span class="stm" style="height:35%">
+<i class="">
+</i>
+</span>
+</div>
+<div class="lp" tabindex="0">
+<span class="tipc">4 consultations · téléchargement</span>
+<span class="stm" style="height:70%">
+<i class="on">
+</i>
+</span>
+</div>
+</div>
+<div class="lpx">
+<span>4 nov.</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+<span>17 nov.</span>
+</div>
+<div class="lg2">
+<span>
+<i class="c-h">
+</i>avec téléchargement</span>
+<span>
+<i class="c-f">
+</i>consultation</span>
+</div>
+</section>
+<section class="bd" style="grid-area:dk">
+<p class="t1">FinanceHub · offres compatibles</p>
+<h3 style="margin:3px 0 0;font-size:19px;color:#fff">Financements possibles</h3>
+<div class="pl2">
+<span class="on" style="width:100%">Equity<b>500 M</b>
+</span>
+<span class="" style="width:82%">Crédit-bail matériel<b>120 M</b>
+</span>
+<span class="" style="width:76%">Garantie partielle<b>50 %</b>
+</span>
+</div>
+<div class="ft">
+<div class="ics">
+<span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+</svg>
+</span>
+<span class="v">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+</div>
+<div class="r">
+<small>Délai de réponse moyen</small>
+<b>9 jours</b>
+</div>
+</div>
+</section>
+</div>
+</div>
+<div class="ldh" style="margin-top:40px">
+<div>
+<p class="kk">La plateforme</p>
+<h2>Préparer les PME, <em>éclairer les investisseurs.</em>
+</h2>
+<p>ReadyMatch mesure la préparation des entreprises, prouve chaque chiffre et explique la compatibilité avec chaque investisseur.</p>
+</div>
+</div>
+<div class="duo" style="grid-template-columns:1fr">
+<section class="dc">
+<span class="tg">Pour les investisseurs</span>
+<h3>Des dossiers comparables, des preuves lisibles.</h3>
+<div class="st3">
+<div>
+<span class="n">1</span>
+<b>Votre thèse</b>Secteur, ticket, zone, stade, instrument.</div>
+<div>
+<span class="n">2</span>
+<b>Des PME compatibles</b>Un indice expliqué sur 6 critères, jamais une probabilité.</div>
+<div>
+<span class="n">3</span>
+<b>La data room</b>Ouverte après accord de confidentialité, chaque accès journalisé.</div>
+</div>
+<div class="fg4">
+<div>
+<b>{{ m.n_entreprises }}</b>
+<span>entreprises inscrites</span>
+</div>
+<div>
+<b>{{ m.potentiel|fcfa }}</b>
+<span>de marge brute cumulée</span>
+</div>
+<div>
+<b>{{ m.tickets.min|fcfa }}–{{ m.tickets.max|fcfa }}</b>
+<span>tickets recherchés</span>
+</div>
+<div>
+<b>4</b>
+<span>niveaux de preuve par chiffre</span>
+</div>
+</div>
+<a class="cta-p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</section>
+</div>
+<div id="histoire" class="sv-sec">
+<section class="histo" style="background-image:url('{% static 'img/photos/D.webp' %}')">
+<div>
+<span class="tag">Douala, 7 h</span>
+<h2>La ville est déjà au travail.</h2>
+<p>Awa dirige Savane Agro, une PME qui transforme le manioc et la banane plantain en farines vendues au Cameroun, au Gabon et au Congo. Pour suivre la demande, elle doit lever 500 millions de francs CFA. Elle a l’activité ; il lui manque un dossier qu’un investisseur peut vérifier vite.</p>
+<small>Awa et Savane Agro sont des personnages de démonstration.</small>
+</div>
+</section>
+</div>
+<div id="preparer" class="sv-sec">
+<div class="ldh">
+<div>
+<p class="kk">Chapitre 1 · Préparer</p>
+<h2>Savoir où l’on en est, <em>et quoi faire ensuite.</em>
+</h2>
+</div>
+</div>
+<div class="chap">
+<section class="bx bph" style="background-image:url('{% static 'img/photos/F.webp' %}')">
+<span class="tag">
+<i>
+</i>Préparation</span>
+<span class="ov">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+<circle cx="12" cy="12" r="3"/>
+</svg>Awa ouvre l’app entre deux livraisons</span>
+<div class="pn2">
+<div>
+<b>Chapitre 1</b>
+<span>Préparer</span>
+</div>
+<a href="{% url 'accounts:inscription_compte' 'pme' %}" aria-label="Commencer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">01 Préparation</span>
+</div>
+<div class="cap">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="86" height="86" viewBox="0 0 120 120" aria-hidden="true">
+<circle cx="60" cy="60" r="46" fill="none" stroke="var(--surface)" stroke-width="16"/>
+<circle cx="60" cy="60" r="46" fill="none" stroke="#5536E8" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="68 100" transform="rotate(-90 60 60)"/>
+<text x="60" y="68" text-anchor="middle" style="font:400 32px var(--f);fill:var(--encre)">68</text>
+</svg>
+<div>
+<b style="font-size:14px">Pre-Series A</b>
+<p style="margin:2px 0 0;font-size:12px;color:var(--t2)">+7 points pour le palier suivant</p>
+</div>
+</div>
+</div>
+<h3>Un score qui dit quoi faire ensuite.</h3>
+<p>Son dossier vaut 68 sur 100. L’app montre l’action qui rapporte le plus.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">02 Data room</span>
+</div>
+<div class="cap">
+<div class="mini">
+<div class="mrow">01 Statuts<b>5/5</b>
+</div>
+<div class="mrow">02 États financiers<b>6/6</b>
+</div>
+<div class="mrow">06 Contrats<b>3/5</b>
+</div>
+</div>
+</div>
+<h3>Dix dossiers, rangés pour l’investisseur.</h3>
+<p>Chaque dossier imposé montre ce qui est déposé et ce qui manque.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">03 Preuves</span>
+</div>
+<div class="cap">
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<span class="pill2">
+<i class="c-decl">
+</i>Déclaratif</span>
+<span class="pill2">
+<i class="c-coh">
+</i>Cohérent</span>
+<span class="pill2">
+<i class="c-rec">
+</i>Recoupé</span>
+<span class="pill2">
+<i class="c-cert">
+</i>Certifié</span>
+</div>
+</div>
+<h3>Chaque chiffre porte sa preuve.</h3>
+<p>Quatre niveaux, toujours écrits en toutes lettres.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">04 Sans reproche</span>
+</div>
+<div class="cap">
+<div class="mini">
+<div class="mrow">Rescanner la page<b>Recoupé</b>
+</div>
+<div class="mrow">Joindre l’original<b>Certifié</b>
+</div>
+<div class="mrow">Saisie manuelle<b>Déclaratif</b>
+</div>
+</div>
+</div>
+<h3>Une page illisible ? On corrige.</h3>
+<p>L’app propose trois façons de corriger et dit le niveau de preuve conservé.</p>
+</section>
+</div>
+</div>
+<div id="financer" class="sv-sec">
+<div class="ldh">
+<div>
+<p class="kk">Chapitre 2 · Financer</p>
+<h2>Un montant juste, <em>justifié trois fois.</em>
+</h2>
+</div>
+</div>
+<div class="chap">
+<section class="bx bph" style="background-image:url('{% static 'img/photos/J.webp' %}')">
+<span class="tag">
+<i>
+</i>Financement</span>
+<span class="ov">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+<circle cx="12" cy="12" r="3"/>
+</svg>Awa règle sa demande au curseur</span>
+<div class="pn2">
+<div>
+<b>Chapitre 2</b>
+<span>Financer</span>
+</div>
+<a href="{% url 'accounts:inscription_compte' 'pme' %}" aria-label="Commencer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">05 Montant légitime</span>
+</div>
+<div class="cap">
+<div class="rngb">
+<span class="z" style="left:55%;width:12%">
+</span>
+<span class="lb" style="left:61%">440–490 M</span>
+<span class="mk" style="left:72%">
+</span>
+</div>
+<p style="margin:6px 0 0;font-size:11.5px;color:var(--t2)">Demande : 500 M · trait noir</p>
+</div>
+<h3>Demander juste, et pouvoir le défendre.</h3>
+<p>Besoin réel, capacité d’endettement, capacité en equity : une fourchette.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">06 Projections</span>
+</div>
+<div class="cap">
+<div class="mini">
+<div class="mrow">
+<span style="width:96px">Base</span>
+<span class="mbar">
+<i style="width:89%;background:#5536E8">
+</i>
+</span>
+<b>1,34</b>
+</div>
+<div class="mrow">
+<span style="width:96px">Change +10 %</span>
+<span class="mbar">
+<i style="width:81%;background:#5536E8">
+</i>
+</span>
+<b>1,22</b>
+</div>
+<div class="mrow">
+<span style="width:96px">Retard client</span>
+<span class="mbar">
+<i style="width:77%;background:var(--alerte)">
+</i>
+</span>
+<b>1,16</b>
+</div>
+<div class="mrow">
+<span style="width:96px">Perte client</span>
+<span class="mbar">
+<i style="width:64%;background:var(--alerte)">
+</i>
+</span>
+<b>0,96</b>
+</div>
+</div>
+</div>
+<h3>Tester le pire avant l’investisseur.</h3>
+<p>Un scénario change, le DSCR se recalcule sous ses yeux.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">07 Risques</span>
+</div>
+<div class="cap">
+<div class="mini">
+<div class="mrow">Prix du manioc<b>
+<span class="pill bad">16</span>
+</b>
+</div>
+<div class="mrow">Retard export Gabon<b>
+<span class="pill warn">12</span>
+</b>
+</div>
+<div class="mrow">Clients concentrés<b>
+<span class="pill warn">9</span>
+</b>
+</div>
+</div>
+</div>
+<h3>Du plus grave au moins grave.</h3>
+<p>Chaque risque a sa gravité, écrite et colorée, et sa parade.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">08 FinanceHub</span>
+</div>
+<div class="cap">
+<div class="pl2" style="margin:0">
+<span class="on" style="width:100%;padding:7px 14px">Capital<b>350 M</b>
+</span>
+<span style="width:78%;padding:7px 14px;background:var(--surface)">Crédit-bail<b>150 M</b>
+</span>
+</div>
+</div>
+<h3>Le bon mélange de financements.</h3>
+<p>Prêt, crédit-bail, quasi-fonds, capital : coût, dilution et délai comparés.</p>
+</section>
+</div>
+</div>
+<div id="rencontrer" class="sv-sec">
+<div class="ldh">
+<div>
+<p class="kk">Chapitre 3 · Rencontrer</p>
+<h2>Les bons investisseurs, <em>pour les bonnes raisons.</em>
+</h2>
+</div>
+</div>
+<div class="chap">
+<section class="bx bph" style="background-image:url('{% static 'img/photos/L.webp' %}')">
+<span class="tag">
+<i>
+</i>Mise en relation</span>
+<span class="ov">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+<circle cx="12" cy="12" r="3"/>
+</svg>L’analyste reçoit la carte de Savane Agro</span>
+<div class="pn2">
+<div>
+<b>Chapitre 3</b>
+<span>Rencontrer</span>
+</div>
+<a href="{% url 'accounts:inscription_compte' 'pme' %}" aria-label="Commencer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">09 Des deux côtés</span>
+</div>
+<div class="cap">
+<div class="mini">
+<div class="mrow">
+<span style="width:56px">Secteur</span>
+<span class="mbar">
+<i style="width:100%">
+</i>
+</span>
+<b>25/25</b>
+</div>
+<div class="mrow">
+<span style="width:56px">Ticket</span>
+<span class="mbar">
+<i style="width:85%">
+</i>
+</span>
+<b>17/20</b>
+</div>
+<div class="mrow">
+<span style="width:56px">ESG</span>
+<span class="mbar">
+<i style="width:50%">
+</i>
+</span>
+<b>5/10</b>
+</div>
+</div>
+</div>
+<h3>Une compatibilité expliquée.</h3>
+<p>Même indice, même transparence des deux côtés : jamais une probabilité.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">10 Un geste, un filet</span>
+</div>
+<div class="cap">
+<div class="swp">
+<span class="cd" style="background-image:url('{% static 'img/photos/agro.webp' %}')">
+<b>Intéressé</b>
+</span>
+<span class="snack">
+<span>Demande envoyée</span>
+<b>Annuler</b>
+</span>
+</div>
+</div>
+<h3>Intéressé ? Un glissement suffit.</h3>
+<p>La demande d’accès part, avec « Annuler » quelques secondes.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">11 Jusqu’au comité</span>
+</div>
+<div class="cap">
+<div class="stepper2">
+<span class="d">
+<i>
+</i>Match<br>2 j</span>
+<span class="d">
+<i>
+</i>NDA<br>3 j</span>
+<span class="c">
+<i>
+</i>Réunion<br>9 j / 21</span>
+<span>
+<i>
+</i>Due diligence</span>
+<span>
+<i>
+</i>Closing</span>
+</div>
+</div>
+<h3>Chaque étape, chaque jour compté.</h3>
+<p>Le suivi montre l’âge de chaque étape et signale les retards.</p>
+</section>
+<section class="fc">
+<div class="top">
+<span class="num">12 Data room ouverte</span>
+</div>
+<div class="cap">
+<div class="mini">
+<div class="mrow">Fonds Baobab Croissance<b>NDA signé</b>
+</div>
+<div class="mrow">États financiers 2025<b>téléchargé</b>
+</div>
+<div class="mrow">Visite de l’usine<b>10 nov.</b>
+</div>
+</div>
+</div>
+<h3>Moins de temps à prouver.</h3>
+<p>Accès après accord de confidentialité, chaque téléchargement journalisé.</p>
+</section>
+</div>
+</div>
+<div class="sv-sec">
+<div class="split3">
+<div class="ph3" style="background-image:url('{% static 'img/photos/P.webp' %}')">
+</div>
+<div class="tx">
+<p class="kk" style="margin:0;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--vp)">Le jour du comité</p>
+<h2>Moins de temps à prouver, plus de temps à convaincre.</h2>
+<p>Quand l’analyste ouvre la data room, les chiffres sont déjà rangés, recoupés, expliqués. La réunion parle de l’essentiel : le projet, l’équipe, la croissance.</p>
+<div style="display:flex;gap:10px">
+<a class="cta-p" href="{% url 'accounts:inscription_compte' 'pme' %}">Préparer mon dossier<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<section class="band v">
+<span class="bi">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8"/>
+<circle cx="12" cy="12" r="4"/>
+<circle cx="12" cy="12" r=".5"/>
+</svg>
+</span>
+<div>
+<h3>Votre dossier, prêt pour un comité.</h3>
+<p>Diagnostic gratuit, score sur 100 et plan d’action en quelques minutes.</p>
+</div>
+<div class="acts">
+<a class="cta-s" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+<a class="cta-y" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+</div>{% include 'core/_appareils.html' %}<div class="sv-sec">
+<div class="ldh">
+<div>
+<p class="kk">Confiance</p>
+<h2>La confiance <em>se voit.</em>
+</h2>
+</div>
+</div>
+<div class="tr4">
+<div>
+<i class="c-decl">
+</i>
+<b>Déclaratif</b>
+<span>Pièce fournie, non vérifiée.</span>
+</div>
+<div>
+<i class="c-coh">
+</i>
+<b>Cohérent</b>
+<span>Chiffres concordants entre pièces.</span>
+</div>
+<div>
+<i class="c-rec">
+</i>
+<b>Recoupé</b>
+<span>Confirmé par une source externe.</span>
+</div>
+<div>
+<i class="c-cert">
+</i>
+<b>Certifié</b>
+<span>Attesté par un tiers habilité.</span>
+</div>
+</div>
+<div class="tcards">
+<div class="tcard">
+<span class="ico">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8"/>
+<circle cx="12" cy="12" r="4"/>
+<circle cx="12" cy="12" r=".5"/>
+</svg>
+</span>
+<b>Jamais une probabilité</b>
+<span>L’indice mesure l’adéquation avec une thèse, critère par critère. Il ne promet aucun financement.</span>
+</div>
+<div class="tcard">
+<span class="ico">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m5 12.5 4.5 4.5L19 7.5"/>
+</svg>
+</span>
+<b>Pensée pour le pouce</b>
+<span>L’action principale est en bas, à portée du pouce. Cibles de 48 px, contrastes vérifiés en clair comme en sombre.</span>
+</div>
+<div class="tcard">
+<span class="ico">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect width="16" height="10" x="4" y="11" rx="2"/>
+<path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+</svg>
+</span>
+<b>Vos données, vos choix</b>
+<span>La PME choisit ce qu’elle partage ; chaque investisseur signe un accord de confidentialité.</span>
+</div>
+</div>
+</div>
+<section id="acteurs" class="lscr">
+<div class="ldh">
+<div>
+<p class="kk">Qui lit, qui régule</p>
+<h2>Un cadre public <em>clair et nommé.</em>
+</h2>
+<p>La tutelle peut lire un dossier, les agences instruisent et accompagnent, les régulateurs encadrent. Aucun d’eux n’agrée un dossier depuis ReadyMatch.</p>
+</div>
+<span class="tag5" style="font-size:12px;padding:6px 12px">10 acteurs</span>
+</div>
+<div class="lg-grid">
+<section class="lgc">
+<span class="lgm" style="background:#15132B;font-size:10px;letter-spacing:0">MINPMEESA</span>
+<b>Ministère des PME, de l’économie sociale et de l’artisanat</b>
+<span class="d">Tutelle des PME : peut lire un dossier.</span>
+<span class="role">Tutelle</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#15132B;font-size:12px">MINEPAT</span>
+<b>Ministère de l’économie, de la planification et de l’aménagement du territoire</b>
+<span class="d">Planification et programmes de développement.</span>
+<span class="role">Tutelle</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#15132B">MINFI</span>
+<b>Ministère des finances</b>
+<span class="d">Fiscalité et finances publiques.</span>
+<span class="role">Tutelle</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#5536E8">API</span>
+<b>Agence de promotion des investissements</b>
+<span class="d">Instruit les agréments de la loi sur les incitations.</span>
+<span class="role">Agence</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#5536E8">APME</span>
+<b>Agence de promotion des PME</b>
+<span class="d">Accompagne la création et le développement des PME.</span>
+<span class="role">Agence</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#2E6BE6">OHADA</span>
+<b>Droit des affaires harmonisé</b>
+<span class="d">Droit des sociétés et comptabilité, actes uniformes.</span>
+<span class="role">Régulateur</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#2E6BE6">COBAC</span>
+<b>Commission bancaire de l’Afrique centrale</b>
+<span class="d">Supervision bancaire, pour les prêteurs.</span>
+<span class="role">Régulateur</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#2E6BE6;font-size:12px">COSUMAF</span>
+<b>Surveillance du marché financier de l’Afrique centrale</b>
+<span class="d">Seulement en cas d’appel public à l’épargne.</span>
+<span class="role">Régulateur</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#2E6BE6;font-size:12px">DONNÉES</span>
+<b>Autorité de protection des données personnelles</b>
+<span class="d">Loi n° 2024/017 du 23 décembre 2024.</span>
+<span class="role">Régulateur</span>
+</section>
+<section class="lgc">
+<span class="lgm" style="background:#2E6BE6">ANTIC</span>
+<b>Agence nationale des TIC</b>
+<span class="d">Reçoit les incidents de sécurité informatique.</span>
+<span class="role">Régulateur</span>
+</section>
+</div>
+<p class="disc">
+<b style="color:var(--encre)">ReadyMatch ne vise pas, n’agrée pas, ne porte pas le crédit ; un dossier privé n’est pas une offre au public.</b> Emplacements de logo : les logos officiels sont à insérer avec l’autorisation de chaque institution.</p>
+</section>
+<section id="incitations" class="lscr">
+<div class="ldh">
+<div>
+<p class="kk">Incitations</p>
+<h2>Deux lois, <em>deux portes d’entrée.</em>
+</h2>
+<p>Pour l’investisseur, l’agrément de l’API. Pour la PME, les mesures de promotion portées par l’APME. Aucun avantage n’est compté comme du cash.</p>
+</div>
+</div>
+<div class="inc2">
+<section class="ic6">
+<div class="hd">
+<span class="lgm" style="background:#5536E8">API</span>
+<div>
+<p class="law">Loi n° 2013/004 du 18 avril 2013</p>
+<h3>Incitations à l’investissement privé</h3>
+</div>
+</div>
+<div class="steps5">
+<div>
+<span class="n">1</span>
+<b>Un projet programmé</b>L’avantage porte sur un investissement à venir, pas sur l’existant.</div>
+<div>
+<span class="n">2</span>
+<b>Un test sur quatre</b>Emploi de Camerounais, export, ressources locales ou valeur ajoutée.</div>
+<div>
+<span class="n">3</span>
+<b>Un agrément</b>Instruit par l’API. Sans agrément, aucun avantage.</div>
+</div>
+<p class="nt5">Test emploi : au moins un emploi camerounais par tranche de 5 à 25 M FCFA investis. Avantages fiscaux et douaniers pendant l’installation puis l’exploitation.</p>
+<div class="who">
+<span>Investisseurs</span>
+<span>Projets d’extension</span>
+<span>Agrément requis</span>
+</div>
+</section>
+<section class="ic6">
+<div class="hd">
+<span class="lgm" style="background:#5536E8">APME</span>
+<div>
+<p class="law">Loi n° 2010/001 du 13 avril 2010, modifiée en 2015</p>
+<h3>Promotion des PME</h3>
+</div>
+</div>
+<div class="steps5">
+<div>
+<span class="n">1</span>
+<b>Une PME reconnue</b>La loi définit la très petite, la petite et la moyenne entreprise.</div>
+<div>
+<span class="n">2</span>
+<b>Un accompagnement</b>Création, formation, conseil et mise à niveau, avec l’APME.</div>
+<div>
+<span class="n">3</span>
+<b>L’accès au financement</b>Mesures d’appui pour faciliter le crédit et l’investissement dans les PME.</div>
+</div>
+<p class="nt5">L’APME, créée en 2013, porte ces mesures auprès des PME. Références légales à confirmer avant publication.</p>
+<div class="who">
+<span>PME</span>
+<span>Créateurs</span>
+<span>Accompagnement</span>
+</div>
+</section>
+</div>
+<section class="band">
+<span class="bi">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+</svg>
+</span>
+<div>
+<h3>Votre projet est-il éligible ?</h3>
+<p>PME : le diagnostic repère les tests que vous remplissez. Investisseur : votre profil signale les projets agréables.</p>
+</div>
+<div class="acts">
+<a class="cta-s" href="{% url 'accounts:inscription_compte' 'pme' %}">Vérifier mon éligibilité<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+<a class="cta-p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+</section>
+<section id="ecosysteme" class="lscr">
+<div class="ldh">
+<div>
+<p class="kk">Écosystème d’accompagnement</p>
+<h2>Les PME ne sont pas seules. <em>Vous non plus.</em>
+</h2>
+<p>Juridique, propriété intellectuelle, structuration, incubation, programmes publics et partenaires internationaux entourent les entreprises de la plateforme.</p>
+</div>
+<div class="kn" style="width:460px">
+<div>
+<b>2</b>
+<span>dispositifs actifs</span>
+</div>
+<div>
+<b>15</b>
+<span>PME suivies</span>
+</div>
+<div>
+<b>7</b>
+<span>domaines</span>
+</div>
+</div>
+</div>
+<div class="paths2">
+<section class="pth v">
+<span class="ico">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="5" r="2.5"/>
+<circle cx="5" cy="18" r="2.5"/>
+<circle cx="19" cy="18" r="2.5"/>
+<path d="M11 7 6 16M13 7l5 9M7.5 18h9"/>
+</svg>
+</span>
+<div>
+<h3>Par la structure qui endosse</h3>
+<p>Chaque PME accompagnée affiche la structure qui la suit, avec une attestation datée. Vous pouvez la contacter d’abord.</p>
+<ol>
+<li>Repérez le badge d’accompagnement sur la fiche</li>
+<li>Contactez la structure depuis la plateforme</li>
+<li>Elle vous présente la PME</li>
+</ol>
+</div>
+</section>
+<section class="pth">
+<span class="ico">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect width="16" height="10" x="4" y="11" rx="2"/>
+<path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+</svg>
+</span>
+<div>
+<h3>Directement avec la PME</h3>
+<p>Vous pouvez aussi écrire à l’entreprise sans intermédiaire.</p>
+<ol>
+<li>Demandez l’accès au dossier</li>
+<li>Signez l’accord de confidentialité</li>
+<li>Ouvrez la data room, chaque accès est journalisé</li>
+</ol>
+</div>
+</section>
+</div>
+<p class="grp">Programmes et structures</p>
+<div class="lgrow">
+<div class="lgs">
+<span class="lgm" style="background:#5536E8">APME</span>
+<div>
+<b>APME</b>
+<span>création et accompagnement</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#5536E8">API</span>
+<div>
+<b>API</b>
+<span>guichet investisseurs</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#5536E8;font-size:12px">BC-PME</span>
+<div>
+<b>BC-PME</b>
+<span>banque des PME</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#5536E8">BMN</span>
+<div>
+<b>Bureau de mise à niveau</b>
+<span>modernisation des entreprises</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#8B78F0">INC</span>
+<div>
+<b>Incubateurs</b>
+<span>inscrits sur la plateforme</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#8B78F0">ACC</span>
+<div>
+<b>Accélérateurs</b>
+<span>inscrits sur la plateforme</span>
+</div>
+</div>
+</div>
+<p class="grp">Organisations internationales présentes au Cameroun</p>
+<div class="lgrow">
+<div class="lgs">
+<span class="lgm" style="background:#15132B">BAD</span>
+<div>
+<b>Banque africaine de développement</b>
+<span>financement et appui</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#15132B">IFC</span>
+<div>
+<b>IFC</b>
+<span>groupe Banque mondiale</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#15132B">AFD</span>
+<div>
+<b>AFD</b>
+<span>agence française de développement</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#15132B">GIZ</span>
+<div>
+<b>GIZ</b>
+<span>coopération allemande</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#15132B">PNUD</span>
+<div>
+<b>PNUD</b>
+<span>Nations unies</span>
+</div>
+</div>
+<div class="lgs">
+<span class="lgm" style="background:#15132B">BDEAC</span>
+<div>
+<b>BDEAC</b>
+<span>développement en Afrique centrale</span>
+</div>
+</div>
+</div>
+<p class="disc">Exemples d’acteurs de l’écosystème : aucun partenariat avec ReadyMatch n’est affirmé. Logos officiels à insérer avec autorisation. Un badge d’accompagnement n’apparaît qu’avec une attestation ; ce n’est ni une note de crédit, ni une garantie.</p>
+<section class="band">
+<span class="bi">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="5" r="2.5"/>
+<circle cx="5" cy="18" r="2.5"/>
+<circle cx="19" cy="18" r="2.5"/>
+<path d="M11 7 6 16M13 7l5 9M7.5 18h9"/>
+</svg>
+</span>
+<div>
+<h3>Parlez à une structure ou à une PME.</h3>
+<p>Votre profil investisseur ouvre les contacts et les demandes d’accès.</p>
+</div>
+<div class="acts">
+<a class="cta-s" href="{% url 'annuaire:ecosysteme' %}">Je suis une structure<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+<a class="cta-p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</section>
+</section>
+<section class="lscr">
+<div class="ldh">
+<div>
+<p class="kk">Du champ au marché</p>
+<h2>Des chaînes de valeur <em>déjà constituées.</em>
+</h2>
+<p>Producteurs, transformateurs et marchés sont reliés sur la plateforme. Chaque maillon est une opportunité de financement, sans créer un second livre.</p>
+</div>
+<div class="big5">
+<b style="font-size:72px">3</b>
+<span>chaînes constituées</span>
+</div>
+</div>
+<section class="chs">
+<div class="chain2">
+<span class="fil">Filière<b>Manioc et plantain</b>
+</span>
+<span class="stp">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 20V10l6 4V10l6 4V6h6v14z"/>
+</svg>
+</span>
+<span>
+<b>Producteurs</b>
+<span>intrants, récoltes</span>
+</span>
+</span>
+<span class="ar">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+<span class="stp m">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+</svg>
+</span>
+<span>
+<b>Transformation</b>
+<span>farines</span>
+</span>
+</span>
+<span class="ar">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+<span class="stp">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="3"/>
+<path d="M9 8h6M9 12h6"/>
+</svg>
+</span>
+<span>
+<b>Marchés</b>
+<span>local et CEMAC</span>
+</span>
+</span>
+</div>
+<div class="chain2">
+<span class="fil">Filière<b>Lait</b>
+</span>
+<span class="stp">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 20V10l6 4V10l6 4V6h6v14z"/>
+</svg>
+</span>
+<span>
+<b>Éleveurs</b>
+<span>hauts plateaux</span>
+</span>
+</span>
+<span class="ar">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+<span class="stp m">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+</svg>
+</span>
+<span>
+<b>Transformation</b>
+<span>lait frais et yaourts</span>
+</span>
+</span>
+<span class="ar">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+<span class="stp">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="3"/>
+<path d="M9 8h6M9 12h6"/>
+</svg>
+</span>
+<span>
+<b>Marchés</b>
+<span>distribution urbaine</span>
+</span>
+</span>
+</div>
+<div class="chain2">
+<span class="fil">Filière<b>Cacao</b>
+</span>
+<span class="stp">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 20V10l6 4V10l6 4V6h6v14z"/>
+</svg>
+</span>
+<span>
+<b>Coopérateurs</b>
+<span>fermentation</span>
+</span>
+</span>
+<span class="ar">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+<span class="stp m">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+</svg>
+</span>
+<span>
+<b>Traçage</b>
+<span>qualité et origine</span>
+</span>
+</span>
+<span class="ar">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</span>
+<span class="stp">
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="3"/>
+<path d="M9 8h6M9 12h6"/>
+</svg>
+</span>
+<span>
+<b>Marchés</b>
+<span>export</span>
+</span>
+</span>
+</div>
+</section>
+<div class="opp">
+<div>
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="3" y="6" width="18" height="12" rx="2"/>
+<circle cx="12" cy="12" r="2.5"/>
+<path d="M7 9v.01M17 15v.01"/>
+</svg>
+</span>
+<b>Préfinancement d’intrants</b>
+<span>Financer la campagne avant la récolte.</span>
+</div>
+<div>
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+</svg>
+</span>
+<b>Affacturage</b>
+<span>Avancer la trésorerie sur des factures clients.</span>
+</div>
+<div>
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m5 12.5 4.5 4.5L19 7.5"/>
+</svg>
+</span>
+<b>Paiement à la livraison</b>
+<span>Sécuriser l’acheteur et le vendeur.</span>
+</div>
+<div>
+<span class="ico">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="5" y="3" width="14" height="18" rx="3"/>
+<path d="M9 8h6M9 12h6"/>
+</svg>
+</span>
+<b>Export régional</b>
+<span>{{ m.n_zlecaf }} entreprises tournées vers la ZLECAf ; règles d’origine à documenter.</span>
+</div>
+</div>
+</section>
+<section class="cta6" style="margin-top:24px">
+<span class="ico" style="width:60px;height:60px;border-radius:18px;background:rgba(255,255,255,.12);display:grid;place-items:center;flex:none">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8"/>
+<circle cx="12" cy="12" r="4"/>
+<circle cx="12" cy="12" r=".5"/>
+</svg>
+</span>
+<div>
+<h3>Prêt pour le comité ?</h3>
+<p>Créez votre profil : votre thèse fixe les entreprises que vous verrez, parmi les {{ m.n_entreprises }} inscrites.</p>
+</div>
+<a href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</section>
+<p class="truth6">Si le chiffre grandit, il doit rester vrai : pas de levier compté deux fois, pas de probabilité de closing, pas de marché boursier dans les 36 mois, pas d’agrément compté comme du cash.</p>
+<section id="outils" class="lscr">
+<div class="ldh">
+<div>
+<p class="kk">Outils et leviers pour les PME</p>
+<h2>Au-delà de l’investissement, <em>la PME grandit.</em>
+</h2>
+<p>Gestion, croissance, optimisation : tout ce que ReadyMatch met à disposition pour que l’entreprise avance, avec ou sans levée de fonds.</p>
+</div>
+<div class="acts">
+<a class="cta-y" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+<div class="ft-grid">
+<section class="ft6">
+<div class="cap">
+<div style="display:flex;gap:14px;align-items:center">
+<svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
+<circle cx="60" cy="60" r="48" fill="none" stroke="var(--surface)" stroke-width="14"/>
+<circle cx="60" cy="60" r="48" fill="none" stroke="#5536E8" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="68 100" transform="rotate(-90 60 60)"/>
+<text x="60" y="66" text-anchor="middle" style="font:400 30px var(--f);fill:var(--encre)">68</text>
+</svg>
+<div class="mini" style="flex:1">
+<div class="mrow">
+<span style="width:62px">Finance</span>
+<span class="mbar">
+<i style="width:73%">
+</i>
+</span>
+</div>
+<div class="mrow">
+<span style="width:62px">Juridique</span>
+<span class="mbar">
+<i style="width:85%">
+</i>
+</span>
+</div>
+<div class="mrow">
+<span style="width:62px">Marché</span>
+<span class="mbar">
+<i style="width:65%">
+</i>
+</span>
+</div>
+<div class="mrow">
+<span style="width:62px">Sortie</span>
+<span class="mbar">
+<i style="width:20%">
+</i>
+</span>
+</div>
+</div>
+</div>
+</div>
+<span class="tagf">Préparation</span>
+<h3>Score sur 100</h3>
+<p>Savoir où l’on en est, dimension par dimension, et quoi faire ensuite.</p>
+</section>
+<section class="ft6">
+<div class="cap">
+<div class="mini">
+<div style="display:grid;grid-template-columns:repeat(10,1fr);gap:6px">
+<i class="c-cert" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-cert" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-cert" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-cert" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-cert" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-rec" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-coh" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-decl" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-vide" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-vide" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-vide" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-vide" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-vide" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+<i class="c-vide" style="display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box">
+</i>
+</div>
+</div>
+<div class="lg2">
+<span>
+<i class="c-cert">
+</i>Certifié</span>
+<span>
+<i class="c-rec">
+</i>Recoupé</span>
+<span>
+<i class="c-coh">
+</i>Cohérent</span>
+<span>
+<i class="c-decl">
+</i>Déclaratif</span>
+</div>
+</div>
+<span class="tagf">Gestion</span>
+<h3>Data room et preuves</h3>
+<p>Chaque pièce classée et chaque chiffre relié à sa preuve, import comptable SYSCOHADA inclus.</p>
+</section>
+<section class="ft6">
+<div class="cap">
+<div class="mini">
+<p class="t1" style="margin:0">Montant légitime</p>
+<b style="font-size:28px;font-weight:400;letter-spacing:-.02em">440–490 M</b>
+</div>
+<div class="pl2" style="margin-top:8px">
+<span class="on" style="width:100%;padding:7px 14px">Equity<b>500 M</b>
+</span>
+<span style="width:80%;padding:7px 14px;background:var(--surface)">Crédit-bail<b>120 M</b>
+</span>
+</div>
+</div>
+<span class="tagf">Financement</span>
+<h3>Montant juste et FinanceHub</h3>
+<p>Calculer un montant défendable et comparer equity, crédit-bail, garanties.</p>
+</section>
+<section class="ft6">
+<div class="cap">
+<div style="display:flex;justify-content:center;margin-top:-8px">
+<svg viewBox="0 0 320 236" width="240" role="img" aria-label="Score par pilier">
+<polygon points="160.0,97.0 178.1,110.1 171.2,131.4 148.8,131.4 141.9,110.1" fill="none" stroke="var(--ligne)" stroke-width="1"/>
+<polygon points="160.0,78.0 196.1,104.3 182.3,146.7 137.7,146.7 123.9,104.3" fill="none" stroke="var(--ligne)" stroke-width="1"/>
+<polygon points="160.0,59.0 214.2,98.4 193.5,162.1 126.5,162.1 105.8,98.4" fill="none" stroke="var(--ligne)" stroke-width="1"/>
+<polygon points="160.0,40.0 232.3,92.5 204.7,177.5 115.3,177.5 87.7,92.5" fill="none" stroke="var(--ligne)" stroke-width="1"/>
+<line x1="160" y1="116" x2="160.0" y2="40.0" stroke="var(--ligne)"/>
+<line x1="160" y1="116" x2="232.3" y2="92.5" stroke="var(--ligne)"/>
+<line x1="160" y1="116" x2="204.7" y2="177.5" stroke="var(--ligne)"/>
+<line x1="160" y1="116" x2="115.3" y2="177.5" stroke="var(--ligne)"/>
+<line x1="160" y1="116" x2="87.7" y2="92.5" stroke="var(--ligne)"/>
+<polygon points="160.0,51.4 213.5,98.6 191.3,159.0 132.3,154.1 102.2,97.2" fill="var(--vd)" stroke="var(--violet)" stroke-width="2" stroke-linejoin="round" opacity=".95"/>
+<circle cx="160.0" cy="51.4" r="4" fill="var(--violet)" stroke="var(--surface)" stroke-width="2"/>
+<circle cx="213.5" cy="98.6" r="4" fill="var(--violet)" stroke="var(--surface)" stroke-width="2"/>
+<circle cx="191.3" cy="159.0" r="4" fill="var(--violet)" stroke="var(--surface)" stroke-width="2"/>
+<circle cx="132.3" cy="154.1" r="4" fill="var(--violet)" stroke="var(--surface)" stroke-width="2"/>
+<circle cx="102.2" cy="97.2" r="4" fill="var(--violet)" stroke="var(--surface)" stroke-width="2"/>
+<text x="160.0" y="20.0" text-anchor="middle" style="font:500 11px var(--f);fill:var(--t2)">
+<tspan style="font-weight:800;fill:var(--encre)">85</tspan> Demande</text>
+<text x="247.5" y="91.6" text-anchor="start" style="font:500 11px var(--f);fill:var(--t2)">
+<tspan style="font-weight:800;fill:var(--encre)">74</tspan> Croissance</text>
+<text x="214.1" y="202.4" text-anchor="start" style="font:500 11px var(--f);fill:var(--t2)">
+<tspan style="font-weight:800;fill:var(--encre)">70</tspan> Rentabilité</text>
+<text x="105.9" y="202.4" text-anchor="end" style="font:500 11px var(--f);fill:var(--t2)">
+<tspan style="font-weight:800;fill:var(--encre)">62</tspan> Risque maîtrisé</text>
+<text x="72.5" y="91.6" text-anchor="end" style="font:500 11px var(--f);fill:var(--t2)">
+<tspan style="font-weight:800;fill:var(--encre)">80</tspan> Deal flow</text>
+</svg>
+</div>
+</div>
+<span class="tagf">Stratégie</span>
+<h3>Compétitivité et PESTEL</h3>
+<p>Situer l’entreprise face à son marché et à ses risques.</p>
+</section>
+<section class="ft6">
+<div class="cap">
+<div class="mini">
+<div class="mrow">
+<span class="mck on">
+</span>
+<span>États financiers 2025</span>
+<b style="color:var(--succes)">+6 pts</b>
+</div>
+<div class="mrow">
+<span class="mck">
+</span>
+<span>Stratégie de sortie</span>
+<b style="color:var(--succes)">+4 pts</b>
+</div>
+<div class="mrow">
+<span class="mck">
+</span>
+<span>Lettre d’intention client</span>
+<b style="color:var(--succes)">+2 pts</b>
+</div>
+<div class="mrow">
+<span class="mck">
+</span>
+<span>Prévisionnel export</span>
+<b style="color:var(--succes)">+2 pts</b>
+</div>
+</div>
+</div>
+<span class="tagf">Croissance</span>
+<h3>Plan de mise à niveau</h3>
+<p>Les actions qui rapportent le plus de points, dans l’ordre.</p>
+</section>
+<section class="ft6">
+<div class="cap">
+<div class="mini" style="display:flex;gap:12px;align-items:center">
+<span style="width:54px;height:54px;border-radius:14px;background:#ccc center/cover;background-image:url('{% static 'img/photos/solaire.webp' %}');flex:none">
+</span>
+<div style="flex:1">
+<b style="font-size:13px">Indice de compatibilité</b>
+<div style="display:flex;align-items:baseline;gap:4px">
+<b style="font-size:30px;font-weight:400;color:var(--vp)">92</b>
+<span class="t1">/100</span>
+</div>
+</div>
+</div>
+<div class="mini" style="margin-top:8px">
+<div class="mrow">
+<span style="width:60px">Secteur</span>
+<span class="mbar">
+<i style="width:100%">
+</i>
+</span>
+<b>25/25</b>
+</div>
+<div class="mrow">
+<span style="width:60px">Ticket</span>
+<span class="mbar">
+<i style="width:85%">
+</i>
+</span>
+<b>17/20</b>
+</div>
+<div class="mrow">
+<span style="width:60px">Zone</span>
+<span class="mbar">
+<i style="width:100%">
+</i>
+</span>
+<b>15/15</b>
+</div>
+</div>
+</div>
+<span class="tagf">Mise en relation</span>
+<h3>Investisseurs compatibles</h3>
+<p>Une compatibilité expliquée critère par critère, jamais une probabilité.</p>
+</section>
+</div>
+</section>
+<section class="endb" style="background-image:url('{% static 'img/photos/A.webp' %}')">
+<div>
+<h2>Derrière chaque dossier, une entreprise qui nourrit une ville.</h2>
+<p>ReadyMatch aide les PME camerounaises à montrer ce qu’elles valent, preuves à l’appui.</p>
+<div class="acts">
+<a class="cta-s" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.55)" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis</a>
+<a class="cta-y" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+</section>
+</div>
+<footer class="ldfoot">
+<div>
+<span class="brand">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+<rect width="32" height="32" rx="9" fill="var(--violet)"/>
+<path d="M10 23V9h6.5a4.5 4.5 0 0 1 0 9H10" fill="none" stroke="var(--sv)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="m16.5 18 5 5" stroke="var(--soleil)" stroke-width="2.6" stroke-linecap="round"/>
+</svg>ReadyMatch</span>
+<p>CIF 2026 · Défi n°3 · conçu par Yoan Tioma.</p>
+</div>
+<div>
+<b>Investisseurs</b>Le Cameroun en chiffres<br>Créer mon profil<br>Se connecter</div>
+<div>
+<b>PME</b>Diagnostic gratuit<br>Data room<br>FinanceHub</div>
+<div>
+<b>À savoir</b>Entreprises, personnes et données fictives, créées pour la démonstration. Photographies Unsplash (licence Unsplash). Logos à insérer avec autorisation.</div>
+</footer>
+</div>{% endblock %}
+{% block scripts %}{% include 'core/_appareils_ecrans.html' %}<script src="{% static 'js/appareils.js' %}" defer></script>{% endblock %}

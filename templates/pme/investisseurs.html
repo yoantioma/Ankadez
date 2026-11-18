@@ -1,0 +1,20 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Investisseurs{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'pme:tableau' %}">{{ org.nom }}</a> › Investisseurs</p><h1>Les bons investisseurs, <em>pour les bonnes raisons.</em></h1></div></div>
+{% if demandes %}<section class="card" style="margin-bottom:16px"><div class="ch"><h3>Demandes reçues</h3><span class="cnt"><i></i>{{ demandes|length }}</span></div>
+  <div class="tbl"><table><tbody>{% for d in demandes %}<tr><td><b>{{ d.investisseur.nom }}</b><br><span class="t1">Indice {{ d.indice|default:'—' }} · {{ d.updated_at|date:'d/m/Y' }}</span></td>
+    <td><span class="chip {% if d.statut == 'demande' %}warn{% elif d.statut == 'abandon' %}bad{% else %}ok{% endif %}">{{ d.get_statut_display }}</span></td>
+    <td style="text-align:right">{% if d.statut == 'demande' %}<form method="post" action="{% url 'pme:accepter_demande' d.pk %}" data-confirm="Signer l’accord de confidentialité et ouvrir votre data room à {{ d.investisseur.nom }} ?" data-loader="Signature de l’accord…">{% csrf_token %}<button class="btn sm p" type="submit">Signer l’accord et partager</button></form>{% endif %}</td></tr>{% endfor %}</tbody></table></div></section>{% endif %}
+<div class="g" style="grid-template-columns:minmax(0,1fr) 360px;align-items:start">
+  <section class="card"><div class="ch"><div><p class="t1">Classés par indice de compatibilité · jamais une probabilité</p><h3>Investisseurs avec une thèse</h3></div></div>
+    {% for inv, c in lignes %}<details class="card" style="box-shadow:none;border:1px solid var(--ligne);margin-bottom:10px"><summary style="display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none">
+      <span class="lgm" style="width:44px;height:44px;border-radius:13px;background:var(--vd);color:var(--vp)">{{ inv.initiales }}</span><span style="flex:1"><b>{{ inv.nom }}</b><br><span class="t1">{{ inv.ville|default:inv.pays }}</span></span>
+      <span class="big" style="font-size:30px;color:var(--vp)">{{ c.total }}<small>/100</small></span></summary>
+      <div class="dims" style="margin-top:14px">{% for crit, pts, mx, raison in c.lignes %}<div class="dim"><span>{{ crit }}</span><span class="bar"><i style="width:{% widthratio pts mx 100 %}%"></i></span><b>{{ pts }}/{{ mx }}</b></div><p class="t1" style="margin:-6px 0 4px 160px;font-size:12px">{{ raison }}</p>{% endfor %}</div></details>
+    {% empty %}<div class="empty"><b>Aucun investisseur n’a encore renseigné sa thèse.</b></div>{% endfor %}</section>
+  <aside class="card"><div class="ch"><div><p class="t1">Annuaire</p><h3>Investisseurs référencés</h3></div><span class="cnt"><i></i>{{ n_references }}</span></div>
+    <p class="muted" style="font-size:13px;margin-bottom:10px">Sans thèse renseignée : pas d’indice calculé.</p>
+    <ul class="lst">{% for r in references %}<li><div><span class="av">{{ r.initiales }}</span><span class="tx"><b>{{ r.nom }}</b><span class="s">{{ r.categorie|default:r.get_kind_display }}{% if r.pays %} · {{ r.pays }}{% endif %}</span></span></div></li>{% endfor %}</ul></aside>
+</div>
+{% endblock %}

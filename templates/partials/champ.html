@@ -1,0 +1,6 @@
+<div class="fl{% if full %} full{% endif %}{% if f.field.widget.input_type == 'checkbox' and not f.field.widget.allow_multiple_selected %} inline{% endif %}{% if f.field.widget.allow_multiple_selected %} choices{% endif %}">
+  <label for="{{ f.id_for_label }}">{{ f.label }}{% if f.field.required %} <span aria-hidden="true" style="color:var(--erreur)">*</span>{% endif %}</label>
+  {{ f }}
+  {% if f.help_text %}<span class="help">{{ f.help_text }}</span>{% endif %}
+  {% for e in f.errors %}<span class="err">{{ e }}</span>{% endfor %}
+</div>

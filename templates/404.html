@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Page introuvable{% endblock %}
+{% block content %}
+<div class="empty" style="padding:96px 20px"><div class="ico">{% ic 'loupe' 28 %}</div><h1 style="font-size:32px">Cette page n’existe pas.</h1>
+<p class="lead" style="margin:10px auto 20px">Le lien est peut-être ancien. Revenez à l’accueil pour continuer.</p><a class="btn p" href="{% url 'core:landing' %}">Revenir à l’accueil</a></div>
+{% endblock %}

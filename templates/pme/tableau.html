@@ -1,0 +1,46 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc">{{ org.nom }} › Accueil</p><h1>Bonjour {{ user.first_name|default:'' }}</h1></div>
+  <div class="acts"><a class="btn" href="{% url 'pme:dossier' %}">{% ic 'plus' 16 %} Ajouter une pièce</a>
+    {% if actions %}<a class="btn p" href="{% url actions.0.3 %}">{{ actions.0.0 }} {% ic 'fleche-d' 16 %}</a>{% endif %}</div></div>
+
+<section class="hero" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr)">
+  <div class="bk"><span class="live"><i></i>{{ score.palier }}</span><p class="k">Votre score de préparation</p>
+    <p class="num">{{ score.total }}<small>/100</small></p>
+    <div class="split" style="margin-top:12px;background:rgba(255,255,255,.25)"><i style="width:{{ score.total }}%;background:#fff"></i></div>
+    <p class="ex">{% if score.prochain_palier %}Encore {{ restant }} point{{ restant|pluralize }} pour le palier « {{ score.prochain_palier.1 }} ».{% else %}Palier le plus haut atteint.{% endif %}</p>
+  </div>
+  <div class="pn6"><p class="k2">Montant légitime (indicatif)</p>
+    {% if montant %}<p class="v" style="font-size:38px">{{ montant.bas|fcfa }}–{{ montant.haut|fcfa }}</p><p class="s">pour une demande de {{ montant.demande|fcfa }} FCFA · {{ montant.couverture_pct }} % justifié</p>
+    {% else %}<p class="s" style="margin-top:auto">Déclarez un exercice avec EBITDA et le montant recherché pour obtenir votre fourchette.</p><a class="btn sm p" style="align-self:flex-start" href="{% url 'pme:finances' %}">Déclarer mes comptes</a>{% endif %}</div>
+  <div class="pn6"><p class="k2">Votre levée</p><p class="v">{{ n_nda }}<small>/ {{ demandes|length }} accès ouverts</small></p>
+    <p class="s">{{ demandes|length }} investisseur{{ demandes|length|pluralize }} intéressé{{ demandes|length|pluralize }} · indices expliqués</p>
+    <a class="btn sm" style="align-self:flex-start;margin-top:8px" href="{% url 'pme:investisseurs' %}">Voir mes investisseurs</a></div>
+</section>
+
+<div class="g g3" style="margin-top:16px">
+  <section class="card span2"><div class="ch"><div><p class="t1">Par dossier et niveau de preuve</p><h3>Data room · {{ preuves.deposees }} pièce{{ preuves.deposees|pluralize }} sur {{ preuves.exigees }}</h3></div><a class="arr" href="{% url 'pme:dossier' %}" aria-label="Ouvrir la data room">{% ic 'fleche-d' 16 %}</a></div>
+    <div class="pdots">{% for code, lab, niveaux in matrice %}<div class="col" title="{{ code }} · {{ lab }} : {{ niveaux|length }} pièce(s)">{% for n in niveaux %}<i class="p-{{ n }}"></i>{% empty %}<i class="p-vide"></i>{% endfor %}<span>{{ code }}</span></div>{% endfor %}</div>
+    <div class="lg2"><span><i class="p-certifie"></i>Certifié</span><span><i class="p-recoupe"></i>Recoupé</span><span><i class="p-coherent"></i>Cohérent</span><span><i class="p-declaratif"></i>Déclaratif</span><span><i class="p-vide"></i>Dossier vide</span></div>
+    <p class="note">{% ic 'info' 14 %} {{ preuves.pct_verifiees }} % des pièces déposées sont recoupées ou certifiées.</p></section>
+  <section class="card"><div class="ch"><div><p class="t1">En attente de vous</p><h3>À faire</h3></div><span class="cnt"><i></i>{{ actions|length }}</span></div>
+    <ul class="lst">{% for titre, dim, pts, url in actions %}<li><a href="{% url url %}"><span class="av">{% ic 'check' 18 %}</span><span class="tx"><b>{{ titre }}</b><span class="s">{{ dim }}</span></span>{% if pts %}<span class="chip ok">+{{ pts }} pts</span>{% endif %}</a></li>
+      {% empty %}<li><div><span class="av">{% ic 'check' 18 %}</span><span class="tx"><b>Rien d’urgent</b><span class="s">Votre dossier est à jour.</span></span></div></li>{% endfor %}</ul></section>
+
+  <section class="card"><div class="ch"><div><p class="t1">6 dimensions</p><h3>Pourquoi {{ score.total }} ?</h3></div></div>
+    <div class="dims">{% for k, lab, v, mx in score.dims %}<div class="dim"><span>{{ lab }}</span><span class="bar"><i style="width:{% widthratio v mx 100 %}%"></i></span><b>{{ v }}/{{ mx }}</b></div>{% endfor %}</div></section>
+  <section class="card"><div class="ch"><div><p class="t1">Progression</p><h3>Votre score dans le temps</h3></div></div>
+    {% if historique|length > 1 %}<div style="display:flex;gap:10px;align-items:flex-end;height:150px">{% for s in historique %}<div title="{{ s.created_at|date:'d M' }} · {{ s.total }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px">
+      <b style="font-size:11px">{{ s.total }}</b><span style="width:70%;border-radius:6px 6px 0 0;height:{{ s.total }}%;background:{% if forloop.last %}#5536E8{% else %}#B8ABF7{% endif %}"></span></div>{% endfor %}</div>
+    {% else %}<div class="empty" style="padding:24px"><p>Votre progression apparaîtra ici au fil de vos ajouts.</p></div>{% endif %}</section>
+  <section class="dark"><p class="t1">Dernier exercice</p>
+    {% if dernier_exercice %}<h3 style="color:#fff">{{ dernier_exercice.annee }}</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+        <span style="display:flex;justify-content:space-between;background:#5536E8;border-radius:999px;padding:9px 14px;font-weight:600">Chiffre d’affaires<b>{{ dernier_exercice.chiffre_affaires|fcfa }}</b></span>
+        <span style="display:flex;justify-content:space-between;background:#fff;color:#15132B;border-radius:999px;padding:9px 14px;font-weight:600;width:88%">Marge brute<b>{{ dernier_exercice.marge_brute|fcfa }}</b></span>
+        <span style="display:flex;justify-content:space-between;background:#fff;color:#15132B;border-radius:999px;padding:9px 14px;font-weight:600;width:80%">EBITDA<b>{{ dernier_exercice.ebitda|fcfa }}</b></span></div>
+      <p>Niveau de preuve : {{ dernier_exercice.get_niveau_preuve_display }}{% if dernier_exercice.dscr %} · DSCR {{ dernier_exercice.dscr|virgule:2 }}{% endif %}</p>
+    {% else %}<h3 style="color:#fff">Aucun exercice déclaré</h3><p>Sans comptes, pas de score financier ni de montant légitime.</p><a class="btn y" style="align-self:flex-start" href="{% url 'pme:finances' %}">Déclarer mes comptes</a>{% endif %}</section>
+</div>
+{% endblock %}

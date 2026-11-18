@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}{{ p.titre }} · étape {{ etape|add:1 }}{% endblock %}
+{% block chrome %}{% endblock %}{% block footer %}{% endblock %}
+{% block body %}
+<div class="ob">
+  <div class="ob-l" style="background-image:url('{% static 'img/photos/' %}{{ p.photo }}.webp')">
+    <a class="brand" href="{% url 'core:landing' %}"><span class="lg">R</span>ReadyMatch</a>
+    <div class="bas"><p class="kk" style="color:#FFD166">{{ p.titre }}</p><h2>{% if role == 'pme' %}Votre dossier, <span style="font-weight:300">pas à pas.</span>{% else %}Votre thèse, <span style="font-weight:300">vos critères.</span>{% endif %}</h2><p>{{ p.accroche }}</p>
+      <ol class="ob-steps">{% for e in p.etapes %}<li class="{% if forloop.counter0 < etape %}f{% elif forloop.counter0 == etape %}c{% endif %}"><i>{% if forloop.counter0 < etape %}✓{% else %}{{ forloop.counter }}{% endif %}</i>{{ e }}</li>{% endfor %}</ol></div>
+  </div>
+  <div class="ob-r">
+    <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--t2)"><span>Étape {{ etape|add:1 }} sur {{ n_etapes }}</span>{% if not user.is_authenticated %}<a href="{% url 'accounts:connexion' %}">J’ai déjà un compte</a>{% endif %}</div>
+    <div class="prog" style="grid-template-columns:repeat({{ n_etapes }},1fr)">{% for e in p.etapes %}<span class="{% if forloop.counter0 <= etape %}on{% endif %}"></span>{% endfor %}</div>
+    <div><h1 style="font-size:32px">{{ titre_etape }}</h1>
+      <p class="lead">{% if etape == 0 %}Votre compte personnel. Vous pourrez inviter vos collaborateurs ensuite.{% elif role == 'pme' and etape == 1 %}L’identité de votre entreprise : elle alimente déjà votre score.{% elif role == 'pme' %}Facultatif mais utile : sans comptes, pas de montant légitime ni de score financier.{% else %}Votre thèse fixe les entreprises que vous verrez et le calcul de l’indice de compatibilité.{% endif %}</p></div>
+    <form method="post" class="form" novalidate data-loader="{% if etape == n_etapes|add:-1 %}Calcul de votre espace…{% else %}Enregistrement…{% endif %}">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors|join:' ' }}</div>{% endif %}
+      <div class="fgrid">{% for f in form %}{% if f.name == 'description' or f.name == 'secteurs' or f.name == 'zones' or f.name == 'stades' or f.name == 'instruments' or f.name == 'exigence_esg' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px">
+        {% if passer %}<a class="btn t" href="{{ passer }}">Passer cette étape</a>{% else %}<a class="btn t" href="{% url 'accounts:inscription' %}">Retour</a>{% endif %}
+        <button class="btn p lg" type="submit">{{ submit }} {% ic 'fleche-d' 16 %}</button></div>
+    </form>
+    <p class="note">{% ic 'bouclier' 14 %} Vos données restent les vôtres : vous choisissez ce que vous partagez, et chaque investisseur signe un accord de confidentialité avant d’ouvrir une data room.</p>
+  </div>
+</div>
+{% endblock %}

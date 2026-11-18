@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Finances{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'pme:tableau' %}">{{ org.nom }}</a> › Finances</p><h1>Vos comptes, <em>en clair.</em></h1></div></div>
+<div class="g" style="grid-template-columns:minmax(0,1fr) 400px;align-items:start">
+  <div class="g">
+    <section class="card tbl"><div class="ch"><h3>Exercices déclarés</h3><span class="t1">FCFA · SYSCOHADA</span></div>
+      {% if exercices %}<table><thead><tr><th>Année</th><th>Chiffre d’affaires</th><th>Marge brute</th><th>EBITDA</th><th>Marge EBITDA</th><th>DSCR</th><th>Preuve</th></tr></thead><tbody>
+      {% for e in exercices %}<tr><td><b>{{ e.annee }}</b></td><td>{{ e.chiffre_affaires|fcfa }}</td><td>{{ e.marge_brute|fcfa }}</td><td>{{ e.ebitda|fcfa }}</td>
+        <td>{% if e.marge_ebitda is not None %}{{ e.marge_ebitda|virgule }} %{% else %}—{% endif %}</td><td>{% if e.dscr %}<span class="chip {% if e.dscr >= 1.2 %}ok{% else %}warn{% endif %}">{{ e.dscr|virgule:2 }}</span>{% else %}—{% endif %}</td>
+        <td><span class="chip n">{{ e.get_niveau_preuve_display }}</span></td></tr>{% endfor %}</tbody></table>
+      {% else %}<div class="empty"><div class="ico">{% ic 'calc' 26 %}</div><b>Aucun exercice pour l’instant.</b><p>Commencez par le dernier exercice clos.</p></div>{% endif %}</section>
+    <section class="card"><div class="ch"><div><p class="t1">Trois méthodes, une fourchette</p><h3>Montant légitime</h3></div></div>
+      {% if montant %}<p class="big">{{ montant.bas|fcfa }} – {{ montant.haut|fcfa }}<small>FCFA, demande {{ montant.demande|fcfa }}</small></p>
+        <div class="dims" style="margin-top:14px">{% for lab, v in montant.methodes %}<div class="dim"><span>{{ lab }}</span><span class="bar"><i style="width:{% widthratio v montant.demande 100 %}%"></i></span><b>{{ v|fcfa }}</b></div>{% endfor %}</div>
+        <p class="note">{% ic 'info' 14 %} Capacité d’endettement : 4 ans d’EBITDA couverts à 1,2, moins la dette nette. Capacité en capital : 30 % d’une valeur de 5 fois l’EBITDA. Indicatif.</p>
+      {% else %}<p class="muted">Il faut un exercice avec EBITDA et un montant recherché (dans votre profil).</p>{% endif %}</section>
+  </div>
+  <aside class="card" style="position:sticky;top:16px"><h3>Déclarer un exercice</h3><p class="muted" style="font-size:13px;margin:4px 0 14px">Montants en millions de FCFA. Une année déjà saisie est mise à jour.</p>
+    <form method="post" class="form" novalidate data-loader="Recalcul de vos indicateurs…">{% csrf_token %}
+      {% for f in form %}{% include 'partials/champ.html' with f=f %}{% endfor %}
+      <button class="btn p w" type="submit">Enregistrer l’exercice</button></form></aside>
+</div>
+{% endblock %}

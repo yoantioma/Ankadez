@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Entreprises compatibles{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc">{{ user.organisation.nom }} › Entreprises</p><h1>Les entreprises <em>pour votre thèse.</em></h1></div>
+  <div class="acts"><a class="btn" href="{% url 'investissement:these' %}">{% ic 'crayon' 16 %} Modifier ma thèse</a><a class="btn p" href="{% url 'investissement:pipeline' %}">Mon pipeline {% ic 'fleche-d' 16 %}</a></div></div>
+{% if not these %}<div class="band"><span class="bi">{% ic 'cible' 24 %}</span><div><h3>Renseignez votre thèse</h3><p>Sans thèse, l’indice reste approximatif.</p></div><div class="acts"><a class="btn p" href="{% url 'investissement:these' %}">Renseigner ma thèse</a></div></div>{% endif %}
+<form class="filters" method="get" action="{% url 'investissement:marketplace' %}" data-async data-target="#zone-cartes" data-skeleton="cartes" role="search">
+  <input type="search" name="q" value="{{ q }}" placeholder="Rechercher une entreprise, une ville…" aria-label="Rechercher">
+  <select name="secteur" aria-label="Secteur"><option value="">Tous les secteurs</option>{% for s in secteurs %}<option value="{{ s.slug }}"{% if s.slug == secteur %} selected{% endif %}>{{ s.nom }}</option>{% endfor %}</select>
+  <select name="tri" aria-label="Trier"><option value="indice"{% if tri == 'indice' %} selected{% endif %}>Trier par indice</option><option value="ticket"{% if tri == 'ticket' %} selected{% endif %}>Trier par montant</option></select>
+  <label class="chip n" style="padding:10px 14px;cursor:pointer"><input type="checkbox" name="comptes" value="1"{% if comptes == '1' %} checked{% endif %} style="accent-color:#5536E8"> Avec comptes déclarés</label>
+</form>
+<div id="zone-cartes" data-async-zone>{% include 'investissement/_cartes.html' %}</div>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}Investir au Cameroun, preuves à l’appui{% endblock %}
+{% block content %}
+{# ===================== 1. Le Cameroun en chiffres, sans inscription ===================== #}
+<section id="cameroun">
+  <div class="gh">
+    <div><p class="kk">Le Cameroun en chiffres · sans inscription</p><h1>Investir au Cameroun, <em>preuves à l’appui.</em></h1>
+      <p class="lead">Ce que les entreprises inscrites peuvent rapporter, ce que le pays offre, et dans quel cadre. Tous secteurs confondus.</p></div>
+    <div class="acts"><a class="btn lg" href="{% url 'accounts:inscription_compte' 'pme' %}">Je suis une PME</a>
+      <a class="btn p lg" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis {% ic 'fleche-d' 16 %}</a></div>
+  </div>
+
+  <section class="hero" aria-label="Potentiel">
+    <div class="bk">
+      <span class="live"><i></i>Estimation ReadyMatch · tous secteurs confondus</span>
+      <p class="k">L’argent à se faire : marge brute cumulée des entreprises inscrites</p>
+      {% if m.potentiel %}
+        <p class="num">{{ m.potentiel_aff.0 }}<small>{{ m.potentiel_aff.1 }} FCFA</small></p>
+        <p class="ex">{{ m.potentiel|entier }} FCFA par an, sur {{ m.n_avec_marge }} entreprise{{ m.n_avec_marge|pluralize }} aux comptes déclarés. Les 3 secteurs qui pèsent le plus :</p>
+        <div class="split" aria-hidden="true">{% for nom, v, p in m.top3 %}<i style="flex:{{ v }};background:{% cycle '#fff' 'rgba(255,255,255,.66)' 'rgba(255,255,255,.42)' %}"></i>{% endfor %}{% if m.autres %}<i style="flex:{{ m.autres }};background:rgba(255,255,255,.2)"></i>{% endif %}</div>
+        <div class="splitl">{% for nom, v, p in m.top3 %}<span style="flex:{{ v }}">{{ nom }} · {{ p }} %</span>{% endfor %}{% if m.autres %}<span style="flex:{{ m.autres }}"></span>{% endif %}</div>
+      {% else %}
+        <p class="num" style="font-size:40px">Aucune entreprise n’a encore déclaré ses comptes.</p>
+      {% endif %}
+    </div>
+    <div class="pn6"><p class="k2">Effectif</p><p class="v">{{ m.n_entreprises }}<small>entreprises</small></p><p class="s">inscrites sur la plateforme, dans <b>{{ m.n_secteurs }} secteurs</b> d’activité</p></div>
+    <div class="pn6"><p class="k2">Tickets · toutes entreprises</p>
+      {% if m.tickets %}<div class="rng"><i style="left:0%"></i><i class="m" style="left:{{ m.tickets.pos|stringformat:"s" }}%"></i><i style="left:100%"></i></div>
+      <div class="rngl"><span><b>{{ m.tickets.min|fcfa }}</b>minimum</span><span><b>{{ m.tickets.med|fcfa }}</b>médiane</span><span><b>{{ m.tickets.max|fcfa }}</b>maximum</span></div>
+      <p class="s" style="margin-top:auto">sur {{ m.tickets.n }} entreprises ayant indiqué un montant</p>
+      {% else %}<p class="s">Aucun montant indiqué pour l’instant.</p>{% endif %}
+    </div>
+  </section>
+
+  <div class="sh"><span class="n">01</span><h2>Cible à 36 mois</h2><span class="r">jamais additionnée au potentiel</span></div>
+  <div class="g g5">
+    {% with c=m.cibles %}
+    <div class="tc"><div class="hd"><span class="ico">{% ic 'jauge' 16 %}</span><span class="tag5">cible</span></div><b>{{ c.entreprises_scorees }}</b><span>entreprises scorées</span></div>
+    <div class="tc"><div class="hd"><span class="ico">{% ic 'financer' 16 %}</span><span class="tag5">cible</span></div><b>{{ c.financements }}</b><span>financements</span></div>
+    <div class="tc"><div class="hd"><span class="ico">{% ic 'invest' 16 %}</span><span class="tag5">cible</span></div><b>{{ c.montants_leves }}</b><span>levés</span></div>
+    <div class="tc"><div class="hd"><span class="ico">{% ic 'usine' 16 %}</span><span class="tag5">cible</span></div><b>{{ c.emplois }}</b><span>emplois créés</span><small>directs et indirects</small></div>
+    <div class="tc"><div class="hd"><span class="ico">{% ic 'check' 16 %}</span><span class="tag5">cible</span></div>{% if c.entreprises_rentables %}<b>{{ c.entreprises_rentables }}</b>{% else %}<b class="tbd">à fixer</b>{% endif %}<span>entreprises rentables</span><small>dès la 2e ou la 3e année</small></div>
+    {% endwith %}
+  </div>
+  <div class="g" style="grid-template-columns:2fr 1fr;margin-top:16px">
+    <div class="card g g2" style="gap:26px">
+      <div><p class="kk" style="color:var(--t3)">Hypothèse de conversion</p><p class="big" style="margin-top:6px">≈ {{ m.cibles.conversion_pct }} %</p>
+        <p class="muted" style="font-size:13px;margin-top:4px">des entreprises scorées obtiennent un financement. Une hypothèse, pas un historique.</p>
+        <div class="dots" aria-hidden="true">{% for i in "x"|ljust:100 %}<i{% if forloop.counter <= m.cibles.conversion_pct %} class="on"{% endif %}></i>{% endfor %}</div></div>
+      <div><p class="kk" style="color:var(--t3)">Projets réalisés sans investissement</p><p class="big" style="margin-top:6px;font-size:26px;font-style:italic;color:var(--t3)">cible à fixer</p>
+        <p class="muted" style="font-size:13px;margin-top:4px">Entreprises qui mènent leur projet grâce aux outils, incitations et leviers de la plateforme, sans lever de fonds. Réalisé : 0.</p></div>
+    </div>
+    <div class="dark"><p class="t1">Réalisé à ce jour</p><p class="big">0<small style="color:#fff;font-size:20px">closing</small></p><p>Aucun track record extérieur emprunté. Le réalisé reste à zéro tant qu’aucun closing n’est enregistré.</p></div>
+  </div>
+
+  <div class="sh"><span class="n">02</span><h2>Le Cameroun en un coup d’œil</h2><span class="r">l’état du pays, tous secteurs confondus</span></div>
+  <div class="g" style="grid-template-columns:minmax(0,1fr) 360px">
+    <div class="g g3">
+      {% for i in indicateurs %}
+      <article class="card" style="display:flex;flex-direction:column;gap:8px">
+        <p class="t1" style="font-weight:700">{{ i.titre }}</p><p class="big" style="font-size:32px">{{ i.valeur }}<small>{{ i.detail }}</small></p>
+        {% if i.serie %}<div style="display:flex;gap:8px;align-items:flex-end;height:70px;border-bottom:1px solid var(--ligne);position:relative">
+          {% for an, v in i.serie %}<div title="{{ an }} · {{ v|virgule }} %" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">
+            <span style="width:60%;border-radius:4px 4px 0 0;height:{% widthratio v 8 100 %}%;background:{% if forloop.last %}var(--violet){% else %}#B8ABF7{% endif %}"></span></div>{% endfor %}
+          {% if i.plafond %}<span style="position:absolute;left:0;right:0;bottom:{% widthratio i.plafond 8 100 %}%;border-top:2px dashed var(--soleil)"></span>{% endif %}
+        </div><div style="display:flex;gap:8px;font-size:11px;color:var(--t3)">{% for an, v in i.serie %}<span style="flex:1;text-align:center">{{ an }}</span>{% endfor %}</div>{% endif %}
+        <p style="font-size:13px">{{ i.sens }}</p><p class="t1" style="font-size:11px;margin-top:auto">Source : {{ i.source }}</p>
+      </article>
+      {% endfor %}
+    </div>
+    <aside class="card"><p class="t1">Le pays, pas un secteur</p><div class="ch"><h3 style="font-size:24px">Pourquoi le Cameroun</h3><span class="cnt"><i></i>6 atouts</span></div>
+      <ul class="lst">{% for icone, t, s in atouts %}<li><div><span class="av">{% ic icone 20 %}</span><span class="tx"><b>{{ t }}</b><span class="s">{{ s }}</span></span></div></li>{% endfor %}</ul>
+    </aside>
+  </div>
+
+  <div class="sh"><span class="n">03</span><h2>Cinq ratios</h2><span class="r">calculés sur les {{ m.n_entreprises }} entreprises inscrites</span></div>
+  <div class="g g5">
+    <div class="card"><p class="t1" style="font-weight:700">PROFONDEUR</p><p class="big" style="margin:8px 0">{{ m.profondeur_pct|virgule }} %</p><div class="bar"><i style="width:{{ m.profondeur_pct|stringformat:"s" }}%"></i></div>
+      <p style="font-size:12.5px;color:var(--t2);margin-top:10px">Montants recherchés ({{ m.total_tickets|fcfa }}) face au milieu de la cible de capital à 36 mois.</p></div>
+    <div class="card"><p class="t1" style="font-weight:700">PORTE DETTE</p><p class="big" style="margin:8px 0">1,2<small>seuil</small></p>
+      <p style="font-size:12.5px;color:var(--t2)">{{ m.dscr|length }} entreprise{{ m.dscr|length|pluralize }} avec une couverture calculée{% if m.dscr %} ; la meilleure affiche {{ m.dscr.0|virgule:2 }}, indicatif, avant examen du comité{% endif %}. {{ m.dscr_sous_seuil }} sous le seuil.</p></div>
+    <div class="card"><p class="t1" style="font-weight:700">CONCENTRATION</p><p class="big" style="margin:8px 0">{{ m.concentration_pct }} %</p><div class="bar"><i style="width:{{ m.concentration_pct }}%"></i></div>
+      <p style="font-size:12.5px;color:var(--t2);margin-top:10px">Part des deux plus gros montants recherchés.</p></div>
+    <div class="card"><p class="t1" style="font-weight:700">COMPATIBILITÉ</p><p class="big" style="margin:8px 0">≥ 55</p>
+      <p style="font-size:12.5px;color:var(--t2)">Calculée après votre inscription, selon votre thèse. Pas une probabilité de closing.</p></div>
+    <div class="card"><p class="t1" style="font-weight:700">SUITE</p><p class="big" style="margin:8px 0">{{ m.sorties_ecrites }} / {{ m.n_entreprises }}</p>
+      <p style="font-size:12.5px;color:var(--t2)">entreprises avec une sortie écrite. Pas de tour de table sans sortie écrite.</p></div>
+  </div>
+
+  <div class="band v"><span class="bi">{% ic 'cible' 24 %}</span><div><h3>Vous avez vu le potentiel. Passez à l’action.</h3><p>Investisseur : votre thèse fixe les entreprises que vous verrez. PME : votre diagnostic est gratuit.</p></div>
+    <div class="acts"><a class="btn" href="{% url 'accounts:inscription_compte' 'pme' %}">Je suis une PME</a><a class="btn y" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur {% ic 'fleche-d' 16 %}</a></div></div>
+</section>
+
+{# ===================== 2. La plateforme ===================== #}
+<section class="sec" id="plateforme">
+  <div class="sec-h"><div><p class="kk">La plateforme</p><h2 class="h2">Préparer les PME, <em>éclairer les investisseurs.</em></h2>
+    <p class="lead">ReadyMatch mesure la préparation des entreprises, prouve chaque chiffre et explique la compatibilité avec chaque investisseur.</p></div></div>
+  <div class="g g2">
+    <article class="card" style="padding:26px;display:flex;flex-direction:column;gap:18px"><span class="chip">Pour les investisseurs</span><h3 style="font-size:28px">Des dossiers comparables, des preuves lisibles.</h3>
+      <div class="g g3" style="gap:10px">
+        <div style="background:var(--creux);border-radius:18px;padding:14px"><b>1 · Votre thèse</b><p class="muted" style="font-size:12.5px">Secteur, ticket, zone, stade, instrument.</p></div>
+        <div style="background:var(--creux);border-radius:18px;padding:14px"><b>2 · Des PME compatibles</b><p class="muted" style="font-size:12.5px">Un indice expliqué sur 6 critères, jamais une probabilité.</p></div>
+        <div style="background:var(--creux);border-radius:18px;padding:14px"><b>3 · La data room</b><p class="muted" style="font-size:12.5px">Ouverte après accord de confidentialité, chaque accès journalisé.</p></div></div>
+      <div class="g g4" style="gap:10px"><div><p class="big" style="font-size:30px">{{ m.n_entreprises }}</p><p class="t1">entreprises inscrites</p></div>
+        <div><p class="big" style="font-size:30px">{{ m.potentiel|fcfa }}</p><p class="t1">de marge brute cumulée</p></div>
+        <div><p class="big" style="font-size:30px">{{ m.n_investisseurs }}</p><p class="t1">investisseurs référencés</p></div>
+        <div><p class="big" style="font-size:30px">4</p><p class="t1">niveaux de preuve par chiffre</p></div></div>
+      <a class="btn p" style="align-self:flex-start" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur {% ic 'fleche-d' 16 %}</a></article>
+    <article class="dark" style="padding:26px;gap:18px"><span class="chip" style="background:rgba(255,197,61,.18);color:#FFD166;align-self:flex-start">Pour les PME</span><h3 style="font-size:28px">Se préparer, lever juste, grandir.</h3>
+      <div class="g g3" style="gap:10px">
+        <div style="background:rgba(255,255,255,.07);border-radius:18px;padding:14px"><b>1 · Un diagnostic</b><p style="font-size:12.5px;margin:0">Un score de préparation sur 100, dimension par dimension.</p></div>
+        <div style="background:rgba(255,255,255,.07);border-radius:18px;padding:14px"><b>2 · Un dossier guidé</b><p style="font-size:12.5px;margin:0">Chaque pièce classée : déclaratif, cohérent, recoupé, certifié.</p></div>
+        <div style="background:rgba(255,255,255,.07);border-radius:18px;padding:14px"><b>3 · Les bons partenaires</b><p style="font-size:12.5px;margin:0">Investisseurs compatibles, incitations, accompagnement.</p></div></div>
+      <div class="g g4" style="gap:10px"><div><p class="big" style="font-size:30px;color:#fff">100</p><p class="t1">points de score</p></div><div><p class="big" style="font-size:30px;color:#fff">6</p><p class="t1">dimensions évaluées</p></div>
+        <div><p class="big" style="font-size:30px;color:#fff">43</p><p class="t1">pièces guidées</p></div><div><p class="big" style="font-size:30px;color:#fff">0 FCFA</p><p class="t1">pour le diagnostic</p></div></div>
+      <a class="btn y" style="align-self:flex-start" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit {% ic 'fleche-d' 16 %}</a></article>
+  </div>
+
+  <div class="g" style="grid-template-columns:1.1fr 1fr;margin-top:16px">
+    <div class="ph" style="background-image:url('{% static 'img/photos/D.webp' %}');min-height:380px"><span class="tag">Douala, 7 h</span>
+      <div class="bas"><h3 style="font-size:34px">La ville est déjà au travail.</h3><p style="max-width:52ch;opacity:.9;margin-top:8px">Awa dirige une PME qui transforme le manioc en farines. Elle a l’activité ; il lui manque un dossier qu’un investisseur peut vérifier vite. Awa est un personnage de démonstration.</p></div></div>
+    <div class="g g2">
+      <div class="card"><span class="chip">Chapitre 1 · Préparer</span><h3 style="margin-top:10px">Un score qui dit quoi faire ensuite.</h3><p class="muted" style="font-size:13px;margin-top:6px">Score sur 100, data room en 10 dossiers, preuves sur 4 niveaux.</p></div>
+      <div class="card"><span class="chip">Chapitre 2 · Financer</span><h3 style="margin-top:10px">Un montant juste, justifié trois fois.</h3><p class="muted" style="font-size:13px;margin-top:6px">Besoin réel, capacité d’endettement, capacité en capital.</p></div>
+      <div class="card"><span class="chip">Chapitre 3 · Rencontrer</span><h3 style="margin-top:10px">Les bons investisseurs.</h3><p class="muted" style="font-size:13px;margin-top:6px">Une compatibilité expliquée, des deux côtés.</p></div>
+      <div class="card"><span class="chip">Le jour du comité</span><h3 style="margin-top:10px">Moins de temps à prouver.</h3><p class="muted" style="font-size:13px;margin-top:6px">Les chiffres sont déjà rangés, recoupés, expliqués.</p></div>
+    </div>
+  </div>
+  <div class="band v"><span class="bi">{% ic 'dossier' 24 %}</span><div><h3>Votre dossier, prêt pour un comité.</h3><p>Diagnostic gratuit, score sur 100 et plan d’action en quelques minutes.</p></div>
+    <div class="acts"><a class="btn y" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit {% ic 'fleche-d' 16 %}</a></div></div>
+</section>
+
+{# ===================== 3. Acteurs ===================== #}
+<section class="sec" id="acteurs">
+  <div class="sec-h"><div><p class="kk">Qui lit, qui régule</p><h2 class="h2">Un cadre public <em>clair et nommé.</em></h2>
+    <p class="lead">La tutelle peut lire un dossier, les agences instruisent et accompagnent, les régulateurs encadrent. Aucun d’eux n’agrée un dossier depuis ReadyMatch.</p></div><span class="cnt"><i></i>10 acteurs</span></div>
+  <div class="g g5">{% for sigle, groupe, nom, desc in acteurs %}
+    <article class="card" style="display:flex;flex-direction:column;gap:10px;min-height:200px"><span class="lgm {{ groupe }}"{% if sigle|length > 6 %} style="font-size:10px"{% endif %}>{{ sigle }}</span><b>{{ nom }}</b><p class="muted" style="font-size:12.5px">{{ desc }}</p>
+      <span class="t1" style="margin-top:auto;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase">{% if groupe == 'tutelle' %}Tutelle{% elif groupe == 'agence' %}Agence{% else %}Régulateur{% endif %}</span></article>{% endfor %}</div>
+  <p class="note"><b style="color:var(--encre)">ReadyMatch ne vise pas, n’agrée pas, ne porte pas le crédit ; un dossier privé n’est pas une offre au public.</b> Emplacements de logo : logos officiels à insérer avec autorisation.</p>
+</section>
+
+{# ===================== 4. Incitations ===================== #}
+<section class="sec" id="incitations">
+  <div class="sec-h"><div><p class="kk">Incitations</p><h2 class="h2">Deux lois, <em>deux portes d’entrée.</em></h2>
+    <p class="lead">Pour l’investisseur, l’agrément de l’API. Pour la PME, les mesures de promotion portées par l’APME. Aucun avantage n’est compté comme du cash.</p></div></div>
+  <div class="g g2">
+    <article class="card" style="padding:26px;display:flex;flex-direction:column;gap:14px"><div class="org"><span class="lgm agence" style="width:60px;height:60px;background:#5536E8;color:#fff">API</span><div><p class="t1" style="font-weight:800;font-size:12px">LOI N° 2013/004 DU 18 AVRIL 2013</p><h3>Incitations à l’investissement privé</h3></div></div>
+      <div class="g g3" style="gap:8px"><div style="background:var(--creux);border-radius:16px;padding:14px"><b>1 · Un projet programmé</b><p class="muted" style="font-size:12.5px">L’avantage porte sur un investissement à venir.</p></div>
+        <div style="background:var(--creux);border-radius:16px;padding:14px"><b>2 · Un test sur quatre</b><p class="muted" style="font-size:12.5px">Emploi, export, ressources locales ou valeur ajoutée.</p></div>
+        <div style="background:var(--creux);border-radius:16px;padding:14px"><b>3 · Un agrément</b><p class="muted" style="font-size:12.5px">Instruit par l’API. Sans agrément, aucun avantage.</p></div></div>
+      <p class="t1">Test emploi : au moins un emploi camerounais par tranche de 5 à 25 M FCFA investis.</p></article>
+    <article class="card" style="padding:26px;display:flex;flex-direction:column;gap:14px"><div class="org"><span class="lgm agence" style="width:60px;height:60px;background:#5536E8;color:#fff">APME</span><div><p class="t1" style="font-weight:800;font-size:12px">LOI N° 2010/001 DU 13 AVRIL 2010, MODIFIÉE EN 2015</p><h3>Promotion des PME</h3></div></div>
+      <div class="g g3" style="gap:8px"><div style="background:var(--creux);border-radius:16px;padding:14px"><b>1 · Une PME reconnue</b><p class="muted" style="font-size:12.5px">La loi définit très petite, petite et moyenne entreprise.</p></div>
+        <div style="background:var(--creux);border-radius:16px;padding:14px"><b>2 · Un accompagnement</b><p class="muted" style="font-size:12.5px">Création, formation, conseil et mise à niveau.</p></div>
+        <div style="background:var(--creux);border-radius:16px;padding:14px"><b>3 · L’accès au financement</b><p class="muted" style="font-size:12.5px">Mesures d’appui au crédit et à l’investissement.</p></div></div>
+      <p class="t1">Références légales à confirmer avant publication.</p></article>
+  </div>
+  <div class="band"><span class="bi">{% ic 'calc' 24 %}</span><div><h3>Votre projet est-il éligible ?</h3><p>PME : le diagnostic repère les tests que vous remplissez. Investisseur : votre profil signale les projets concernés.</p></div>
+    <div class="acts"><a class="btn" href="{% url 'accounts:inscription_compte' 'pme' %}">Vérifier mon éligibilité</a><a class="btn p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur</a></div></div>
+</section>
+
+{# ===================== 5. Écosystème (depuis la base) ===================== #}
+<section class="sec" id="ecosysteme">
+  <div class="sec-h"><div><p class="kk">Écosystème d’accompagnement</p><h2 class="h2">Les PME ne sont pas seules. <em>Vous non plus.</em></h2>
+    <p class="lead">Incubateurs, institutions, associations et consultants référencés entourent les entreprises de la plateforme.</p></div>
+    <div style="display:flex;gap:8px">{% for a in m.acteurs_accompagnement %}<div class="card" style="padding:12px 16px"><p class="big" style="font-size:28px">{{ a.n }}</p><p class="t1">{{ a.kind }}{{ a.n|pluralize }}</p></div>{% endfor %}</div></div>
+  <div class="g g2">
+    <article class="band v" style="margin:0;align-items:flex-start"><span class="bi">{% ic 'reseau' 24 %}</span><div><h3>Par la structure qui endosse</h3><p>Chaque PME accompagnée affiche la structure qui la suit, avec une attestation datée. Vous pouvez la contacter d’abord.</p></div></article>
+    <article class="band" style="margin:0;align-items:flex-start"><span class="bi">{% ic 'cadenas' 24 %}</span><div><h3>Directement avec la PME</h3><p>Demandez l’accès au dossier, signez l’accord de confidentialité, ouvrez la data room. Chaque accès est journalisé.</p></div></article>
+  </div>
+  {% if structures %}<p class="kk" style="color:var(--t3);margin:22px 2px 10px">Quelques structures référencées</p>
+  <div class="g g3">{% for s in structures %}<article class="card org"><span class="lgm">{{ s.initiales }}</span><div style="min-width:0"><b style="display:block">{{ s.nom }}</b><span class="t1">{{ s.get_kind_display }}{% if s.ville %} · {{ s.ville }}{% endif %}</span></div></article>{% endfor %}</div>{% endif %}
+  <div class="band"><span class="bi">{% ic 'reseau' 24 %}</span><div><h3>Parlez à une structure ou à une PME.</h3><p>Votre profil investisseur ouvre les contacts et les demandes d’accès.</p></div>
+    <div class="acts"><a class="btn" href="{% url 'annuaire:ecosysteme' %}">Voir l’écosystème</a><a class="btn p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur</a></div></div>
+</section>
+
+{# ===================== 6. Chaînes de valeur ===================== #}
+<section class="sec" id="chaines">
+  <div class="sec-h"><div><p class="kk">Du champ au marché</p><h2 class="h2">Des chaînes de valeur <em>déjà constituées.</em></h2>
+    <p class="lead">Chaque maillon est une opportunité de financement : préfinancement d’intrants, affacturage, paiement à la livraison. Des usages du montant, pas un second livre.</p></div>
+    <p class="big" style="font-size:72px">{{ chaines|length }}<small>chaînes</small></p></div>
+  <div class="card" style="padding:28px;display:flex;flex-direction:column;gap:16px">{% for fil, etapes in chaines %}
+    <div class="chain"><span class="fil">Filière<b>{{ fil }}</b></span>{% for t, s in etapes %}<div class="stp{% if forloop.counter == 2 %} m{% endif %}"><b>{{ t }}</b><span>{{ s }}</span></div>{% endfor %}</div>{% endfor %}</div>
+</section>
+
+<section class="band d" style="margin-top:40px"><span class="bi">{% ic 'cible' 26 %}</span><div><h3>Prêt pour le comité ?</h3><p>Créez votre profil : votre thèse fixe les entreprises que vous verrez, parmi les {{ m.n_entreprises }} inscrites.</p></div>
+  <div class="acts"><a class="btn y lg" href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil investisseur {% ic 'fleche-d' 16 %}</a></div></section>
+<p class="note" style="justify-content:center">Si le chiffre grandit, il doit rester vrai : pas de levier compté deux fois, pas de probabilité de closing, pas de marché boursier dans les 36 mois, pas d’agrément compté comme du cash.</p>
+
+{# ===================== 7. Outils PME ===================== #}
+<section class="sec" id="outils">
+  <div class="sec-h"><div><p class="kk">Outils et leviers pour les PME</p><h2 class="h2">Au-delà de l’investissement, <em>la PME grandit.</em></h2>
+    <p class="lead">Gestion, croissance, optimisation : tout ce que ReadyMatch met à disposition pour que l’entreprise avance, avec ou sans levée de fonds.</p></div>
+    <a class="btn y lg" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit {% ic 'fleche-d' 16 %}</a></div>
+  <div class="g g3">{% for icone, tag, titre, desc in outils %}<article class="card" style="display:flex;flex-direction:column;gap:10px"><span class="av" style="width:48px;height:48px;border-radius:14px;background:var(--vd);color:var(--vp);display:grid;place-items:center">{% ic icone 22 %}</span>
+    <span class="kk">{{ tag }}</span><h3>{{ titre }}</h3><p class="muted" style="font-size:13.5px">{{ desc }}</p></article>{% endfor %}</div>
+</section>
+
+<section class="ph" style="background-image:url('{% static 'img/photos/A.webp' %}');min-height:380px;margin-top:48px;align-items:center;justify-content:center;text-align:center">
+  <div class="bas" style="margin:auto;max-width:760px;display:flex;flex-direction:column;align-items:center;gap:16px"><h2 style="font-size:42px">Derrière chaque dossier, une entreprise qui nourrit une ville.</h2>
+    <p style="opacity:.9">ReadyMatch aide les PME camerounaises à montrer ce qu’elles valent, preuves à l’appui.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><a class="btn" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.6)" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis</a>
+      <a class="btn y" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit</a></div></div>
+</section>
+{% endblock %}
