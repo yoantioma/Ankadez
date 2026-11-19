@@ -20,10 +20,13 @@ class Secteur(models.Model):
 
 class OrganisationQuerySet(models.QuerySet):
     def entreprises(self):
-        """Vivier de matching (v3, décision D8) : PME fictives marquées FICTIF et PME réellement inscrites.
-        Les entreprises réelles importées d’annuaires publics n’y entrent pas tant qu’elles n’ont pas donné leur accord."""
-        return (self.filter(kind__in=Organisation.KINDS_ENTREPRISE, actif=True)
-                .exclude(models.Q(external_id__isnull=False) & ~models.Q(external_id__startswith='FICTIF-') & models.Q(est_demo=False)))
+        """Vivier de matching : PME fictives (FICTIF), PME inscrites et PME importées des fichiers d’annuaire (CSV).
+        Pour l’investisseur, toutes restent anonymisées jusqu’à l’accord de confidentialité ; aucun contact n’est affiché."""
+        return self.filter(kind__in=Organisation.KINDS_ENTREPRISE, actif=True)
+
+    def importees(self):
+        """Entreprises venues des fichiers d’annuaire (CSV), hors jeu fictif."""
+        return self.filter(external_id__isnull=False).exclude(external_id__startswith='FICTIF-')
 
     def investisseurs(self):
         return self.filter(kind=Organisation.Kind.INVESTISSEUR, actif=True)

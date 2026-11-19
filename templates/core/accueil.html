@@ -8,7 +8,7 @@
 
 <header class="rv-nav"><div class="rv-wrap">
   <a class="rv-logo" href="#cameroun">{% include 'partials/logo.html' with taille=30 %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></a>
-  <nav aria-label="Sections"><a href="#cameroun">Le Cameroun</a><a href="#diagnostic">Diagnostic</a><a href="#parcours">Le parcours</a><a href="#chaine">La chaîne</a><a href="#cif">CIF 2026</a><a href="#essayer">L’app</a></nav>
+  <nav aria-label="Sections"><a href="#cameroun">Le Cameroun</a><a href="#diagnostic">Diagnostic</a><a href="#parcours">Le parcours</a><a href="#chaine">La chaîne</a><a href="#accompagnement">Accompagnement</a><a href="#cif">CIF 2026</a><a href="#essayer">L’app</a></nav>
   <button class="rv-theme" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
   <a class="rv-cta ghost sm" href="{% url 'accounts:connexion' %}">Se connecter</a>
   <a class="rv-cta sm" href="{% url 'accounts:inscription' %}">Créer un compte</a>
@@ -127,6 +127,49 @@
     <div><b>Produits utiles</b><p>Affacturage, crédit-bail, garanties (MINFI, FAGACE, CDEC, IFC) et incitations de l’État, présentées comme probables, jamais comme acquises.</p></div>
     <div><b>Accompagnement</b><p>Juridique, propriété intellectuelle, structuration, incubateurs. <a href="{% url 'annuaire:ecosysteme' %}">Voir l’écosystème</a></p></div>
   </div>
+</div></section>
+
+{# ================= Accompagnement : la PME n'est jamais seule ================= #}
+<section class="rv-trustsec" id="accompagnement"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Accompagnement</p><h2>Les PME ne sont pas seules. <em>Vous non plus.</em></h2>
+    <p class="rv-lead c">Comptabilité, fiscalité, juridique, propriété intellectuelle, structuration, incubation : des structures entourent les entreprises de la plateforme.</p></header>
+  <div class="acc-chiffres"><div><b>{{ n_structures }}</b><span>structures référencées</span></div><div><b>{{ n_accompagnees }}</b><span>PME accompagnées</span></div><div><b>{{ domaines|length }}</b><span>domaines couverts</span></div></div>
+  <div class="acc-chemins">
+    <article><span class="acc-n">1</span><h3>Par la structure qui accompagne</h3><p>Chaque PME accompagnée affiche sa structure, avec une attestation datée. Si l’entreprise l’autorise, vous lui posez d’abord vos questions.</p>
+      <ol><li>Repérez l’accompagnateur sur la fiche</li><li>Posez votre question, sans demander l’identité</li><li>La structure répond ou sollicite la PME</li></ol></article>
+    <article><span class="acc-n">2</span><h3>Directement avec la PME</h3><p>Vous pouvez aussi demander l’accès au dossier sans intermédiaire. L’entreprise reste maîtresse de ce qu’elle partage.</p>
+      <ol><li>Demandez l’accès à la data room</li><li>L’entreprise signe l’accord de confidentialité</li><li>Chaque ouverture de pièce est journalisée</li></ol></article>
+  </div>
+  <p class="rv-small" style="text-align:center;margin-top:14px">Rang des accompagnateurs fondé sur des faits publics (qualification, dossiers menés), jamais sur un paiement. <a href="{% url 'annuaire:ecosysteme' %}">Voir l’écosystème</a></p>
+</div></section>
+
+{# ================= Chaînes de valeur et produits bancaires ================= #}
+<section class="rv-trustsec" id="filieres"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Chaînes de valeur</p><h2>Chaque maillon est <em>une porte de financement.</em></h2>
+    <p class="rv-lead c">Producteurs, transformateurs et marchés sont reliés. Souvent, la bonne porte est un produit bancaire qui existe déjà.</p></header>
+  <div class="fil-grille">
+    <article><p class="fil-k">Filière manioc et plantain</p><p>Producteurs · transformation en farines · marchés local et CEMAC</p></article>
+    <article><p class="fil-k">Filière lait</p><p>Éleveurs des hauts plateaux · lait frais et yaourts · distribution urbaine</p></article>
+    <article><p class="fil-k">Filière cacao</p><p>Coopératives · fermentation et traçage · export</p></article>
+  </div>
+  <div class="fil-outils"><span>Préfinancement d’intrants</span><span>Affacturage</span><span>Crédit-bail</span><span>Paiement à la livraison</span><span>Garanties</span></div>
+  {% if produits %}<h3 class="fil-titre">Des produits bancaires réels, sourcés</h3>
+  <div class="fil-produits">{% for p in produits %}<article><p class="fil-k">{{ p.institution_nom }}</p><b>{{ p.nom }}</b><p>{{ p.public }}</p>
+    <p class="rv-small">{{ p.source_libelle }}{% if p.verifie_le %} · vérifié le {{ p.verifie_le|date:'d/m/Y' }}{% else %} · à reconfirmer{% endif %}</p></article>{% endfor %}</div>
+  <p class="rv-small" style="text-align:center;margin-top:12px">La PME voit dès sa connexion les produits dont elle remplit les conditions. AnkadeZ n’est pas courtier : la banque décide.</p>{% endif %}
+</div></section>
+
+{# ================= Deux lois, deux portes d'entrée ================= #}
+<section class="rv-trustsec" id="lois"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Cadre légal</p><h2>Deux lois, <em>deux portes d’entrée.</em></h2>
+    <p class="rv-lead c">Pour l’investisseur, l’agrément de l’API. Pour la PME, les mesures de promotion portées par l’APME. Aucun avantage n’est compté comme du cash.</p></header>
+  <div class="lois">
+    <article><p class="fil-k">API · loi n° 2013/004 du 18 avril 2013</p><h3>Incitations à l’investissement privé</h3>
+      <ol><li><b>Un projet programmé</b> : l’avantage porte sur un investissement à venir, pas sur l’existant.</li><li><b>Un test sur quatre</b> : emploi de Camerounais, export, ressources locales ou valeur ajoutée.</li><li><b>Un agrément</b> instruit par l’API : sans agrément, aucun avantage.</li></ol></article>
+    <article><p class="fil-k">APME · loi n° 2010/001 du 13 avril 2010, modifiée en 2015</p><h3>Promotion des PME</h3>
+      <ol><li><b>Une PME reconnue</b> : la loi définit la très petite, la petite et la moyenne entreprise.</li><li><b>Un accompagnement</b> : création, formation, conseil et mise à niveau.</li><li><b>L’accès au financement</b> : mesures d’appui au crédit et à l’investissement.</li></ol></article>
+  </div>
+  <p class="rv-small" style="text-align:center;margin-top:12px">Références légales à confirmer avant publication. Le diagnostic repère les tests que la PME remplit ; une éligibilité reste probable, jamais acquise.</p>
 </div></section>
 
 {# ================= CIF 2026 : qui est autour de la table (v3 · 3) ================= #}

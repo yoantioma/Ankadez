@@ -91,3 +91,14 @@ def chiffre(valeur, cle, niveau=None):
     """Un chiffre et sa source, toujours ensemble : le test automatique vérifie que chaque [data-chiffre] porte une icône « i »."""
     from html import escape
     return mark_safe(f'<span class="chiffre" data-chiffre="{escape(cle)}">{escape(str(valeur))}{src(cle, niveau)}</span>')
+
+
+@register.filter
+def masquer_nom(texte, org):
+    """Retire le nom de l’entreprise d’un texte affiché aux investisseurs (profil anonymisé jusqu’à l’accord)."""
+    import re
+    if not texte or not org:
+        return texte
+    for motif in {org.nom, org.nom.split()[0]} if len(org.nom.split()[0]) > 3 else {org.nom}:
+        texte = re.sub(re.escape(motif), 'l’entreprise', texte, flags=re.I)
+    return texte

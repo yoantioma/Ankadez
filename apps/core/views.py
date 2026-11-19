@@ -13,7 +13,14 @@ def landing(request):
     m = accueil_investisseur()
     from apps.offres.services import questions
     from .pages_v3 import PARTIES
-    return render(request, 'core/accueil.html', {'m': m, 'v': vitrine.composants(m), 'questions': questions(), 'parties': PARTIES})
+    from apps.annuaire.models import Organisation
+    from apps.offres.models import ProduitFinancier
+    from apps.pme.models import EntrepriseProfile
+    return render(request, 'core/accueil.html', {'m': m, 'v': vitrine.composants(m), 'questions': questions(), 'parties': PARTIES,
+        'n_structures': Organisation.objects.accompagnement().count(),
+        'n_accompagnees': EntrepriseProfile.objects.filter(accompagnateur__isnull=False).count(),
+        'domaines': sorted({s for o in Organisation.objects.accompagnement().exclude(specialites=[]) for s in o.specialites}),
+        'produits': ProduitFinancier.objects.filter(actif=True)[:4]})
 
 
 def landing_vitrine(request):

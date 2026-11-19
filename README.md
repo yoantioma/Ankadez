@@ -183,7 +183,7 @@ la page, avec des cartes squelettes pendant la requête (`<form data-async data-
 Avec Docker sur le VPS : `docker exec ankadez_app python manage.py charger_v3` puis `docker exec ankadez_app python manage.py generer_pme_fictives`.
 
 Les poids du diagnostic, les produits, les programmes et les incitations se modifient dans l’administration (`/admin/`), pas dans le code.
-Les entreprises réelles importées d’annuaires publics restent hors du vivier de matching (décision D8) tant qu’elles n’ont pas donné leur accord.
+Les entreprises importées des fichiers CSV entrent dans le vivier de matching, anonymisées pour les investisseurs jusqu’à l’accord de confidentialité ; leurs contacts ne sont jamais affichés.
 
 ### Démo hors connexion
 

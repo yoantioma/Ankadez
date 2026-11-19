@@ -125,3 +125,28 @@
 #vitrine .cif-table p{margin:0;font-size:14px;color:var(--t2);line-height:1.5}
 #vitrine .cif-table .cif-u{color:var(--encre);font-weight:600;margin-top:auto}
 #vitrine .rv-liens a{color:var(--violet);font-weight:600}
+
+/* Accompagnement, chaînes de valeur, lois */
+#vitrine .acc-chiffres{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+#vitrine .acc-chiffres div{background:var(--fond);border:1px solid var(--ligne);border-radius:18px;padding:14px 22px;text-align:center;min-width:160px}
+#vitrine .acc-chiffres b{display:block;font-size:34px;font-weight:600;letter-spacing:-.03em;color:var(--violet)}
+#vitrine .acc-chiffres span{font-size:13px;color:var(--t3)}
+#vitrine .acc-chemins,#vitrine .lois{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#vitrine .acc-chemins article,#vitrine .lois article,#vitrine .fil-grille article,#vitrine .fil-produits article{background:var(--fond);border:1px solid var(--ligne);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:8px}
+#vitrine .acc-chemins h3,#vitrine .lois h3{margin:0;font-size:21px;letter-spacing:-.02em}
+#vitrine .acc-chemins p,#vitrine .fil-grille p,#vitrine .fil-produits p{margin:0;color:var(--t2);font-size:15px;line-height:1.55}
+#vitrine .acc-chemins ol,#vitrine .lois ol{margin:4px 0 0;padding-left:20px;color:var(--t2);font-size:14.5px;line-height:1.6}
+#vitrine .acc-n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--violet);color:var(--sur-violet);font-weight:700}
+#vitrine .fil-grille,#vitrine .fil-produits{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+#vitrine .fil-k{margin:0;font-size:12px!important;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--violet)!important}
+#vitrine .fil-outils{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px 0 22px}
+#vitrine .fil-outils span{font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;background:var(--vd);color:var(--vp)}
+#vitrine .fil-titre{text-align:center;margin:8px 0 12px;font-size:20px}
+#vitrine .fil-produits b{font-size:16px;line-height:1.35}
+#vitrine #filieres{background:var(--fond)}
+#vitrine #filieres .fil-grille article,#vitrine #filieres .fil-produits article{background:var(--surface)}
+@media (max-width:760px){#vitrine .acc-chemins,#vitrine .lois{grid-template-columns:1fr}}
+
+/* barre du haut : liens sur une seule ligne */
+#vitrine .rv-nav nav a{white-space:nowrap;padding:10px 8px;font-size:14px}
+@media (max-width:1280px){#vitrine .rv-nav nav a{padding:10px 6px;font-size:13px}}
