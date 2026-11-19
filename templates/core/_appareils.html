@@ -1,8 +1,7 @@
 {% load rm %}
-<div class="sv-sec appareils" id="essayer">
-  <div class="ldh"><div><p class="kk">Essayez l’app</p><h2>Sur votre appareil, <em>tel que vous le tenez.</em></h2>
-    <p>Touchez les écrans pour naviguer, ouvrez le Flip, comparez iOS et Android, et parcourez la version ordinateur.</p></div>
-    <div class="acts"><button type="button" class="cta-s" data-theme-toggle>{% ic 'eclat' 18 %} Clair / sombre</button><button type="button" class="cta-s" data-reset>Revenir au début</button></div></div>
+<section class="rv-try appareils" id="essayer"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Essayez l’app</p><h2>Sur votre appareil, <em>tel que vous le tenez.</em></h2>
+    <p class="rv-lead c">Ordinateur, iPhone, Android, Flip ou les deux téléphones côte à côte. Touchez les écrans pour naviguer.</p></header>
 
   <div class="ap-tabs" role="tablist" aria-label="Appareils">
     <button type="button" role="tab" id="tab-pc" aria-controls="pan-pc" aria-selected="true" data-tab="pc">{% ic 'liste' 16 %} Ordinateur</button>
@@ -23,15 +22,15 @@
     <div class="rv-pan" role="tabpanel" id="pan-pc" aria-labelledby="tab-pc">
       <div class="pc">
         <div class="pc-ecran"><div class="pc-cam"></div>
-          <div class="pc-fen"><div class="pc-barre"><i></i><i></i><i></i><span class="pc-url" data-pc-url>readymatch.cm/pme</span></div>
-            <div class="pc-vue"><iframe data-pc-frame src="{% url 'core:apercu' 'pme' %}" title="Aperçu de la version web de ReadyMatch" loading="lazy"></iframe></div></div></div>
+          <div class="pc-fen"><div class="pc-barre"><i></i><i></i><i></i><span class="pc-url" data-pc-url>{{ request.get_host }}/pme</span></div>
+            <div class="pc-vue"><iframe data-pc-frame src="{% url 'core:apercu' 'pme' %}" title="Aperçu de la version web d’Ankadez" loading="lazy"></iframe></div></div></div>
         <div class="pc-base"><span></span></div>
       </div>
       <div class="pc-onglets" role="group" aria-label="Écran affiché sur l’ordinateur">
-        <button type="button" class="on" data-pc="{% url 'core:apercu' 'pme' %}" data-url="readymatch.cm/pme">Tableau de bord PME</button>
-        <button type="button" data-pc="{% url 'core:apercu' 'entreprises' %}" data-url="readymatch.cm/investisseur">Entreprises compatibles</button>
-        <button type="button" data-pc="{% url 'core:apercu' 'fiche' %}" data-url="readymatch.cm/investisseur/entreprise/savane-agro-sa">Fiche d’une PME</button>
-        <button type="button" data-pc="{% url 'core:apercu' 'pipeline' %}" data-url="readymatch.cm/investisseur/pipeline">Pipeline</button>
+        <button type="button" class="on" data-pc="{% url 'core:apercu' 'pme' %}" data-url="{{ request.get_host }}/pme">Tableau de bord PME</button>
+        <button type="button" data-pc="{% url 'core:apercu' 'entreprises' %}" data-url="{{ request.get_host }}/investisseur">Entreprises compatibles</button>
+        <button type="button" data-pc="{% url 'core:apercu' 'fiche' %}" data-url="{{ request.get_host }}/investisseur/entreprise/savane-agro-sa">Fiche d’une PME</button>
+        <button type="button" data-pc="{% url 'core:apercu' 'pipeline' %}" data-url="{{ request.get_host }}/investisseur/pipeline">Pipeline</button>
       </div>
     </div>
     {% include 'core/_cadre_iphone.html' %}
@@ -39,4 +38,5 @@
     {% include 'core/_cadre_flip.html' %}
     {% include 'core/_cadre_duo.html' %}
   </div>
-</div>
+  <div class="ap-outils"><button type="button" class="rv-cta ghost sm" data-theme-toggle>{% ic 'theme' 18 %} Clair / sombre</button><button type="button" class="rv-cta ghost sm" data-reset>Revenir au début</button></div>
+</div></section>

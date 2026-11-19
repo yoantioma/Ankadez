@@ -1,0 +1,161 @@
+{% extends 'base.html' %}{% load static rm %}
+{% block title %}Investir au Cameroun{% endblock %}
+{% block description %}Ankadez prépare les PME camerounaises au financement et montre aux investisseurs des dossiers vérifiables.{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{% static 'css/vitrine.css' %}"><link rel="stylesheet" href="{% static 'css/recit.css' %}"><link rel="stylesheet" href="{% static 'css/appareils.css' %}"><link rel="stylesheet" href="{% static 'css/accueil.css' %}">{% endblock %}
+{% block chrome %}{% endblock %}{% block footer %}{% endblock %}
+{% block body %}
+<div class="wapp" id="vitrine">
+
+<header class="rv-nav"><div class="rv-wrap">
+  <a class="rv-logo" href="#cameroun">{% include 'partials/logo.html' with taille=30 %}Ankadez</a>
+  <nav aria-label="Sections"><a href="#cameroun">Le Cameroun</a><a href="#diagnostic">Diagnostic</a><a href="#parcours">Le parcours</a><a href="#chaine">La chaîne</a><a href="#essayer">L’app</a></nav>
+  <button class="rv-theme" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
+  <a class="rv-cta ghost sm" href="{% url 'accounts:connexion' %}">Se connecter</a>
+  <a class="rv-cta sm" href="{% url 'accounts:inscription' %}">Créer un compte</a>
+</div></header>
+
+{# ================= Tableau de bord : le Cameroun, sans inscription ================= #}
+<section class="zone-tdb" id="cameroun"><div class="ldwrap">
+  <div class="ldh"><div><p class="kk">Le Cameroun en chiffres · sans inscription</p><h1>Investir au Cameroun</h1>
+    <p>Ce que les entreprises inscrites peuvent rapporter, l’état du pays et les cibles du projet. Tous secteurs confondus.</p></div>
+    <div class="acts"><a class="cta-s" href="{% url 'accounts:inscription_compte' 'pme' %}">Je dirige une PME</a><a class="cta-p" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis {% ic 'fleche-d' 16 %}</a></div></div>
+  {{ v.hero }}
+  <div class="sh6"><span class="n">01</span><h3>Le pays en un coup d’œil</h3><span class="r">sources : FMI, BEAC, CNUCED, S&amp;P, Moody’s</span></div>
+  {% include 'core/_bloc_pays.html' %}
+  <div class="sh6"><span class="n">02</span><h3>Cible à 36 mois</h3><span class="r">jamais additionnée aux chiffres réels</span></div>
+  {% include 'core/_bloc_cibles.html' %}
+  <p class="note-tdb">Hypothèse : 10 % des entreprises scorées obtiennent un financement. Réalisé à ce jour : 0 closing.</p>
+  <div class="sh6" id="financement"><span class="n">03</span><h3>Financement des PME au Cameroun</h3><span class="r">aperçu de l’app, entreprise de démonstration</span></div>
+  {% include 'core/_bloc_financement.html' %}
+</div></section>
+
+{# ================= Diagnostic express (tableau de bord) ================= #}
+<section class="zone-tdb" id="diagnostic"><div class="ldwrap">
+  <div class="diag">
+    <div class="bx diag-q">
+      <p class="kk">Diagnostic express</p><h2>Où en est votre dossier ?</h2>
+      <p class="diag-sous">6 questions, 45 secondes. Rien n’est enregistré.</p>
+      <form id="diag" onsubmit="return false">
+        {% for q, poids in diagnostic %}
+        <fieldset class="dq"><legend>{{ q }}</legend>
+          <label><input type="radio" name="q{{ forloop.counter }}" value="{{ poids }}"><span>Oui</span></label>
+          <label><input type="radio" name="q{{ forloop.counter }}" value="0"><span>Non</span></label></fieldset>
+        {% endfor %}
+      </form>
+    </div>
+    <div class="diag-r">
+      <p class="d-k">Votre score déclaratif</p>
+      <p class="d-num" data-diag-score>0<small>/100</small></p>
+      <div class="d-barre"><i data-diag-barre></i></div>
+      <p class="d-grade" data-diag-grade>Répondez aux questions</p>
+      <p class="d-ex" data-diag-texte>Le grade suit les paliers du passeport : Structuring, Pré-Ready, Investment-Ready, puis Série A et Institutional-Ready.</p>
+      <div class="d-in"><p>Sans pièce, un score s’arrête à 59. Le passeport complet vérifie vos pièces et calcule deux lectures : banque et fonds.</p>
+        <a class="cta-p" href="{% url 'accounts:inscription_compte' 'pme' %}">Créer mon passeport {% ic 'fleche-d' 16 %}</a></div>
+    </div>
+  </div>
+</div></section>
+
+{# ================= Récit (direction artistique du site v2) ================= #}
+<div id="parcours">
+<section class="rv-bleed"><img src="{% static 'img/recit/douala.webp' %}" alt="Rue animée de Douala vue d’en haut, motos et passants" loading="lazy"><div class="rv-bleed-tx">
+  <p class="rv-eyebrow light">Douala, 7 h</p><h2>La ville est déjà au travail.</h2>
+  <p>Awa dirige Savane Agro, une PME qui transforme le manioc et la banane plantain en farines vendues au Cameroun, au Gabon et au Congo. Pour suivre la demande, elle doit trouver 500 millions de francs CFA.</p>
+  <p>Elle a l’activité. Il lui manque un dossier qu’une banque ou un fonds peut vérifier vite.</p>
+  <p class="rv-note">Awa et Savane Agro sont des personnages de démonstration.</p></div></section>
+
+<section class="rv-story right"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head"><p class="rv-eyebrow">Chapitre 1 · Préparer</p><h2>Un passeport, <em>pas un formulaire.</em></h2></header>
+  <div class="rv-grid"><div class="rv-steps">
+    <article class="rv-step" data-s="03-preparation"><p class="rv-k"><span>01</span>Passeport</p><h3>Un score, deux lectures.</h3>
+      <p>Le même dossier est lu comme le lirait une banque et comme le lirait un fonds. À côté, la confiance des données dit ce qui est déclaré, justifié par une pièce ou attesté par un tiers.</p></article>
+    <article class="rv-step" data-s="04-dossier"><p class="rv-k"><span>02</span>Data room</p><h3>Douze dossiers, dans l’ordre d’une due diligence.</h3>
+      <p>Statuts, DSF, attestation de non-redevance, table de capitalisation, contrats : chaque dossier montre ce qui est déposé et ce qui manque.</p>
+      <figure class="rv-inl"><img src="{% static 'img/recit/plantain.webp' %}" alt="Motos chargées de régimes de plantain sur une route de Douala" loading="lazy"><figcaption>De la filière au dossier : chaque contrat fournisseur devient une pièce.</figcaption></figure></article>
+    <article class="rv-step" data-s="05-piece"><p class="rv-k"><span>03</span>Check-up local</p><h3>Les blocages d’ici, traités d’abord.</h3>
+      <p>Régime IGS ou réel, DSF, CGA, compte courant d’associé, cohérence du capital : on repère ce qui bloque un dossier avant qu’un investisseur ne le découvre.</p></article>
+    <article class="rv-step" data-s="e2-erreur"><p class="rv-k"><span>04</span>Transparence</p><h3>Ce que vous déclarez se négocie.</h3>
+      <p>Une faiblesse déclarée avec un plan de correction pèse moins qu’une faiblesse découverte pendant la due diligence.</p></article>
+  </div><div class="rv-devcol appareils">{% include 'core/_tel_ios.html' with ident='st1' depart='03-preparation' echelle='0.62' %}</div></div>
+</div></section>
+
+<section class="rv-story left"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head"><p class="rv-eyebrow">Chapitre 2 · Monter le financement</p><h2>Plusieurs sources, <em>une seule vision.</em></h2></header>
+  <figure class="rv-rise rv-ch-photo"><img src="{% static 'img/recit/financer.webp' %}" alt="Entrepreneure au travail dans son atelier" loading="lazy"></figure>
+  <div class="rv-grid"><div class="rv-steps">
+    <article class="rv-step" data-s="06-montant"><p class="rv-k"><span>05</span>Montant légitime</p><h3>Demander juste.</h3>
+      <p>Besoin réel, capacité d’endettement, capacité en capital : trois calculs donnent une fourchette que l’on peut défendre.</p></article>
+    <article class="rv-step" data-s="09-financehub"><p class="rv-k"><span>06</span>Montage</p><h3>500 millions se lèvent rarement d’un seul chèque.</h3>
+      <p>Crédit-bail, banque, fonds propres, garanties, incitations : trois montages chiffrés. Et quand céder des parts n’est pas nécessaire, l’outil le dit.</p></article>
+    <article class="rv-step" data-s="07-projections"><p class="rv-k"><span>07</span>Projections</p><h3>Tester le pire avant le comité.</h3>
+      <p>Retard d’export, hausse du manioc, ventes en baisse : la couverture de la dette et la trésorerie se recalculent.</p></article>
+    <article class="rv-step" data-s="08-risques"><p class="rv-k"><span>08</span>Risques</p><h3>Chaque risque a sa parade.</h3>
+      <p>Classés du plus grave au moins grave, avec la mesure prévue. Awa arrive au rendez-vous avec la réponse.</p></article>
+  </div><div class="rv-devcol appareils">{% include 'core/_tel_ios.html' with ident='st2' depart='06-montant' echelle='0.62' %}</div></div>
+</div></section>
+
+<section class="rv-story right"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head"><p class="rv-eyebrow">Chapitre 3 · Rencontrer</p><h2>Les bons financeurs, <em>pour les bonnes raisons.</em></h2></header>
+  <figure class="rv-rise rv-ch-photo"><img src="{% static 'img/recit/investisseur.webp' %}" alt="Investisseur en costume bleu, en extérieur" loading="lazy"></figure>
+  <div class="rv-grid"><div class="rv-steps">
+    <article class="rv-step" data-a="10-investisseurs" data-b="13a-decouverte"><p class="rv-k"><span>09</span>Compatibilité</p><h3>Expliquée critère par critère.</h3>
+      <p>Secteur, ticket, zone, stade, instrument, ESG. Le même indice des deux côtés, et jamais une probabilité d’investir.</p></article>
+    <article class="rv-step" data-a="11-nda" data-b="13b-interesse"><p class="rv-k"><span>10</span>Accès</p><h3>La data room s’ouvre après un accord.</h3>
+      <p>L’investisseur demande l’accès, la PME choisit ce qu’elle partage et signe l’accord de confidentialité. Chaque ouverture est inscrite au journal.</p></article>
+    <article class="rv-step" data-a="12-suivi" data-b="15-fiche-pme"><p class="rv-k"><span>11</span>Suivi</p><h3>Jusqu’au closing, chaque étape datée.</h3>
+      <p>Réunion, due diligence, term sheet : le suivi montre l’âge de chaque étape. Un abandon s’accompagne toujours d’un motif.</p></article>
+  </div><div class="rv-devcol appareils"><div class="rv-duo">{% include 'core/_tel_ios.html' with ident='st3a' depart='10-investisseurs' echelle='0.5' %}{% include 'core/_tel_android.html' with ident='st3b' depart='13a-decouverte' echelle='0.49' %}</div>
+    <div class="rv-duo-l"><span>Côté PME · iPhone</span><span>Côté investisseur · Android</span></div></div></div>
+</div></section>
+
+<section class="rv-split"><div class="rv-wrap"><figure><img src="{% static 'img/recit/reunion.webp' %}" alt="Équipe en réunion autour d’une table" loading="lazy"></figure>
+  <div><p class="rv-eyebrow">Le jour du comité</p><h2>Moins de temps à prouver, <em>plus de temps à convaincre.</em></h2>
+    <p class="rv-lead">Quand l’analyste ouvre la data room, les chiffres sont rangés, recoupés, expliqués. La réunion peut parler du projet, de l’équipe et de la croissance.</p>
+    <a class="rv-cta" href="{% url 'accounts:inscription_compte' 'pme' %}">Préparer mon dossier</a></div></div></section>
+</div>
+
+{# ================= La chaîne Ankadez ================= #}
+<section class="rv-trustsec" id="chaine"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">La chaîne Ankadez</p><h2>De la structuration <em>au marché financier.</em></h2>
+    <p class="rv-lead c">Un seul passeport, transmis avec l’accord de la PME, d’un guichet à l’autre.</p></header>
+  <ol class="echelle">
+    <li><span class="eta">1</span><b>APME · structuration</b><span>Structuring à Pré-Ready</span><p>Profil de l’entreprise et plan de mise à niveau.</p></li>
+    <li><span class="eta">2</span><b>API · investissement</b><span>Investment-Ready à Série A</span><p>Dossier complet, montage chiffré, confiance des données.</p></li>
+    <li><span class="eta">3</span><b>BVMAC · marché financier</b><span>Institutional-Ready</span><p>Préparation à long terme, sans promesse d’introduction en bourse.</p></li>
+  </ol>
+  <div class="rv-cards">
+    <div><b>Autour de la PME</b><p>Chaînes de valeur et territoires, diaspora (missions économiques, Back2Mboa), partenaires techniques et financiers, investisseurs.</p></div>
+    <div><b>Produits utiles</b><p>Affacturage, crédit-bail, garanties (MINFI, FAGACE, CDEC, IFC) et incitations de l’État, présentées comme probables, jamais comme acquises.</p></div>
+    <div><b>Accompagnement</b><p>Juridique, propriété intellectuelle, structuration, incubateurs. <a href="{% url 'annuaire:ecosysteme' %}">Voir l’écosystème</a></p></div>
+  </div>
+</div></section>
+
+{# ================= Confiance ================= #}
+<section class="rv-trustsec"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Confiance</p><h2>La confiance <em>se voit.</em></h2></header>
+  <div class="rv-proofs">
+    <div><span class="x-badge b-decl">Déclaré</span><p>Donnée fournie par l’entreprise, sans pièce</p></div>
+    <div><span class="x-badge b-coh">Justifié</span><p>Appuyé par une pièce chargée dans la data room</p></div>
+    <div><span class="x-badge b-cert">Attesté</span><p>Confirmé par un expert-comptable, un CGA ou une banque</p></div>
+  </div>
+  <div class="rv-cards">
+    <div><b>Jamais une probabilité</b><p>L’indice mesure l’adéquation à une thèse, critère par critère. Il ne promet aucun financement.</p></div>
+    <div><b>Vos données, vos choix</b><p>La PME décide ce qu’elle partage. Aucun investisseur ne reçoit un profil sans son accord.</p></div>
+    <div><b>Un cadre public nommé</b><p>Tutelle : MINPMEESA, MINEPAT, MINFI. Agences : API, APME. Régulateurs : OHADA, COBAC, COSUMAF, ANTIC.</p></div>
+  </div>
+</div></section>
+
+{% include 'core/_appareils.html' %}
+
+<section class="rv-bleed end"><img src="{% static 'img/recit/agricultrice.webp' %}" alt="Agricultrice tenant des herbes dans un champ" loading="lazy"><div class="rv-bleed-tx">
+  <h2>Derrière chaque dossier, <em>une entreprise qui nourrit une ville.</em></h2>
+  <p>Ankadez aide les PME camerounaises à montrer ce qu’elles valent, et les investisseurs à le vérifier.</p>
+  <div class="rv-actions"><a class="rv-cta light" href="{% url 'accounts:inscription_compte' 'pme' %}">Créer mon passeport</a><a class="rv-cta ghost light" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis</a></div></div></section>
+
+<footer class="rv-foot"><div class="rv-wrap">
+  <p class="rv-logo">{% include 'partials/logo.html' with taille=28 %}Ankadez</p>
+  <p>CIF 2026 · Défi n°3 · conçu par <b>Yoan Tioma</b>.</p>
+  <p class="rv-small">Ankadez n’est ni une banque, ni un conseiller en investissement, ni une plateforme de financement participatif. Les montants et les taux affichés sont indicatifs. Entreprises et personnes de démonstration fictives. Photographies Unsplash.</p>
+</div></footer>
+</div>
+{% endblock %}
+{% block scripts %}{% include 'core/_appareils_ecrans.html' %}<script src="{% static 'js/appareils.js' %}" defer></script><script src="{% static 'js/accueil.js' %}" defer></script>{% endblock %}

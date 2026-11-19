@@ -1,16 +1,15 @@
-{% extends 'base.html' %}{% load rm %}
+{% extends 'base_web.html' %}{% load rm %}
 {% block title %}Pipeline{% endblock %}
 {% block content %}
-<div class="gh"><div><p class="bc">{{ user.organisation.nom }} › Pipeline</p><h1>Votre pipeline <em>· {{ total }} deal{{ total|pluralize }}</em></h1></div>
-  <div class="acts"><a class="btn p" href="{% url 'investissement:marketplace' %}">Trouver des entreprises</a></div></div>
+<header class="ph"><div><p class="kicker">{{ user.organisation.nom }} · {{ total }} deal{{ total|pluralize }} · chaque étape datée</p><h1>Pipeline</h1></div>
+  <div class="ph-act"><a class="btn p" href="{% url 'investissement:marketplace' %}">{% ic 'pile' 16 %}Trouver des PME</a></div></header>
 <div class="kanban">{% for code, lab, items in colonnes %}
-  <section class="kcol"><h3><span>{{ lab }}</span><span class="chip n">{{ items|length }}</span></h3>
-    {% for d in items %}<article class="kcard"><b><a href="{% url 'investissement:fiche' d.entreprise.slug %}" style="color:var(--encre);text-decoration:none">{{ d.entreprise.nom }}</a></b>
-      <span class="t1">Indice {{ d.indice|default:'—' }} · depuis le {{ d.updated_at|date:'d/m' }}</span>
-      {% if d.statut == 'abandon' %}<span class="t1">Motif : {{ d.motif_abandon }}</span>
-      {% elif d.statut != 'closing' %}<form method="post" action="{% url 'investissement:faire_avancer' d.pk %}" data-loader="Mise à jour du deal…">{% csrf_token %}
-        {% if d.statut == 'demande' %}<span class="chip warn">En attente de l’accord de la PME</span>{% else %}<button class="btn sm p w" name="action" value="avancer" type="submit">Étape suivante</button>{% endif %}</form>
-        <details><summary class="t1" style="cursor:pointer">Abandonner</summary><form method="post" action="{% url 'investissement:faire_avancer' d.pk %}" class="form" style="gap:6px;margin-top:6px" data-loader="Mise à jour du deal…">{% csrf_token %}
-          <input type="text" name="motif" placeholder="Motif (obligatoire)" required><button class="btn sm w" name="action" value="abandon" type="submit">Confirmer l’abandon</button></form></details>{% endif %}
-    </article>{% empty %}<p class="t1">—</p>{% endfor %}</section>{% endfor %}</div>
+  <div class="kcol"><h3>{{ lab }} <span>{{ items|length }}</span></h3>
+    {% for d in items %}<div class="kcard"><a href="{% url 'investissement:fiche' d.entreprise.slug %}" data-loader="Ouverture de la fiche…">{% if d.photo %}<span class="thumb" style="background-image:url('{{ d.photo }}')"></span>{% else %}<span class="thumb sans-photo">{{ d.entreprise.initiales }}</span>{% endif %}<div><b>{{ d.entreprise.nom }}</b><span>{% if d.ticket %}{{ d.ticket }} · {% endif %}indice {{ d.indice|default:'—' }} · {{ d.updated_at|date:'d/m' }}</span></div></a>
+      {% if d.statut == 'abandon' %}<div class="k-act"><span class="muted" style="font-size:12px">Motif : {{ d.motif_abandon }}</span></div>
+      {% elif d.statut != 'closing' %}<div class="k-act">
+        {% if d.statut == 'demande' %}<span class="pill warn">En attente de l’accord de la PME</span>{% else %}<form method="post" action="{% url 'investissement:faire_avancer' d.pk %}" data-loader="Mise à jour du deal…">{% csrf_token %}<button class="btn p" name="action" value="avancer" type="submit">Étape suivante</button></form>{% endif %}
+        <details><summary>Abandonner</summary><form method="post" action="{% url 'investissement:faire_avancer' d.pk %}" class="form" style="gap:6px;margin-top:6px" data-loader="Mise à jour du deal…">{% csrf_token %}
+          <input type="text" name="motif" placeholder="Motif (obligatoire)" required aria-label="Motif de l’abandon"><button class="btn s" name="action" value="abandon" type="submit">Confirmer l’abandon</button></form></details></div>{% endif %}
+    </div>{% empty %}<p class="muted">Aucun deal</p>{% endfor %}</div>{% endfor %}</div>
 {% endblock %}

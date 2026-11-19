@@ -11,5 +11,7 @@ urlpatterns = [
     path('finances/', views.finances, name='finances'),
     path('profil/', views.profil, name='profil'),
     path('investisseurs/', views.investisseurs, name='investisseurs'),
+    path('deals/', views.deals, name='deals'),
+    path('niveau/', views.niveau, name='niveau'),
     path('demandes/<int:pk>/accepter/', views.accepter_demande, name='accepter_demande'),
 ]

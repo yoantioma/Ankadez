@@ -66,3 +66,10 @@ def ic(nom, taille=20):
     corps = _ICONES.get(nom, '')
     return mark_safe(f'<svg class="ic" width="{taille}" height="{taille}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
                      f'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{corps}</svg>')
+
+
+@register.filter
+def depuis(d):
+    """Durée écoulée, en une seule unité : « 3 jours », « 2 semaines »."""
+    from django.utils.timesince import timesince
+    return timesince(d).split(',')[0] if d else ''

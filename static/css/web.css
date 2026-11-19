@@ -1,0 +1,113 @@
+/* Espace web : compléments à maquette.css (formulaires, image de repli, petits écrans). */
+@import url('chargement.css');
+html,body{margin:0;background:#F8F8FB}
+:root[data-theme="dark"] body{background:#0E0D19}
+.wapp{min-height:100vh;overflow:visible;overflow-x:clip}
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:#fff;color:#15132B;padding:8px 12px;border-radius:10px}.skip:focus{left:16px}
+.wapp .tb,.wapp .main2{max-width:1440px;margin-left:auto;margin-right:auto;box-sizing:border-box}
+.wapp .brand .logo-mark{flex:none}
+.wapp .srch{text-decoration:none}
+.wapp .srch input{border:0;background:none;outline:none;font:inherit;color:var(--encre);width:100%;min-width:0;padding:0}
+.wapp .srch:focus-within{outline:2px solid var(--violet);outline-offset:1px}
+.wapp button.icb{cursor:pointer;padding:0;font:inherit}
+.wapp .rsw .menu form{margin:0}
+.wapp .rsw .menu button{width:100%;text-align:left;border:0;background:none;font:inherit;color:inherit;cursor:pointer}
+.wapp .rsw:focus-within .menu,.wapp .rsw:hover .menu{display:block}
+
+/* image de repli quand le secteur n'a pas de photo */
+.wapp .sans-photo{background:linear-gradient(135deg,#5536E8,#3F23C4)!important;display:grid;place-items:center;color:#fff;font-weight:700;letter-spacing:-.02em}
+.wapp .pc-img.sans-photo{font-size:44px}
+.wapp .thumb.sans-photo,.wapp .av4.sans-photo{font-size:15px}
+.wapp .dh-img.sans-photo{font-size:52px}
+
+/* formulaires (thèse, abandon d'un deal) */
+.wapp .form{display:flex;flex-direction:column;gap:16px}
+.wapp .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}.wapp .fgrid .full{grid-column:1/-1}
+.wapp .fl{display:flex;flex-direction:column;gap:6px}.wapp .fl label{font-size:13px;font-weight:700}
+.wapp .fl .help{font-size:12px;color:var(--t3)}.wapp .fl .err{font-size:12.5px;color:var(--erreur);font-weight:600}
+.wapp input[type=text],.wapp input[type=email],.wapp input[type=number],.wapp input[type=search],.wapp select,.wapp textarea{width:100%;box-sizing:border-box;min-height:44px;border:1px solid var(--lf);border-radius:14px;background:var(--surface);color:var(--encre);font:14px var(--f);padding:9px 12px}
+.wapp textarea{min-height:100px}
+.wapp input:focus-visible,.wapp select:focus-visible,.wapp textarea:focus-visible{outline:2px solid var(--violet);outline-offset:1px}
+.wapp .choices ul,.wapp .choices>div{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.wapp .choices label{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:13px;padding:8px 12px;border:1px solid var(--ligne);border-radius:999px;background:var(--surface);cursor:pointer}
+.wapp .choices input{accent-color:#5536E8}
+
+/* filtres de la marketplace. La feuille du canevas contient une autre règle .ck (case carrée de 24 px) : on la neutralise ici. */
+.wapp .filters{padding:18px}
+.wapp .filters .ch{margin-bottom:4px}
+.wapp .filters .fgrp{border:0;margin:0;padding:14px 0 0;min-width:0;border-top:1px solid var(--ligne);margin-top:14px}
+.wapp .filters .flab{margin:0 0 8px;padding:0;float:none}
+.wapp .filters .ck{width:auto;height:auto;border:0;border-radius:10px;flex:initial;display:flex;align-items:center;gap:10px;min-height:36px;padding:0 6px;margin:0 -6px;font-size:13.5px;color:var(--encre);cursor:pointer}
+.wapp .filters .ck:hover{background:var(--creux)}
+.wapp .filters .ck input{flex:none;width:18px;height:18px;margin:0;accent-color:var(--violet)}
+.wapp .filters .ck .ck-l{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wapp .filters .ck small{flex:none;font-size:12px;font-weight:600;color:var(--t3);background:var(--creux);border-radius:999px;padding:1px 8px}
+.wapp .filters details.plus summary{font-size:13px;font-weight:600;color:var(--violet);cursor:pointer;padding:6px 0;list-style:none}
+.wapp .filters details.plus summary::-webkit-details-marker{display:none}
+.wapp .filters details.plus summary::before{content:"+ "}
+.wapp .filters details.plus[open] summary::before{content:"− "}
+.wapp .fsrch{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border:1px solid var(--lf);border-radius:14px;background:var(--surface);color:var(--t3);margin-top:10px}
+.wapp .fsrch input{border:0!important;background:none!important;min-height:0!important;padding:0!important;outline:none;flex:1;min-width:0}
+.wapp .fsrch:focus-within{outline:2px solid var(--violet);outline-offset:1px}
+.wapp .filters .chip{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--lf);background:var(--surface);color:var(--t2);cursor:pointer}
+.wapp .sw{display:flex;align-items:center;gap:10px;font-size:13.5px;min-height:38px;cursor:pointer;position:relative}
+.wapp .sw input{position:absolute;opacity:0;width:1px;height:1px}
+.wapp .sw-t{flex:none;width:36px;height:22px;border-radius:999px;background:var(--lf);position:relative;transition:background .15s}
+.wapp .sw-t::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+.wapp .sw input:checked + .sw-t{background:var(--violet)}
+.wapp .sw input:checked + .sw-t::after{transform:translateX(14px)}
+.wapp .sw input:focus-visible + .sw-t{outline:2px solid var(--violet);outline-offset:2px}
+
+/* pile : glisser la carte */
+.wapp .pile-card{touch-action:pan-y;user-select:none;position:relative}
+.wapp .pile-card .pcard{cursor:grab}
+.wapp .pile-card[data-sens="ok"] .pcard:not([hidden]){box-shadow:0 0 0 3px var(--violet),var(--o2)}
+.wapp .pile-card[data-sens="non"] .pcard:not([hidden]){box-shadow:0 0 0 3px var(--erreur),var(--o2)}
+.wapp .pile-btns[hidden]{display:none}
+
+/* vue pays : trois secteurs les plus porteurs en haut à droite */
+.wapp .gh .top3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.wapp .gh .top3 .t1{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--t3);margin-right:4px}
+.wapp .gh .top3 .rang{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--creux);color:var(--encre);font-size:12px}
+.wapp .gh .top3 .pbtn.p .rang{background:rgba(255,255,255,.22);color:#fff}
+.wapp .vue-pays{padding:0;max-width:none}
+.wapp .note-tdb{margin:4px 2px 0;font-size:13px;color:var(--t3)}
+
+/* filtres de la marketplace : les puces sont de vraies cases à cocher */
+.wapp .chips label.chip{display:inline-flex;align-items:center;position:relative}
+.wapp .chips label.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.wapp .chips label.chip:has(input:checked){background:var(--violet);border-color:var(--violet);color:var(--sv)}
+.wapp .chips label.chip:has(input:focus-visible){outline:2px solid var(--violet);outline-offset:2px}
+.wapp .filters .btn.p{width:100%;margin-top:18px}
+.wapp .mk-main .pag{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:18px}
+.wapp .vide{text-align:center;padding:48px 20px;color:var(--t2)}
+.wapp .vide b{display:block;color:var(--encre);font-size:17px;margin-bottom:6px}
+.wapp .pile-card .pcard[hidden]{display:none}
+
+/* pipeline : sept colonnes (les six étapes et les abandons), actions dans la carte */
+.wapp .kanban{grid-template-columns:repeat(7,minmax(180px,1fr))}
+.wapp .kcard{flex-wrap:wrap}
+.wapp .kcard>a{display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit;flex:1;min-width:0}
+.wapp .kcard .k-act{flex-basis:100%;display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.wapp .kcard .k-act summary{font-size:12px;color:var(--t3);cursor:pointer}
+.wapp .kcard .k-act .btn{min-height:36px;font-size:13px;padding:0 12px;width:100%}
+
+.wapp .chips2{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.wapp .chips2 span{font-size:12px;font-weight:600;color:var(--t2);background:var(--surface);border:1px solid var(--ligne);border-radius:999px;padding:4px 10px}
+.wapp .cartouche{margin:22px 0 0;padding:12px 14px;border:1px dashed var(--lf);border-radius:14px;font-size:12.5px;line-height:1.55;color:var(--t3)}
+
+@media (max-width:1180px){.wapp .pn span{display:none}.wapp .pn a{padding:8px 10px}}
+@media (max-width:900px){
+  .wapp .tb{padding:14px 16px 0;flex-wrap:wrap}.wapp .pn{order:3;flex-basis:100%;overflow-x:auto}.wapp .pn span{display:inline}.wapp .srch{display:none}
+  .wapp .main2{padding:18px 16px 28px}
+  .wapp .kp{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wapp .dh{grid-template-columns:1fr}.wapp .dh-img{width:100%}.wapp .compat{justify-content:flex-start}
+  .wapp .bento{grid-template-columns:1fr;grid-template-areas:"ph" "bg" "ls" "ck" "ln" "le" "dk"}
+  .wapp .bbig{grid-template-columns:1fr}
+  .wapp .fgrid{grid-template-columns:1fr}
+  .wapp .g2,.wapp .g3{grid-template-columns:1fr}.wapp .span2{grid-column:auto}
+  .wapp .gh{flex-direction:column;align-items:flex-start}
+  .wapp .gh .acts{flex-wrap:wrap;width:100%}.wapp .gh .acts form,.wapp .gh .acts select{width:100%;min-width:0!important}
+  .wapp .kpi1 b{white-space:nowrap}
+  .wapp .tbr{flex-basis:auto}.wapp .rsw>span{font-size:0;gap:0;padding:0 4px}.wapp .rsw>span .av3{font-size:13px}
+}

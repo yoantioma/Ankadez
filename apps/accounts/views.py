@@ -97,8 +97,8 @@ def _onboarding_investisseur(request, user):
             these.secteurs.set(d['secteurs'])
             user.organisation = org
             user.save(update_fields=['organisation'])
-        messages.success(request, 'Votre thèse est enregistrée. Voici les entreprises compatibles.')
-        return redirect('investissement:marketplace')
+        messages.success(request, 'Votre thèse est enregistrée. Voici le Cameroun et les secteurs qui comptent pour vous.')
+        return redirect('investissement:cameroun')
     return render(request, 'accounts/onboarding.html', _ctx('investisseur', 1, form, submit='Voir les entreprises compatibles'))
 
 

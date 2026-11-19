@@ -1,24 +1,81 @@
-{% extends 'base.html' %}{% load rm %}
-{% block title %}Finances{% endblock %}
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Financer{% endblock %}
 {% block content %}
-<div class="gh"><div><p class="bc"><a href="{% url 'pme:tableau' %}">{{ org.nom }}</a> › Finances</p><h1>Vos comptes, <em>en clair.</em></h1></div></div>
-<div class="g" style="grid-template-columns:minmax(0,1fr) 400px;align-items:start">
-  <div class="g">
-    <section class="card tbl"><div class="ch"><h3>Exercices déclarés</h3><span class="t1">FCFA · SYSCOHADA</span></div>
+<header class="ph"><div><p class="kicker">{% if profil.ticket_recherche %}Besoin déclaré : {{ profil.ticket_recherche|fcfa }}{% if profil.get_instrument_souhaite_display %} · {{ profil.get_instrument_souhaite_display|lower }}{% endif %} · {% endif %}montants en FCFA</p><h1>Financer</h1></div><div class="ph-act"></div></header>
+<input type="radio" class="tr" name="w12-fin" id="w12-fin-montant"{% if not ouvrir_exercices %} checked{% endif %}><input type="radio" class="tr" name="w12-fin" id="w12-fin-proj"{% if ouvrir_exercices %} checked{% endif %}><input type="radio" class="tr" name="w12-fin" id="w12-fin-risk"><input type="radio" class="tr" name="w12-fin" id="w12-fin-hub">
+<div class="tabs" role="tablist"><label for="w12-fin-montant">Montant légitime</label><label for="w12-fin-proj">Exercices</label><label for="w12-fin-risk">Stress tests</label><label for="w12-fin-hub">Simulateurs</label></div>
+
+<div class="tp" data-p="fin-montant"><div class="g g3">
+  <section class="card span2">{% if montant %}<p class="kicker">Fourchette légitime · calcul indicatif, jamais bloquant</p>
+      <p class="hero-n">{{ curseur.bas }} – {{ curseur.haut }} <span>M FCFA</span></p>
+      <label class="lbl" for="dem">Votre demande : <b id="dem-v">{{ curseur.demande }} M</b></label>
+      <div class="range-w"><span class="zone" style="left:{{ curseur.zone_g|stringformat:'s' }}%;width:{{ curseur.zone_l|stringformat:'s' }}%"></span><input id="dem" type="range" min="0" max="{{ curseur.max }}" step="5" value="{{ curseur.demande }}" aria-describedby="dem-msg" data-bas="{{ curseur.bas }}" data-haut="{{ curseur.haut }}"></div>
+      <div class="bornes"><span>0</span><span>{{ curseur.max }} M</span></div>
+      <div class="alert" id="dem-msg" role="status">{% ic 'info' 18 %}<span></span></div>
+      <p class="note">{% ic 'info' 14 %} Le curseur sert à tester un autre montant. Pour changer votre demande, modifiez le <a href="{% url 'pme:profil' %}">profil de l’entreprise</a>.</p>
+    {% else %}<p class="kicker">Fourchette légitime</p><p class="hero-n" style="font-size:34px">À calculer</p>
+      <p class="muted">Il faut un exercice avec EBITDA (onglet Exercices) et un montant recherché (dans le <a href="{% url 'pme:profil' %}">profil</a>).</p>{% endif %}</section>
+  <section class="card"><div class="ch"><h3>Trois méthodes</h3></div>
+    {% if montant %}<ul class="rows">{% for lab, v in montant.methodes %}<li><div><b>{{ lab }}</b><span>{% if forloop.counter == 1 %}ce que vous demandez{% elif forloop.counter == 2 %}4 ans d’EBITDA couverts à 1,2, moins la dette nette{% else %}30 % d’une valeur de 5 fois l’EBITDA{% endif %}</span></div><b class="idx">{{ v|fcfa }}</b></li>{% endfor %}</ul>
+    {% else %}<p class="muted">Les trois calculs apparaîtront ici.</p>{% endif %}</section>
+</div></div>
+
+<div class="tp" data-p="fin-proj">
+  {% if kpis %}<div class="kpis">{% for lab, val, d, preuve in kpis %}<div><b>{{ val }}</b><span>{{ lab }}</span></div>{% endfor %}</div>{% endif %}
+  <div class="g g3">
+    <section class="card span2 tbl"><div class="ch"><h3>Exercices déclarés</h3><span>FCFA · SYSCOHADA</span></div>
       {% if exercices %}<table><thead><tr><th>Année</th><th>Chiffre d’affaires</th><th>Marge brute</th><th>EBITDA</th><th>Marge EBITDA</th><th>DSCR</th><th>Preuve</th></tr></thead><tbody>
       {% for e in exercices %}<tr><td><b>{{ e.annee }}</b></td><td>{{ e.chiffre_affaires|fcfa }}</td><td>{{ e.marge_brute|fcfa }}</td><td>{{ e.ebitda|fcfa }}</td>
-        <td>{% if e.marge_ebitda is not None %}{{ e.marge_ebitda|virgule }} %{% else %}—{% endif %}</td><td>{% if e.dscr %}<span class="chip {% if e.dscr >= 1.2 %}ok{% else %}warn{% endif %}">{{ e.dscr|virgule:2 }}</span>{% else %}—{% endif %}</td>
-        <td><span class="chip n">{{ e.get_niveau_preuve_display }}</span></td></tr>{% endfor %}</tbody></table>
-      {% else %}<div class="empty"><div class="ico">{% ic 'calc' 26 %}</div><b>Aucun exercice pour l’instant.</b><p>Commencez par le dernier exercice clos.</p></div>{% endif %}</section>
-    <section class="card"><div class="ch"><div><p class="t1">Trois méthodes, une fourchette</p><h3>Montant légitime</h3></div></div>
-      {% if montant %}<p class="big">{{ montant.bas|fcfa }} – {{ montant.haut|fcfa }}<small>FCFA, demande {{ montant.demande|fcfa }}</small></p>
-        <div class="dims" style="margin-top:14px">{% for lab, v in montant.methodes %}<div class="dim"><span>{{ lab }}</span><span class="bar"><i style="width:{% widthratio v montant.demande 100 %}%"></i></span><b>{{ v|fcfa }}</b></div>{% endfor %}</div>
-        <p class="note">{% ic 'info' 14 %} Capacité d’endettement : 4 ans d’EBITDA couverts à 1,2, moins la dette nette. Capacité en capital : 30 % d’une valeur de 5 fois l’EBITDA. Indicatif.</p>
-      {% else %}<p class="muted">Il faut un exercice avec EBITDA et un montant recherché (dans votre profil).</p>{% endif %}</section>
+        <td>{% if e.marge_ebitda is not None %}{{ e.marge_ebitda|virgule }} %{% else %}—{% endif %}</td><td{% if e.dscr and e.dscr < 1.2 %} class="bad-t"{% endif %}>{% if e.dscr %}{{ e.dscr|virgule:2 }}{% else %}—{% endif %}</td>
+        <td><span class="proof {% if e.niveau_preuve == 'certifie' %}p-cert{% elif e.niveau_preuve == 'recoupe' %}p-rec{% elif e.niveau_preuve == 'coherent' %}p-coh{% else %}p-decl{% endif %}">{{ e.get_niveau_preuve_display }}</span></td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="muted">Aucun exercice pour l’instant. Commencez par le dernier exercice clos.</p>{% endif %}</section>
+    <section class="card"><div class="ch"><h3>Déclarer un exercice</h3><span>en millions de FCFA</span></div>
+      <form method="post" class="form" novalidate data-loader="Recalcul de vos indicateurs…">{% csrf_token %}
+        {% for f in form %}{% include 'partials/champ.html' with f=f %}{% endfor %}
+        <button class="btn p" type="submit">Enregistrer l’exercice</button></form>
+      <p class="note">{% ic 'info' 14 %} Une année déjà saisie est mise à jour.</p></section>
   </div>
-  <aside class="card" style="position:sticky;top:16px"><h3>Déclarer un exercice</h3><p class="muted" style="font-size:13px;margin:4px 0 14px">Montants en millions de FCFA. Une année déjà saisie est mise à jour.</p>
-    <form method="post" class="form" novalidate data-loader="Recalcul de vos indicateurs…">{% csrf_token %}
-      {% for f in form %}{% include 'partials/champ.html' with f=f %}{% endfor %}
-      <button class="btn p w" type="submit">Enregistrer l’exercice</button></form></aside>
 </div>
+
+<div class="tp" data-p="fin-risk"><div class="g g3">
+  <section class="card span2 tbl"><div class="ch"><h3>Stress tests</h3><span>couverture de la dette (DSCR)</span></div>
+    {% if stress %}<table><tbody>{% for lab, v, sous in stress %}<tr><td>{{ lab }}</td><td{% if sous %} class="bad-t"{% endif %}><b>{{ v }}</b></td><td>{% if sous %}<span class="pill bad">Sous 1,2</span>{% else %}<span class="pill ok">Au-dessus</span>{% endif %}</td></tr>{% endfor %}</tbody></table>
+      <p class="note">{% ic 'info' 14 %} Calculés sur votre dernier exercice. En dessous de 1,2, une banque demande des garanties.</p>
+    {% else %}<p class="muted">Déclarez un EBITDA et un service annuel de la dette pour tester votre couverture.</p>{% endif %}</section>
+  <section class="card"><div class="ch"><h3>Ce que regarde une banque</h3></div>
+    <ul class="rows"><li><div><b>DSCR ≥ 1,2</b><span>l’EBITDA couvre 1,2 fois les échéances</span></div></li><li><div><b>Dette nette / EBITDA</b><span>sous 3 fois, c’est confortable</span></div></li><li><div><b>Comptes attestés</b><span>un expert-comptable ou un CGA</span></div></li></ul></section>
+</div></div>
+
+<div class="tp" data-p="fin-hub"><div class="g g2">
+  <section class="card sim"><div class="ch"><h3>Simulateur de crédit</h3><span>indicatif</span></div>
+    <div class="form2"><label>Capital (M)<input id="s-cap" type="number" value="{% if montant %}{{ curseur.haut }}{% else %}100{% endif %}" min="1"></label><label>Durée (mois)<input id="s-dur" type="number" value="60" min="6"></label>
+      <label>Taux (%/an)<input id="s-tx" type="number" value="12" step="0.5" min="0"></label><label>Différé (mois)<input id="s-dif" type="number" value="6" min="0"></label></div>
+    <p class="kicker">Échéance mensuelle après différé</p><p class="hero-n sm" id="s-ech">— <span>M / mois</span></p><p class="muted" id="s-tot"></p>
+    <p class="note">{% ic 'info' 14 %} Taux indicatifs, non offre de crédit.</p></section>
+  <section class="card sim"><div class="ch"><h3>Combien de parts cédez-vous ?</h3><span>avant de lever des fonds propres</span></div>
+    <div class="form2"><label>Valorisation avant l’apport (M)<input id="dil-pre" type="number" min="1" value="800"></label><label>Montant levé (M)<input id="dil-mt" type="number" min="0" value="200"></label></div>
+    <p class="kicker">Part cédée à l’investisseur</p><p class="hero-n sm" id="dil-part">— </p><p class="muted" id="dil-post"></p>
+    <p class="note">{% ic 'info' 14 %} Si votre besoin peut se couvrir par crédit-bail ou banque, vous n’avez pas forcément besoin de céder des parts.</p></section>
+</div></div>
+{% include 'partials/cartouche.html' %}
 {% endblock %}
+{% block scripts %}<script>
+(function(){
+  var fr=function(v,d){return v.toLocaleString('fr-FR',{maximumFractionDigits:d,minimumFractionDigits:d})};
+  var dem=document.getElementById('dem');
+  if(dem){var out=document.getElementById('dem-v'),msg=document.getElementById('dem-msg'),bas=+dem.dataset.bas,haut=+dem.dataset.haut;
+    var maj=function(){var v=+dem.value;out.textContent=fr(v,0)+' M';var t=msg.querySelector('span');
+      if(v>haut){msg.className='alert warn';t.textContent='Ce montant dépasse la fourchette de '+fr(v-haut,0)+' M FCFA (+'+fr((v-haut)/haut*100,0)+' %). Vous pouvez le garder et justifier l’écart.'}
+      else if(v<bas){msg.className='alert info';t.textContent='Ce montant est sous la fourchette : vos chiffres permettent de demander davantage.'}
+      else{msg.className='alert ok';t.textContent='Ce montant est dans la fourchette justifiée par vos chiffres.'}};
+    dem.addEventListener('input',maj);maj()}
+  var cap=document.getElementById('s-cap'),dur=document.getElementById('s-dur'),tx=document.getElementById('s-tx'),dif=document.getElementById('s-dif'),ech=document.getElementById('s-ech'),tot=document.getElementById('s-tot');
+  function credit(){var C=+cap.value||0,n=Math.max(1,(+dur.value||0)-(+dif.value||0)),r=(+tx.value||0)/1200;
+    var m=r?C*r/(1-Math.pow(1+r,-n)):C/n;var interets=m*n-C+C*r*(+dif.value||0);
+    ech.innerHTML=fr(m,2)+' <span>M / mois</span>';tot.textContent='Coût total du crédit : '+fr(interets,1)+' M, dont intérêts du différé.'}
+  [cap,dur,tx,dif].forEach(function(i){i.addEventListener('input',credit)});credit();
+  var pre=document.getElementById('dil-pre'),mt=document.getElementById('dil-mt'),part=document.getElementById('dil-part'),post=document.getElementById('dil-post');
+  function dil(){var a=+pre.value||0,b=+mt.value||0,p=a+b;part.textContent=p?fr(b/p*100,1)+' %':'—';post.textContent='Valorisation après l’apport : '+fr(p,0)+' M FCFA.'}
+  [pre,mt].forEach(function(i){i.addEventListener('input',dil)});dil();
+})();
+</script>{% endblock %}

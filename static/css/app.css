@@ -1,4 +1,4 @@
-/* ReadyMatch · direction artistique « Lumière » en grille de cartes. Clair et sombre. */
+/* Ankadez · direction artistique « Lumière » en grille de cartes. Clair et sombre. */
 :root{--fond:#F4F4F8;--surface:#FFFFFF;--creux:#F1F0F7;--ligne:#E5E3EE;--lf:#8E8BA6;--encre:#15132B;--t2:#4E4B66;--t3:#6B6884;
 --violet:#5536E8;--vp:#3F23C4;--vd:#EEEAFF;--soleil:#FFC53D;--graphe:#1E9E6C;--succes:#17754E;--sd:#E3F5EC;--alerte:#8F5A00;--ad:#FFF3D1;
 --erreur:#C42B26;--ed:#FDE7E5;--info:#1F5FD1;--o1:0 1px 2px rgba(21,19,43,.04),0 6px 20px rgba(21,19,43,.06);--o2:0 12px 36px rgba(21,19,43,.14);
@@ -183,3 +183,10 @@ opacity:0;pointer-events:none;transition:opacity .18s}
 @media (max-width:860px){.wrap,.tb{padding-left:16px;padding-right:16px}.pn{display:none}.g2,.g3,.g4,.g5,.fgrid{grid-template-columns:1fr}.span2,.span3{grid-column:auto}
 .hero{grid-template-columns:1fr}.hero .num{font-size:60px}.gh h1,.h2{font-size:30px}.ob{grid-template-columns:1fr}.ob-l{min-height:280px}.ob-r{padding:24px 16px}
 .dim{grid-template-columns:110px 1fr 40px}.band .acts{margin-left:0}}
+/* passeport, cartouche, logo */
+.brand .logo-mark{flex:none;border-radius:10px}
+.ld-logo .logo-mark{display:block}
+.lect{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:#5E5B70;margin-top:8px}.lect b{font-size:26px;font-weight:400;color:#15132B;letter-spacing:-.02em}
+.pn6 .bar{background:#ECEAF5}
+.cartouche{margin:22px 2px 0;padding:14px 16px;border-radius:16px;border:1px dashed var(--lf);font-size:12.5px;line-height:1.55;color:var(--t2)}
+.dil{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dil output{display:block;font-size:30px;font-weight:400;letter-spacing:-.02em}

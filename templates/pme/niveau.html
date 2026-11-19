@@ -1,0 +1,27 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Mise à niveau{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Diagnostic, manques, mise à niveau, puis rencontre · {{ score.palier }} · {{ score.total }}/100</p><h1>Mise à niveau</h1></div><div class="ph-act"><a class="btn s" href="{% url 'pme:profil' %}">{% ic 'crayon' 16 %}Profil de l’entreprise</a></div></header>
+<div class="g g3">
+  <section class="card"><div class="ch"><h3>Stratégie de sortie</h3>{% if actuelle %}<span class="pill ok">écrite</span>{% else %}<span class="pill warn">+6 pts</span>{% endif %}</div>
+    <form method="post" data-loader="Enregistrement…">{% csrf_token %}
+      <div class="opts">{% for v, duree in sorties %}<label class="opt"><input type="radio" name="voie" value="{{ v }}"{% if v == voie %} checked{% endif %}><span><b>{{ v }}</b><small>{{ duree }}</small></span></label>{% endfor %}</div>
+      <label class="fl" style="margin:12px 0"><span style="font-size:13px;font-weight:700">Précisions (facultatif)</span><textarea name="detail" rows="3" placeholder="Acquéreur visé, calendrier, conditions…"></textarea></label>
+      <button type="submit" class="btn p">{% ic 'check' 16 %}Enregistrer la stratégie</button></form>
+    {% if actuelle %}<p class="note">{% ic 'info' 14 %} Actuelle : {{ actuelle|truncatechars:120 }}</p>{% endif %}</section>
+  <section class="card"><div class="ch"><h3>Actions prioritaires</h3><span>{{ actions|length }}</span></div>
+    {% if actions %}<ul class="rows mods">{% for titre, cat, pts, url in actions %}<li><span class="todo-c"></span><div><b><a href="{% url url %}" style="color:inherit;text-decoration:none">{{ titre }}</a></b><span>{{ cat }}{% if pts %} · +{{ pts }} pts{% endif %}</span></div></li>{% endfor %}</ul>
+    {% else %}<p class="muted">Tout est en ordre. Faites attester vos pièces pour renforcer la confiance.</p>{% endif %}
+    <p class="note">{% ic 'info' 14 %} Points estimés sur le score de préparation.</p></section>
+  <section class="card"><div class="ch"><h3>Conformité</h3><span>{{ n_conformes }} sur {{ conformite|length }}</span></div>
+    <ul class="rows mods">{% for lab, ok, ou in conformite %}<li>{% if ok %}<span class="ok-c">{% ic 'check' 14 %}</span>{% else %}<span class="warn-c">{% ic 'alerte' 14 %}</span>{% endif %}<div><b>{{ lab }}</b><span>{% if ok %}fourni{% else %}à fournir · {{ ou }}{% endif %}</span></div></li>{% endfor %}</ul>
+    <p class="note">Non constitutif d’un avis juridique.</p></section>
+  <section class="card span2"><div class="ch"><h3>Accompagnement</h3><span>structures référencées au Cameroun</span></div>
+    {% if accompagnement %}<ul class="rows">{% for o in accompagnement %}<li><div><b>{{ o.nom }}</b><span>{{ o.categorie|default:o.get_kind_display }}{% if o.ville %} · {{ o.ville }}{% endif %}</span></div>{% if o.site_web %}<a class="btn t sm" href="{{ o.site_web }}" target="_blank" rel="noopener">Site</a>{% endif %}</li>{% endfor %}</ul>
+    {% else %}<p class="muted">Aucune structure référencée pour l’instant.</p>{% endif %}
+    <a class="btn s sm" href="{% url 'annuaire:ecosysteme' %}" style="margin-top:10px">Tout l’écosystème</a></section>
+  <section class="card"><div class="ch"><h3>Deux lectures</h3><span>{{ score.total }}/100</span></div>
+    <div class="dims">{% for k, lab, pts, mx in score.dims %}<div class="dim"><span>{{ lab }}</span><span class="trk v"><i style="width:{% widthratio pts mx 100 %}%"></i></span><b>{{ pts }}/{{ mx }}</b></div>{% endfor %}</div>
+    <p class="note">{% ic 'info' 14 %} Lecture banque {{ score.dette }} · lecture fonds {{ score.fonds_propres }} · confiance {{ score.confiance }} %.</p></section>
+</div>
+{% endblock %}

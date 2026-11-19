@@ -1,9 +1,12 @@
 """Réglages de ReadyMatch. Tout ce qui change entre le poste local et le VPS se lit dans le fichier .env."""
+import mimetypes
 import os
 from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
+
+mimetypes.add_type('image/webp', '.webp')  # Windows ne connaît pas toujours le type des photos WebP
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')

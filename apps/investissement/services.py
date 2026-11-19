@@ -16,17 +16,22 @@ def compatibilite(these, org):
     else:
         lignes.append(('Secteur', 0, 25, 'Secteur hors de votre thèse'))
 
-    ticket = profil.ticket_recherche if profil else None
-    if not ticket or not these or (not these.ticket_min and not these.ticket_max):
+    # Ticket (cahier des charges v2) : on compare le ticket à une part du besoin, de 10 % à 100 %.
+    # Recouvrement de [Tmin ; Tmax] et [10 % ; 100 %] du besoin : 20 points. Sinon décroissance linéaire,
+    # nulle à 50 % d'écart de la borne la plus proche.
+    besoin = profil.ticket_recherche if profil else None
+    if not besoin or not these or (not these.ticket_min and not these.ticket_max):
         lignes.append(('Ticket', 10, 20, 'Montant ou fourchette non renseigné'))
     else:
-        lo, hi = these.ticket_min or 0, these.ticket_max or ticket
-        if lo <= ticket <= hi:
-            lignes.append(('Ticket', 20, 20, 'Montant dans votre fourchette'))
-        elif ticket < lo * 0.8 or ticket > hi * 1.25:
-            lignes.append(('Ticket', 0, 20, 'Montant loin de votre fourchette'))
+        tmin, tmax = these.ticket_min or 0, these.ticket_max or besoin
+        bas, haut = besoin * 0.10, besoin
+        if tmin <= haut and tmax >= bas:
+            lignes.append(('Ticket', 20, 20, 'Votre ticket couvre une part du besoin (10 à 100 %)'))
         else:
-            lignes.append(('Ticket', 12, 20, 'Montant proche de votre fourchette'))
+            borne = bas if tmax < bas else haut
+            ecart = (bas - tmax) if tmax < bas else (tmin - haut)
+            pts = max(0, round(20 * (1 - ecart / (borne * 0.5)))) if borne else 0
+            lignes.append(('Ticket', pts, 20, 'Ticket trop petit pour ce besoin' if tmax < bas else 'Ticket supérieur au besoin'))
 
     zones = [z.lower() for z in (these.zones if these else [])]
     if not zones:

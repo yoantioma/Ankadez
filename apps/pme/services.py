@@ -7,9 +7,15 @@ from .models import POIDS_PREUVE, ExerciceFinancier, Piece
 DIMENSIONS = [('finance', 'Finance', 30), ('juridique', 'Juridique et gouvernance', 20), ('marche', 'Marché et traction', 20),
               ('equipe', 'Équipe', 10), ('conformite', 'Conformité', 10), ('sortie', 'Risques et sortie', 10)]
 
-PALIERS = [(75, 'Series A / Growth Ready'), (55, 'Pre-Series A / Seed Ready'), (40, 'Investment-Ready'), (0, 'En préparation')]
+# Deux lectures du même dossier (cahier des charges v2, 5.1) : une banque et un fonds ne regardent pas la même chose.
+LUNETTE_DETTE = {'finance': 40, 'juridique': 15, 'marche': 15, 'equipe': 5, 'conformite': 15, 'sortie': 10}
+LUNETTE_FONDS_PROPRES = {'finance': 20, 'juridique': 20, 'marche': 30, 'equipe': 20, 'conformite': 5, 'sortie': 5}
 
-PIECES_EXIGEES = 43
+# Grades v2 : le score ouvre la porte, les pièces la tiennent ouverte.
+PALIERS = [(90, 'Institutional-Ready'), (75, 'Série A / Growth-Ready'), (60, 'Investment-Ready'), (40, 'Pré-Ready'), (0, 'Structuring')]
+PLAFOND_DECLARATIF = 59       # sans pièce justifiée, le score plafonne à 59
+
+PIECES_EXIGEES = 45           # pack Standard (Léger : 25, Institutionnel : 90 et plus)
 
 
 @dataclass
@@ -18,6 +24,21 @@ class Score:
     dims: list = field(default_factory=list)  # (clé, libellé, points, max)
     palier: str = ''
     prochain_palier: tuple | None = None       # (seuil, libellé)
+    dette: int = 0                             # lecture « banque »
+    fonds_propres: int = 0                     # lecture « fonds »
+    confiance: int = 0                         # % de données justifiées ou attestées
+    plafonne: bool = False
+
+
+def confiance_donnees(org):
+    """Indice de confiance : chaque donnée est Déclarée, Justifiée (pièce) ou Attestée (tiers).
+    Confiance = (A × 1,0 + J × 0,7) ÷ nombre de données. Ici : pièces et exercices financiers."""
+    niveaux = [p.niveau_preuve for p in org.pieces.all()] + [e.niveau_preuve for e in org.exercices.all()]
+    if not niveaux:
+        return 0
+    attestees = sum(1 for n in niveaux if n == 'certifie')
+    justifiees = sum(1 for n in niveaux if n in ('coherent', 'recoupe'))
+    return round((attestees + 0.7 * justifiees) / len(niveaux) * 100)
 
 
 def _pieces_par_dossier(org):
@@ -41,15 +62,21 @@ def score_preparation(org):
         finance += 5 if (dernier.dscr or 0) >= 1.2 else 0
     juridique = (5 if profil and profil.forme_juridique else 0) + (3 if profil and profil.rccm else 0) + min(n('03') * 3, 12)
     marche = (5 if org.description else 0) + (5 if org.secteur_id else 0) + min(n('06') * 3, 10)
-    equipe = (4 if profil and profil.effectif else 0) + min(n('05') * 3, 6)
+    equipe = (4 if profil and profil.effectif else 0) + min(n('11') * 3, 6)
     conformite = min((n('04') + n('09')) * 3, 10)
     sortie = (6 if profil and profil.sortie_ecrite else 0) + min(n('08') * 2, 4)
     valeurs = {'finance': finance, 'juridique': juridique, 'marche': marche, 'equipe': equipe, 'conformite': conformite, 'sortie': sortie}
     dims = [(k, lab, min(valeurs[k], mx), mx) for k, lab, mx in DIMENSIONS]
     total = sum(d[2] for d in dims)
+    justifie = any(p.niveau_preuve != 'declaratif' for p in org.pieces.all()) or any(e.niveau_preuve != 'declaratif' for e in exercices)
+    plafonne = not justifie and total > PLAFOND_DECLARATIF
+    if plafonne:
+        total = PLAFOND_DECLARATIF
+    lecture = lambda poids: round(sum(v / mx * poids[k] for k, _, v, mx in dims))
     palier = next(lab for seuil, lab in PALIERS if total >= seuil)
     suivant = next(((s, lab) for s, lab in reversed(PALIERS) if s > total), None)
-    return Score(total=total, dims=dims, palier=palier, prochain_palier=suivant)
+    return Score(total=total, dims=dims, palier=palier, prochain_palier=suivant, dette=lecture(LUNETTE_DETTE),
+                 fonds_propres=lecture(LUNETTE_FONDS_PROPRES), confiance=confiance_donnees(org), plafonne=plafonne)
 
 
 def montant_legitime(org):
@@ -80,8 +107,14 @@ def actions_prioritaires(org, limite=5):
         actions.append(('Écrire une stratégie de sortie', 'Risques et sortie', 6, 'pme:profil'))
     if not pieces.get('03'):
         actions.append(('Déposer les statuts et le RCCM', 'Juridique', 6, 'pme:dossier'))
+    if not pieces.get('04'):
+        actions.append(('Joindre la dernière DSF et l’attestation de non-redevance', 'Fiscal', 6, 'pme:dossier'))
+    if not pieces.get('07'):
+        actions.append(('Documenter la table de capitalisation', 'Actionnariat', 3, 'pme:dossier'))
     if not pieces.get('06'):
         actions.append(('Joindre un contrat client ou une lettre d’intention', 'Marché', 3, 'pme:dossier'))
+    if not any(p.niveau_preuve != 'declaratif' for p in org.pieces.all()):
+        actions.append(('Faire attester une pièce (expert-comptable, CGA, banque)', 'Confiance', 0, 'pme:dossier'))
     if not pieces.get('09'):
         actions.append(('Décrire votre politique environnementale et sociale', 'Conformité', 3, 'pme:dossier'))
     if not (profil and profil.ticket_recherche):

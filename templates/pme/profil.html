@@ -1,8 +1,9 @@
-{% extends 'base.html' %}{% load rm %}
+{% extends 'base_web.html' %}{% load rm %}
 {% block title %}Profil{% endblock %}
 {% block content %}
-<div class="gh"><div><p class="bc"><a href="{% url 'pme:tableau' %}">{{ org.nom }}</a> › Profil</p><h1>Profil de <em>{{ org.nom }}</em></h1></div></div>
-<section class="card" style="max-width:900px"><form method="post" class="form" novalidate data-loader="Recalcul de votre score…">{% csrf_token %}
+<header class="ph"><div><p class="kicker">{{ org.nom }} · ces informations alimentent votre score et l’indice de compatibilité</p><h1>Profil de l’entreprise</h1></div></header>
+<section class="card" style="max-width:960px"><div class="ch"><h3>Votre entreprise</h3><span>montants en millions de FCFA</span></div>
+  <form method="post" class="form" novalidate data-loader="Recalcul de votre score…">{% csrf_token %}
   <div class="fgrid">{% for f in form %}{% if f.name == 'strategie_sortie' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>
-  <div style="display:flex;justify-content:flex-end"><button class="btn p lg" type="submit">Enregistrer {% ic 'fleche-d' 16 %}</button></div></form></section>
+  <div style="display:flex;justify-content:flex-end"><button class="btn p" type="submit">Enregistrer {% ic 'fleche-d' 16 %}</button></div></form></section>
 {% endblock %}

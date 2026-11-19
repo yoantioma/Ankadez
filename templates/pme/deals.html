@@ -1,0 +1,15 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Suivi des deals{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Statuts du cahier des charges · chaque étape datée</p><h1>Suivi des deals</h1></div><div class="ph-act"></div></header>
+{% if principal %}<section class="card"><div class="ch"><h3>{{ principal.investisseur.nom }}</h3><span>jour {{ jours }} depuis la demande</span></div>
+  <ol class="stepper">{% for lab, etat in etapes %}<li class="{{ etat }}"><i></i><b>{{ lab }}</b><span>{% if etat == 'done' %}fait{% elif etat == 'cur' %}en cours{% endif %}</span></li>{% endfor %}</ol></section>{% endif %}
+<section class="card tbl" style="margin-top:16px"><div class="ch"><h3>Tous les deals</h3><span>un abandon exige un motif</span></div>
+  {% if demandes %}<table><thead><tr><th>Investisseur</th><th>Statut</th><th>Âge de l’étape</th><th>Indice</th><th>Note</th></tr></thead><tbody>
+    {% for d in demandes %}<tr><td><b>{{ d.investisseur.nom }}</b></td>
+      <td><span class="pill {% if d.statut == 'abandon' %}bad{% elif d.statut == 'demande' %}warn{% else %}ok{% endif %}">{{ d.get_statut_display }}</span></td>
+      <td>{% if d.statut == 'abandon' %}—{% else %}{{ d.age }} j{% endif %}</td><td class="muted">{{ d.indice|default:'—' }}</td>
+      <td>{% if d.statut == 'demande' %}<form method="post" action="{% url 'pme:accepter_demande' d.pk %}" data-loader="Signature de l’accord…">{% csrf_token %}<input type="hidden" name="suite" value="pme:deals"><button class="btn p sm" type="submit">{% ic 'cadenas' 14 %}Signer l’accord de confidentialité</button></form>
+        {% elif d.statut == 'abandon' %}<span class="muted">Motif : {{ d.motif_abandon }}</span>{% else %}<span class="muted">Data room ouverte</span>{% endif %}</td></tr>{% endfor %}
+  </tbody></table>{% else %}<p class="muted">Aucun deal pour l’instant. Les investisseurs compatibles peuvent demander l’accès à votre data room.</p><a class="btn s" href="{% url 'pme:investisseurs' %}">Voir les investisseurs compatibles</a>{% endif %}</section>
+{% endblock %}

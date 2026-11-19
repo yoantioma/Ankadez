@@ -8,9 +8,25 @@ from . import contenu, vitrine
 from .services import accueil_investisseur
 
 
+# Diagnostic express de l’accueil : six pièces que tout financeur demande, pondérées sur 100.
+DIAGNOSTIC = [
+    ('Vos états financiers SYSCOHADA des deux derniers exercices sont établis.', 25),
+    ('Votre DSF est déposée et vous avez une attestation de non-redevance.', 20),
+    ('Statuts, RCCM et NIU sont à jour.', 15),
+    ('Votre besoin est chiffré, avec l’usage prévu des fonds.', 15),
+    ('Vous avez un contrat, une lettre d’intention ou 24 mois de ventes suivies.', 15),
+    ('La répartition du capital entre associés est documentée.', 10),
+]
+
+
 def landing(request):
-    """Site vitrine : l’accueil investisseur (le Cameroun en chiffres, sans inscription) en tête, puis la présentation de l’outil
-    et les appareils interactifs. Même balisage que le prototype validé ; les chiffres viennent de la base."""
+    """Accueil : le Cameroun en chiffres et le diagnostic (style tableau de bord), puis le récit et les appareils (style site v2)."""
+    m = accueil_investisseur()
+    return render(request, 'core/accueil.html', {'m': m, 'v': vitrine.composants(m), 'diagnostic': DIAGNOSTIC})
+
+
+def landing_vitrine(request):
+    """Version précédente de la vitrine (conservée pour comparaison)."""
     m = accueil_investisseur()
     return render(request, 'core/vitrine.html', {'m': m, 'v': vitrine.composants(m)})
 
@@ -70,7 +86,7 @@ def espace(request):
         return redirect('admin:index')
     if u.organisation is None and u.role in ('pme', 'investisseur'):
         return redirect('accounts:onboarding', role=u.role)
-    return redirect({'pme': 'pme:tableau', 'investisseur': 'investissement:marketplace'}.get(u.role, 'core:landing'))
+    return redirect({'pme': 'pme:tableau', 'investisseur': 'investissement:cameroun'}.get(u.role, 'core:landing'))
 
 
 def erreur_404(request, exception):

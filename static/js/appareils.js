@@ -39,6 +39,7 @@
     vp.classList.add('out');
     setTimeout(put, 180);
   }
+  window.rmEcrans = { render: render };
   document.querySelectorAll('.appareils .scr').forEach(function (s) { render(s, s.dataset.start, true); });
   var cover = document.getElementById('t-cover');
   document.querySelectorAll('.appareils .cover-vp').forEach(function (v) { if (cover) v.innerHTML = cover.innerHTML; });

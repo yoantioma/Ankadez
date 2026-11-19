@@ -24,12 +24,12 @@ PME = [
     ('Akwa Couture SARL', 'Textile', 'Confection en pagne pour la distribution', 'Douala', 'Littoral', 'SARL', 18, 90, 'amorcage', 'dette', 190, 72, 21, None, False, ''),
 ]
 PIECES_SAVANE = [('01', 'Pitch 2026', 'recoupe'), ('02', 'États financiers 2025', 'recoupe'), ('02', 'États financiers 2024', 'certifie'),
-                 ('03', 'Statuts', 'certifie'), ('03', 'RCCM', 'certifie'), ('04', 'Attestation fiscale', 'recoupe'), ('05', 'Organigramme', 'coherent'),
+                 ('03', 'Statuts', 'certifie'), ('03', 'RCCM', 'certifie'), ('04', 'Attestation fiscale', 'recoupe'), ('11', 'Organigramme', 'coherent'), ('07', 'Table de capitalisation', 'coherent'),
                  ('06', 'Contrat distributeur Gabon (projet)', 'declaratif'), ('06', 'Contrat fournisseur manioc', 'coherent'), ('08', 'PESTEL', 'coherent')]
 
 
 class Command(BaseCommand):
-    help = 'Crée les données de démonstration de ReadyMatch.'
+    help = 'Crée les données de démonstration de Ankadez.'
 
     def add_arguments(self, parser):
         parser.add_argument('--comptes', action='store_true', help='Créer aussi les comptes de test pme@demo.cm et investisseur@demo.cm')

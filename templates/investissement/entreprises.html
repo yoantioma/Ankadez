@@ -1,0 +1,40 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Entreprises{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'investissement:cameroun' %}">Cameroun</a>{% if secteur %} › <a href="{% url 'investissement:secteur' secteur.slug %}">{{ secteur.nom }}</a>{% endif %} › Entreprises</p>
+  <h1>{% if secteur %}Les {{ lignes|length }} PME du secteur{% else %}Les {{ lignes|length }} PME compatibles{% endif %}</h1></div>
+  <div class="acts"><form method="get" style="margin:0" onchange="this.submit()"><select name="secteur" aria-label="Filtrer par secteur" style="min-width:240px"><option value="">Tous les secteurs</option>{% for s in secteurs %}<option value="{{ s.slug }}"{% if secteur and s.slug == secteur.slug %} selected{% endif %}>{{ s.nom }} · {{ s.n }}</option>{% endfor %}</select></form>
+    {% if lignes %}<a href="{% url 'investissement:fiche' lignes.0.org.slug %}" class="pbtn p" data-loader="Ouverture de la fiche…">{% ic 'jauge' 16 %}Ouvrir la n°1</a>{% endif %}</div>
+</div>
+{% if lignes %}
+<div class="bento" style="grid-template-areas:none">
+  <section class="bx b-wide"><div class="bh"><div><p class="t1">Croissance du CA (→) et marge EBITDA (↑)</p><h3>Croissance ou rentabilité ?</h3></div><span class="cnt"><i></i>survolez un point</span></div>
+    {% if points %}<div class="scw"><div class="sc3" role="img" aria-label="Croissance et marge des PME">
+      {% if pos_c is not None and pos_m is not None %}<span class="qz" style="left:{{ pos_c|stringformat:'s' }}%;bottom:{{ pos_m|stringformat:'s' }}%"></span><span class="ql">Croissance et rentabilité</span>
+      <span class="q" style="left:{{ pos_c|stringformat:'s' }}%;top:0;bottom:0;border-left-width:1.5px"></span><span class="q" style="bottom:{{ pos_m|stringformat:'s' }}%;left:0;right:0;border-top-width:1.5px"></span>{% endif %}
+      {% for p in points %}<span class="sp {% if p.top %}n{% else %}o{% endif %}" style="left:{{ p.x|stringformat:'.1f' }}%;bottom:{{ p.y|stringformat:'.1f' }}%{% if p.top %};width:{{ p.taille|stringformat:'.0f' }}px;height:{{ p.taille|stringformat:'.0f' }}px{% endif %}" tabindex="0">{% if p.top %}<em>{{ p.l.org.nom|truncatechars:18 }}</em>{% endif %}<span class="tipc"><b>{{ p.l.org.nom }}</b> · croissance {{ p.l.croissance|virgule }} % · marge {{ p.l.marge|virgule }} %{% if p.l.ticket %} · {{ p.l.ticket|fcfa }}{% endif %}</span></span>{% endfor %}
+      {% for pos, lab in qx %}<span class="ax" style="left:{{ pos|stringformat:'s' }}%;bottom:-20px;transform:translateX(-50%)">{{ lab }}</span>{% endfor %}
+      {% for pos, lab in qy %}<span class="ax" style="left:-32px;bottom:{{ pos }}%;transform:translateY(50%)">{{ lab }}</span>{% endfor %}
+    </div></div>
+    <div class="legend" style="justify-content:space-between"><span>→ Croissance annuelle moyenne du chiffre d’affaires</span><span>↑ Marge EBITDA</span><span><i style="background:var(--violet);border-radius:50%"></i>vos 3 meilleures · taille = montant</span><span><i style="background:var(--lf);border-radius:50%"></i>autres PME</span></div>
+    {% else %}<p class="t1" style="margin-top:12px">Le nuage apparaît dès que des PME ont déclaré au moins deux exercices.</p>{% endif %}</section>
+  <section class="bx"><p class="t1">Seuils : croissance {% if seuil_c is not None %}{{ seuil_c|virgule }} %{% else %}—{% endif %}, marge {% if seuil_m is not None %}{{ seuil_m|virgule }} %{% else %}—{% endif %}, DSCR 1,2</p><h3 style="font-size:22px">À retenir</h3>
+    <ol class="nl">{% for l in lignes|slice:':3' %}<li{% if forloop.first %} class="on"{% endif %}><a href="{% url 'investissement:fiche' l.org.slug %}" data-loader="Ouverture de la fiche…"><span class="av4{% if not l.photo %} sans-photo{% endif %}"{% if l.photo %} style="background-image:url('{{ l.photo }}')"{% endif %}>{% if not l.photo %}{{ l.org.initiales }}{% endif %}<em>{{ forloop.counter }}</em></span><span class="tx"><b>{{ l.org.nom }}</b><span class="s">{{ l.pourquoi }}</span></span><span class="st"><small class="{% if l.verdict == 'à voir' %}tr-up{% else %}tr-dn{% endif %}">{{ l.verdict }}</small></span></a></li>{% endfor %}</ol>
+    <p class="src2">{% ic 'info' 14 %}Seuils = médianes des PME affichées</p></section>
+  <section class="bx tbl" style="grid-column:1/-1"><div class="bh" style="margin-bottom:8px"><div><p class="t1">Triées par indice · {{ lignes|length }} affichée{{ lignes|length|pluralize }}</p><h3>Comparatif</h3></div></div>
+    <div style="overflow-x:auto"><table class="etab"><thead><tr><th>Entreprise</th><th>Indice</th><th>Préparation</th><th>Croissance</th><th>Marge EBITDA</th><th>DSCR</th><th>Vérifié</th><th>Montant</th><th></th></tr></thead><tbody>
+      {% for l in lignes %}<tr><td><a class="co" href="{% url 'investissement:fiche' l.org.slug %}" style="text-decoration:none;color:inherit">{% if l.photo %}<span class="thumb" style="background-image:url('{{ l.photo }}')"></span>{% else %}<span class="thumb sans-photo">{{ l.org.initiales }}</span>{% endif %}<span><b>{{ l.org.nom }}</b><span class="sub">{{ l.org.description|truncatechars:42|default:'—' }}{% if l.org.ville %} · {{ l.org.ville }}{% endif %}</span></span></a></td>
+        <td><div class="ib"><b>{{ l.c.total }}</b><span class="t"><i style="width:{{ l.c.total }}%"></i></span></div></td>
+        <td><span class="pill v">{{ l.score.palier }} · {{ l.score.total }}</span></td>
+        <td{% if l.croissance is not None and seuil_c is not None %} class="{% if l.croissance >= seuil_c %}good{% else %}mid{% endif %}"{% endif %}>{% if l.croissance is not None %}{{ l.croissance|virgule }} %{% else %}—{% endif %}</td>
+        <td>{% if l.marge is not None %}{{ l.marge|virgule }} %{% else %}—{% endif %}</td>
+        <td{% if l.dscr %} class="{% if l.dscr >= 1.2 %}good{% else %}mid{% endif %}"{% endif %}>{% if l.dscr %}{{ l.dscr|virgule:2 }}{% else %}—{% endif %}</td>
+        <td>{% if l.verifie is not None %}{{ l.verifie }} %{% else %}—{% endif %}</td>
+        <td>{% if l.ticket %}{{ l.ticket|fcfa }}{% else %}—{% endif %}{% if l.montant %}<span class="sub">légitime {{ l.montant.bas|fcfa }} à {{ l.montant.haut|fcfa }}</span>{% endif %}</td>
+        <td><a class="btn s sm" href="{% url 'investissement:fiche' l.org.slug %}" data-loader="Ouverture de la fiche…">Fiche</a></td></tr>{% endfor %}
+    </tbody></table></div>
+    <div class="legend2"><div><b>Indice</b>Adéquation avec votre thèse, sur 100. Pas une probabilité.</div><div><b>Croissance</b>Chiffre d’affaires, moyenne annuelle sur les exercices déclarés.</div><div><b>DSCR</b>Capacité à rembourser : au-dessus de 1,2, c’est confortable.</div><div><b>Vérifié</b>Part des pièces recoupées ou certifiées par un tiers.</div></div></section>
+</div>
+{% else %}<div class="card vide"><b>Aucune PME au-dessus du seuil.</b>Changez de secteur ou élargissez votre thèse.</div>{% endif %}
+{% include 'partials/cartouche.html' %}
+{% endblock %}

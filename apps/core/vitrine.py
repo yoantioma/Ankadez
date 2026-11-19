@@ -47,7 +47,7 @@ def hero(m):
                f'<div class="rngl"><span><b>{_m(t["min"])}</b>minimum</span><span><b>{_m(t["med"])}</b>médiane</span><span><b>{_m(t["max"])}</b>maximum</span></div>'
                if t else '<span class="s">Aucun montant indiqué pour l’instant.</span>')
     return mark_safe(
-        f'<section class="hero6" aria-label="Potentiel"><div class="bk"><span class="live"><i></i>Estimation ReadyMatch · tous secteurs confondus</span>'
+        f'<section class="hero6" aria-label="Potentiel"><div class="bk"><span class="live"><i></i>Tous secteurs confondus</span>'
         f'<p class="k">L’argent à se faire : marge brute cumulée des entreprises inscrites</p>{bloc}</div>'
         f'<div class="pn6"><p class="k2">Effectif</p><div class="avs">{avs}</div><b>{m["n_entreprises"]}<small style="font-size:18px;margin-left:8px;letter-spacing:0">entreprises</small></b>'
         f'<span class="s">inscrites sur la plateforme, dans <b style="color:#15132B">{m["n_secteurs"]} secteurs</b> d’activité</span></div>'

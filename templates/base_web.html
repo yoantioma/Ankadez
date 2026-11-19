@@ -1,0 +1,38 @@
+{% load static rm %}<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Ankadez{% endblock %} · Ankadez</title>
+<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('rm-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="{% static 'css/maquette.css' %}"><link rel="stylesheet" href="{% static 'css/web.css' %}">
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<div class="wapp" id="app-web">
+<script>(function(){var r=document.documentElement,w=document.getElementById('app-web');function m(){var t=r.dataset.theme;w.classList.toggle('sombre',t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches)}m();new MutationObserver(m).observe(r,{attributes:true,attributeFilter:['data-theme']})})()</script>
+<div id="rm-bar" aria-hidden="true"></div>
+<div id="rm-loader" role="status" aria-live="polite" aria-label="Chargement">
+  <div class="ld-box"><div class="ld-logo">{% include "partials/logo.html" with taille=40 fond="transparent" %}</div><p class="ld-msg">Chargement…</p><p class="ld-sub">Ankadez prépare votre écran</p></div>
+</div>
+<header class="tb">
+  <a class="brand" href="{% url 'core:espace' %}">{% include "partials/logo.html" %}Ankadez</a>
+  <nav class="pn" aria-label="Navigation">{% for lab, icone, url, actif in rm_nav_web %}<a href="{{ url }}"{% if actif %} aria-current="page"{% endif %}>{% ic icone 16 %}<span>{{ lab }}</span></a>{% endfor %}</nav>
+  <div class="tbr">
+    {% if user.role == 'investisseur' %}<form class="srch" role="search" method="get" action="{% url 'investissement:marketplace' %}">{% ic 'loupe' 16 %}<input type="search" name="q" placeholder="Rechercher" aria-label="Rechercher une PME" value="{{ request.GET.q }}"></form>{% endif %}
+    <button class="icb" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
+    <div class="rsw" tabindex="0"><span><span class="av3">{{ user.organisation.initiales|default:'A' }}</span>{{ user.organisation.nom|default:user.email|truncatechars:24 }}</span>
+      <div class="menu"><p>{{ user.get_role_display }}</p>{% if user.role == 'investisseur' %}<a href="{% url 'investissement:these' %}">Ma thèse</a>{% else %}<a href="{% url 'pme:profil' %}">Profil de l’entreprise</a>{% endif %}<a href="{% url 'annuaire:ecosysteme' %}">Écosystème</a>
+        <form method="post" action="{% url 'accounts:deconnexion' %}" data-loader="Déconnexion…">{% csrf_token %}<button type="submit">Se déconnecter</button></form></div></div>
+  </div>
+</header>
+<main class="main2" id="contenu">{% block content %}{% endblock %}</main>
+{% if messages %}<div class="toasts" role="status">{% for m in messages %}<div class="toast {{ m.tags }}">{{ m }}<button type="button" aria-label="Fermer">×</button></div>{% endfor %}</div>{% endif %}
+</div>
+<script src="{% static 'js/app.js' %}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

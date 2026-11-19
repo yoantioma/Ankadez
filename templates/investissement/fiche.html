@@ -1,41 +1,93 @@
-{% extends 'base.html' %}{% load rm %}
+{% extends 'base_web.html' %}{% load rm %}
 {% block title %}{{ org.nom }}{% endblock %}
-{% block content %}
-<div class="gh"><div><p class="bc"><a href="{% url 'investissement:marketplace' %}">Entreprises</a> › {{ org.nom }}</p><h1>{{ org.nom }}</h1>
-  <p class="lead" style="margin-top:6px">{{ org.description|default:'Description à compléter.' }}</p></div>
-  <div class="acts">{% if demande %}<span class="chip ok" style="padding:10px 14px">{{ demande.get_statut_display }}</span><a class="btn" href="{% url 'investissement:pipeline' %}">Voir dans le pipeline</a>
-    {% else %}<form method="post" action="{% url 'investissement:demander_acces' org.slug %}" data-loader="Envoi de votre demande d’accès…">{% csrf_token %}<button class="btn p lg" type="submit">{% ic 'cadenas' 16 %} Demander l’accès à la data room</button></form>{% endif %}</div></div>
-
-<section class="hero" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)">
-  <div class="bk"><span class="live"><i></i>Compatibilité avec votre thèse</span><p class="num">{{ c.total }}<small>/100</small></p><p class="ex">Adéquation critère par critère. Jamais une probabilité de closing.</p></div>
-  <div class="pn6"><p class="k2">Préparation</p><p class="v">{{ score.total }}<small>/100</small></p><p class="s">{{ score.palier }}</p></div>
-  <div class="pn6"><p class="k2">Montant légitime (indicatif)</p>{% if montant %}<p class="v" style="font-size:36px">{{ montant.bas|fcfa }}–{{ montant.haut|fcfa }}</p><p class="s">demande {{ montant.demande|fcfa }} FCFA</p>
-    {% else %}<p class="s" style="margin-top:auto">Comptes insuffisants pour le calculer.</p>{% endif %}</div>
-</section>
-
-<div class="g g3" style="margin-top:16px">
-  <section class="card"><div class="ch"><div><p class="t1">6 critères</p><h3>Pourquoi {{ c.total }} ?</h3></div></div>
-    <div class="dims">{% for crit, pts, mx, raison in c.lignes %}<div><div class="dim"><span>{{ crit }}</span><span class="bar"><i style="width:{% widthratio pts mx 100 %}%"></i></span><b>{{ pts }}/{{ mx }}</b></div><p class="t1" style="font-size:12px">{{ raison }}</p></div>{% endfor %}</div></section>
-  <section class="card span2"><div class="ch"><div><p class="t1">FCFA · niveau de preuve indiqué</p><h3>Chiffre d’affaires et EBITDA</h3></div></div>
-    {% if exercices %}<div style="display:flex;gap:18px;align-items:flex-end;height:220px;border-bottom:1px solid var(--ligne)">{% for e in exercices %}
-      <div style="flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;gap:6px" title="{{ e.annee }} · CA {{ e.chiffre_affaires|fcfa }} · EBITDA {{ e.ebitda|fcfa }}">
-        <span style="width:34%;border-radius:8px 8px 0 0;background:#5536E8;height:{% widthratio e.chiffre_affaires max_ca 95 %}%"></span>
-        <span style="width:22%;border-radius:6px 6px 0 0;background:var(--graphe);height:{% if e.ebitda %}{% widthratio e.ebitda max_ca 95 %}{% else %}0{% endif %}%"></span></div>{% endfor %}</div>
-      <div style="display:flex;gap:18px;padding-top:8px">{% for e in exercices %}<span style="flex:1;text-align:center;font-size:12px;color:var(--t3)">{{ e.annee }} · {{ e.chiffre_affaires|fcfa }}<br>{{ e.get_niveau_preuve_display }}</span>{% endfor %}</div>
-      <div class="lg2"><span><i style="background:#5536E8"></i>Chiffre d’affaires</span><span><i style="background:var(--graphe)"></i>EBITDA</span></div>
-    {% else %}<div class="empty"><div class="ico">{% ic 'calc' 26 %}</div><b>Aucun exercice déclaré.</b><p>Profil importé de l’annuaire, à compléter par l’entreprise.</p></div>{% endif %}</section>
-
-  <section class="card"><div class="ch"><div><p class="t1">Indicateurs du dernier exercice</p><h3>{{ dernier.annee|default:'—' }}</h3></div></div>
-    {% if dernier %}<div class="g g2" style="gap:10px">
-      <div><p class="big" style="font-size:26px">{{ dernier.marge_brute|fcfa }}</p><p class="t1">marge brute</p></div><div><p class="big" style="font-size:26px">{% if dernier.marge_ebitda is not None %}{{ dernier.marge_ebitda|virgule }} %{% else %}—{% endif %}</p><p class="t1">marge EBITDA</p></div>
-      <div><p class="big" style="font-size:26px">{% if dernier.dscr %}{{ dernier.dscr|virgule:2 }}{% else %}—{% endif %}</p><p class="t1">DSCR (seuil 1,2)</p></div><div><p class="big" style="font-size:26px">{{ dernier.dette_nette|fcfa }}</p><p class="t1">dette nette</p></div></div>
-    {% else %}<p class="muted">Pas encore de comptes.</p>{% endif %}</section>
-  <section class="card"><div class="ch"><div><p class="t1">{{ preuves.deposees }} pièces · {{ preuves.pct_verifiees }} % vérifiées</p><h3>Couverture des preuves</h3></div></div>
-    <div class="pdots">{% for code, lab, niveaux in matrice %}<div class="col" title="{{ code }} · {{ lab }}">{% for n in niveaux %}<i class="p-{{ n }}"></i>{% empty %}<i class="p-vide"></i>{% endfor %}<span>{{ code }}</span></div>{% endfor %}</div>
-    <div class="lg2"><span><i class="p-certifie"></i>Certifié</span><span><i class="p-recoupe"></i>Recoupé</span><span><i class="p-coherent"></i>Cohérent</span><span><i class="p-declaratif"></i>Déclaratif</span></div></section>
-  <section class="dark"><p class="t1">Data room</p>{% if acces %}<h3 style="color:#fff">Ouverte</h3><p>Accord de confidentialité signé. Chaque téléchargement est journalisé.</p>
-    {% else %}<h3 style="color:#fff">Verrouillée</h3><p>Les dossiers s’ouvrent après la signature de l’accord de confidentialité par l’entreprise.</p>{% endif %}
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">{% for code, lab, niveaux in matrice %}<span class="chip" style="background:rgba(255,255,255,.1);color:#fff">{{ code }} {{ lab|truncatechars:18 }}</span>{% endfor %}</div></section>
+{% block content %}{% with p=org.profil_pme %}
+<nav class="crumb" aria-label="Fil d’Ariane"><a href="{% url 'investissement:marketplace' %}">Marketplace</a>{% ic 'fleche-d' 14 %}{% if org.secteur %}<a href="{% url 'investissement:secteur' org.secteur.slug %}">{{ org.secteur.nom }}</a>{% ic 'fleche-d' 14 %}{% endif %}<b>{{ org.nom }}</b></nav>
+<div class="dh"><div class="dh-img{% if not photo %} sans-photo{% endif %}"{% if photo %} style="background-image:url('{{ photo }}')"{% endif %}>{% if not photo %}{{ org.initiales }}{% endif %}{% if org.secteur %}<span>{{ org.secteur.nom|truncatechars:24 }}</span>{% endif %}</div>
+  <div><p class="kicker">Fiche PME · vue investisseur{% if org.est_demo %} · démonstration{% endif %}</p><h1>{{ org.nom }}</h1>
+    <p>{{ org.description|truncatechars:90|default:'Activité à décrire' }}{% if org.ville %} · {{ org.ville }}{% endif %}{% if p.annee_creation %} · fondée en {{ p.annee_creation }}{% endif %}{% if p.effectif %} · {{ p.effectif }} salariés{% endif %}{% if p.ticket_recherche %} · lève {{ p.ticket_recherche|fcfa }}{% endif %}</p>
+    <div class="tags"><span class="pill v">{{ score.palier }} · {{ score.total }}</span>{% if attestees %}<span class="proof p-cert">{% ic 'bouclier' 14 %}{{ attestees }} pièce{{ attestees|pluralize }} attestée{{ attestees|pluralize }}</span>{% endif %}{% if p.export_zlecaf %}<span class="pill">ZLECAf</span>{% endif %}{% if p.get_instrument_souhaite_display %}<span class="pill">{{ p.get_instrument_souhaite_display }}</span>{% endif %}{% if org.a_verifier and not org.est_demo %}<span class="pill warn">profil à vérifier</span>{% endif %}</div></div>
+  <div class="dh-act"><div class="compat"><b>{{ c.total }}</b><span>/100 compatibilité<br>avec votre thèse</span></div>
+    {% if not demande %}<form method="post" action="{% url 'investissement:demander_acces' org.slug %}" data-loader="Envoi de la demande…">{% csrf_token %}<button class="btn p" type="submit" style="width:100%">{% ic 'cadenas' 16 %}Demander l’accès data room</button></form>
+    {% else %}<span class="btn s">{% ic 'check' 16 %}{{ demande.get_statut_display }}</span>{% endif %}
+    <a class="btn s" href="{% url 'investissement:pipeline' %}">{% ic 'cible' 16 %}Voir le pipeline</a></div>
 </div>
-<p class="note">{% ic 'info' 14 %} {% if org.est_demo %}Entreprise de démonstration.{% elif org.a_verifier %}Profil issu de l’annuaire, à vérifier.{% endif %}{% if org.site_web %} Site : <a href="{{ org.site_web }}" target="_blank" rel="noopener">{{ org.site_web|truncatechars:40 }}</a>{% endif %}</p>
-{% endblock %}
+
+<input type="radio" class="tr" name="dsh-t" id="dsh-t-ov" checked><input type="radio" class="tr" name="dsh-t" id="dsh-t-fin"><input type="radio" class="tr" name="dsh-t" id="dsh-t-prv"><input type="radio" class="tr" name="dsh-t" id="dsh-t-cmp"><input type="radio" class="tr" name="dsh-t" id="dsh-t-room">
+<div class="ctrl"><div class="tabs" role="tablist" style="margin:0;border:0"><label for="dsh-t-ov">Vue d’ensemble</label><label for="dsh-t-fin">Finances</label><label for="dsh-t-prv">Preuves</label><label for="dsh-t-cmp">Compatibilité</label><label for="dsh-t-room">Data room</label></div></div>
+
+{# ---------- Vue d’ensemble ---------- #}
+<div class="tp" data-p="ov">
+  {% if kpis %}<div class="kp">{% for lab, val, d, preuve in kpis %}<div><small>{{ lab }}</small><b>{{ val }}</b><span class="d">{{ d }}</span>{% if preuve %}<span class="proof {{ preuve.0 }}">{% ic 'bouclier' 14 %}{{ preuve.1 }}</span>{% endif %}</div>{% endfor %}</div>{% endif %}
+  <div class="g g3">
+    <section class="card span2"><div class="ch"><h3>Chiffre d’affaires et EBITDA</h3><span>par exercice · FCFA</span></div>
+      {% if barres %}<div class="bars"><i class="grid" style="bottom:25%"></i><i class="grid" style="bottom:50%"></i><i class="grid" style="bottom:75%"></i>{% for b in barres %}<div class="bcol" tabindex="0"><span class="tip"><b>{{ b.annee }}</b><br>CA : {{ b.ca }}<br>EBITDA : {{ b.ebitda }}</span><span class="b" style="height:{{ b.h_ca }}%"></span><span class="b2" style="height:{{ b.h_eb }}%"></span></div>{% endfor %}</div>
+      <div class="xl">{% for b in barres %}<span>{{ b.annee }}</span>{% endfor %}</div>
+      <div class="legend"><span><i style="background:var(--violet)"></i>Chiffre d’affaires</span><span><i style="background:var(--graphe)"></i>EBITDA</span></div>
+      {% else %}<p class="muted">Aucun exercice déclaré pour l’instant.</p>{% endif %}</section>
+    <section class="card"><div class="ch"><h3>Couverture des preuves</h3><span>{{ preuves.deposees }} pièce{{ preuves.deposees|pluralize }} sur {{ preuves.exigees }}</span></div>
+      {% if donut %}<div class="donut">{{ donut|safe }}<ul>{% for niv, n in preuves.compte.items %}<li><i style="background:{% if niv == 'declaratif' %}#5E5B70{% elif niv == 'coherent' %}#8F5A00{% elif niv == 'recoupe' %}#17754E{% else %}#1F5FD1{% endif %}"></i>{% if niv == 'declaratif' %}Déclaratif{% elif niv == 'coherent' %}Cohérent{% elif niv == 'recoupe' %}Recoupé{% else %}Certifié{% endif %}<b>{{ n }}</b></li>{% endfor %}</ul></div>
+      {% else %}<p class="muted">Aucune pièce déposée dans la data room.</p>{% endif %}</section>
+    <section class="card"><div class="ch"><h3>Pourquoi {{ c.total }} ?</h3><span>6 critères</span></div>
+      <div class="dims">{% for lab, pts, mx, raison in c.lignes %}<div class="dim" title="{{ raison }}"><span>{{ lab }}</span><span class="trk"><i style="width:{% widthratio pts mx 100 %}%"></i></span><b>{{ pts }}/{{ mx }}</b></div>{% endfor %}</div>
+      <p class="note">{% ic 'info' 14 %} Adéquation avec votre thèse, pas une probabilité d’investissement.</p></section>
+    <section class="card"><div class="ch"><h3>Préparation par dimension</h3><span>{{ score.total }}/100</span></div>
+      <div class="dims">{% for k, lab, pts, mx in score.dims %}<div class="dim"><span>{{ lab }}</span><span class="trk v"><i style="width:{% widthratio pts mx 100 %}%"></i></span><b>{{ pts }}/{{ mx }}</b></div>{% endfor %}</div>
+      <p class="note">{% ic 'info' 14 %} Lecture banque {{ score.dette }} · lecture fonds {{ score.fonds_propres }}{% if score.plafonne %} · plafonné à 59 sans pièce justifiée{% endif %}.</p></section>
+    <section class="card"><div class="ch"><h3>Montant légitime</h3><span>calcul indicatif</span></div>
+      {% if montant %}<p class="big">{{ montant.bas|fcfa }}<span> à {{ montant.haut|fcfa }} · demande {{ montant.demande|fcfa }}</span></p>
+        <div class="dims">{% for lab, v in montant.methodes %}<div class="dim"><span>{{ lab }}</span><span class="trk v"><i style="width:{% widthratio v montant.demande 100 %}%"></i></span><b style="width:auto;white-space:nowrap">{{ v|fcfa }}</b></div>{% endfor %}</div>
+      {% else %}<p class="muted">Il faut un montant recherché et un EBITDA déclaré pour calculer une fourchette.</p>{% endif %}</section>
+    {% if pairs %}<section class="card"><div class="ch"><h3>Comparaison sectorielle</h3><span>{{ n_pairs }} PME {{ org.secteur.nom|lower }}</span></div>
+      {% for lab, rang, txt in pairs %}<div class="peer"><span>{{ lab }}</span><span class="trk"><i style="width:{{ rang }}%"></i></span><b>{{ txt }}</b></div>{% endfor %}
+      <p class="note">{% ic 'info' 14 %} Barre = position parmi les PME du secteur (médiane à 50 %).</p></section>{% endif %}
+    <section class="card"><div class="ch"><h3>Activité récente</h3></div>
+      {% if recentes %}<ul class="tl">{% for pc in recentes %}<li><time>{{ pc.created_at|date:'d/m/Y' }}</time><span>{{ pc.titre }} · dossier {{ pc.dossier }}, <b>{{ pc.get_niveau_preuve_display|lower }}</b></span></li>{% endfor %}</ul>
+      {% else %}<p class="muted">Aucune pièce versée récemment.</p>{% endif %}</section>
+  </div>
+</div>
+
+{# ---------- Finances ---------- #}
+<div class="tp" data-p="fin"><div class="g g3">
+  <section class="card span2 tbl"><div class="ch"><h3>Compte de résultat et ratios</h3><span>FCFA · SYSCOHADA</span></div>
+    {% if exercices %}<table><thead><tr><th></th>{% for e in exercices %}<th>{{ e.annee }}</th>{% endfor %}</tr></thead><tbody>
+      <tr><td><b>Chiffre d’affaires</b></td>{% for e in exercices %}<td>{{ e.chiffre_affaires|fcfa }}</td>{% endfor %}</tr>
+      <tr><td><b>Marge brute</b></td>{% for e in exercices %}<td>{{ e.marge_brute|fcfa|default:'—' }}</td>{% endfor %}</tr>
+      <tr><td><b>EBITDA</b></td>{% for e in exercices %}<td>{{ e.ebitda|fcfa|default:'—' }}</td>{% endfor %}</tr>
+      <tr><td><b>Résultat net</b></td>{% for e in exercices %}<td>{{ e.resultat_net|fcfa|default:'—' }}</td>{% endfor %}</tr>
+      <tr><td><b>Dette nette</b></td>{% for e in exercices %}<td>{{ e.dette_nette|fcfa|default:'—' }}</td>{% endfor %}</tr>
+      <tr><td><b>DSCR</b></td>{% for e in exercices %}<td>{% if e.dscr %}{{ e.dscr|virgule:2 }}{% else %}—{% endif %}</td>{% endfor %}</tr>
+      <tr><td><b>Preuve</b></td>{% for e in exercices %}<td><span class="proof {% if e.niveau_preuve == 'certifie' %}p-cert{% elif e.niveau_preuve == 'recoupe' %}p-rec{% elif e.niveau_preuve == 'coherent' %}p-coh{% else %}p-decl{% endif %}">{{ e.get_niveau_preuve_display }}</span></td>{% endfor %}</tr>
+    </tbody></table>{% else %}<p class="muted">Aucun exercice déclaré.</p>{% endif %}</section>
+  <section class="card tbl"><div class="ch"><h3>Stress tests</h3><span>DSCR</span></div>
+    {% if stress %}<table><tbody>{% for lab, v, sous in stress %}<tr><td>{{ lab }}</td><td{% if sous %} class="bad-t"{% endif %}><b>{{ v }}</b></td></tr>{% endfor %}</tbody></table>
+      <p class="note">{% ic 'info' 14 %} Calculés sur l’exercice {{ dernier.annee }}. En dessous de 1,2, une banque demande des garanties.</p>
+    {% else %}<p class="muted">Il faut un EBITDA et un service de la dette pour tester la couverture.</p>{% endif %}</section>
+</div></div>
+
+{# ---------- Preuves ---------- #}
+<div class="tp" data-p="prv"><div class="g g3">
+  <section class="card span2"><div class="ch"><h3>Les {{ preuves.exigees }} pièces exigées</h3><span>survolez une case</span></div>
+    <div class="hm">{% for coul, tip in cases %}<span style="background:{{ coul }}" tabindex="0"><span class="tip">{{ tip }}</span></span>{% endfor %}</div>
+    <div class="legend"><span><i style="background:#1F5FD1"></i>Certifié</span><span><i style="background:#17754E"></i>Recoupé</span><span><i style="background:#8F5A00"></i>Cohérent</span><span><i style="background:#5E5B70"></i>Déclaratif</span><span><i style="background:var(--ligne)"></i>Manquante</span></div></section>
+  <section class="card"><div class="ch"><h3>Traçabilité</h3></div>
+    <p class="muted">Chaque chiffre affiché renvoie à une pièce de la data room ou porte la mention « déclaratif ».</p>
+    <div class="alert info">{% ic 'info' 18 %}<span>Confiance des données : {{ score.confiance }} %. Une pièce attestée par un expert-comptable, un CGA ou une banque compte plein ; une pièce justifiée compte à 70 %.</span></div></section>
+</div></div>
+
+{# ---------- Compatibilité ---------- #}
+<div class="tp" data-p="cmp"><section class="card tbl"><div class="ch"><h3>Détail de l’indice · {{ c.total }}/100</h3><span>règles du cahier des charges</span></div>
+  <table><thead><tr><th>Critère</th><th>Points</th><th>Pourquoi</th></tr></thead><tbody>
+    {% for lab, pts, mx, raison in c.lignes %}<tr><td><b>{{ lab }}</b></td><td class="tot">{{ pts }}<span class="sub">/{{ mx }}</span></td><td>{{ raison }}</td></tr>{% endfor %}
+  </tbody></table><p class="note">{% ic 'info' 14 %} Jamais une probabilité de closing.{% if not user.organisation.these %} <a href="{% url 'investissement:these' %}">Renseignez votre thèse</a> pour un indice précis.{% endif %}</p></section></div>
+
+{# ---------- Data room ---------- #}
+<div class="tp" data-p="room"><div class="g g2">
+  <section class="card">{% if acces %}<div class="ch"><h3>Accès ouvert</h3><span class="pill ok">accord signé</span></div><p class="muted">Chaque ouverture de pièce est inscrite au journal de la PME.</p>
+    {% else %}<div class="lock"><span class="ico">{% ic 'cadenas' 24 %}</span><h3 style="margin:0">Data room verrouillée</h3>
+      <p class="muted" style="margin:0">Les dossiers deviennent accessibles après l’accord de confidentialité signé par la PME. Chaque ouverture est journalisée.</p>
+      {% if not demande %}<form method="post" action="{% url 'investissement:demander_acces' org.slug %}" data-loader="Envoi de la demande…">{% csrf_token %}<button class="btn p" type="submit">{% ic 'cadenas' 16 %}Demander l’accès</button></form>{% else %}<span class="pill">{{ demande.get_statut_display }}</span>{% endif %}</div>{% endif %}</section>
+  <section class="card"><div class="ch"><h3>Dossiers</h3><span>{{ preuves.deposees }} pièce{{ preuves.deposees|pluralize }}</span></div>
+    <ul class="rows">{% for code, lab, niveaux in matrice %}<li><span class="mono">{{ code }}</span><div><b>{{ lab }}</b>{% if niveaux %}<span>{{ niveaux|length }} pièce{{ niveaux|length|pluralize }}</span>{% else %}<span>vide</span>{% endif %}</div>{% if acces and niveaux %}{% ic 'oeil' 18 %}{% else %}{% ic 'cadenas' 18 %}{% endif %}</li>{% endfor %}</ul></section>
+</div></div>
+{% include 'partials/cartouche.html' %}
+{% endwith %}{% endblock %}

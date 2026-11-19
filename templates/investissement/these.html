@@ -1,8 +1,9 @@
-{% extends 'base.html' %}{% load rm %}
+{% extends 'base_web.html' %}{% load rm %}
 {% block title %}Ma thèse{% endblock %}
 {% block content %}
-<div class="gh"><div><p class="bc">{{ user.organisation.nom }} › Thèse</p><h1>Votre thèse, <em>vos critères.</em></h1><p class="lead">Elle fixe les entreprises que vous voyez et le calcul de l’indice de compatibilité.</p></div></div>
-<section class="card" style="max-width:960px"><form method="post" class="form" novalidate data-loader="Recalcul des indices…">{% csrf_token %}
+<header class="ph"><div><p class="kicker">{{ user.organisation.nom }} · critères d’investissement</p><h1>Votre thèse, <em>vos critères.</em></h1></div></header>
+<section class="card" style="max-width:960px"><div class="ch"><h3>Ce que vous cherchez</h3><span>elle fixe les PME affichées et l’indice de compatibilité</span></div>
+  <form method="post" class="form" novalidate data-loader="Recalcul des indices…">{% csrf_token %}
   <div class="fgrid">{% for f in form %}{% if f.name in 'secteurs zones stades instruments exigence_esg' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>
-  <div style="display:flex;justify-content:flex-end"><button class="btn p lg" type="submit">Enregistrer ma thèse {% ic 'fleche-d' 16 %}</button></div></form></section>
+  <div style="display:flex;justify-content:flex-end"><button class="btn p" type="submit">Enregistrer ma thèse {% ic 'fleche-d' 16 %}</button></div></form></section>
 {% endblock %}

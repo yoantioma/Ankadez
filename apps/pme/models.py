@@ -102,16 +102,19 @@ class Piece(models.Model):
     """Une pièce de la data room, rangée dans l’un des 10 dossiers imposés."""
 
     class Dossier(models.TextChoices):
+        """Les 12 dossiers du cahier des charges v2 : ils recouvrent les 9 chapitres d’une due diligence d’investisseur."""
         PITCH = '01', '01 · Pitch et business plan'
         ETATS = '02', '02 · États financiers et projections'
         JURIDIQUE = '03', '03 · Juridique et gouvernance'
-        FISCAL = '04', '04 · Fiscal et social'
-        EQUIPE = '05', '05 · Équipe et ressources humaines'
-        CONTRATS = '06', '06 · Contrats clients et fournisseurs'
-        LICENCES = '07', '07 · Licences et propriété intellectuelle'
+        FISCAL = '04', '04 · Fiscal (DSF, attestation de non-redevance)'
+        LICENCES = '05', '05 · Licences et autorisations'
+        CONTRATS = '06', '06 · Contrats et lettres d’intention'
+        ACTIONNARIAT = '07', '07 · Actionnariat et table de capitalisation'
         RISQUES = '08', '08 · Risques et PESTEL'
-        ESG = '09', '09 · Environnement, social, gouvernance'
+        ESG = '09', '09 · ESG et traçabilité'
         SORTIE = '10', '10 · Stratégie de sortie'
+        EQUIPE = '11', '11 · Équipe, RH et CNPS'
+        ACTIFS = '12', '12 · Actifs et propriété intellectuelle'
 
     organisation = models.ForeignKey('annuaire.Organisation', on_delete=models.CASCADE, related_name='pieces')
     dossier = models.CharField(max_length=2, choices=Dossier.choices)

@@ -1,0 +1,67 @@
+/* Accueil Ankadez : zones tableau de bord (DA bento) et ajustements du récit (DA site v2). */
+#vitrine{background:var(--fond);color:var(--encre);font-family:var(--f)}
+#vitrine .rv-nav .rv-logo .logo-mark{flex:none}
+#vitrine .rv-nav .rv-cta.sm{white-space:nowrap}
+/* vitrine.css colore tous les liens (a:not(.app *)) : on rend leur couleur aux liens du récit */
+#vitrine .rv-cta{color:var(--sur-violet)}
+#vitrine .rv-cta.ghost{color:var(--encre)}
+#vitrine .rv-cta.light{color:#15132B}
+#vitrine .rv-cta.ghost.light{color:#fff;border-color:rgba(255,255,255,.6)}
+#vitrine .rv-logo{color:var(--encre)}
+#vitrine .rv-nav nav a{color:var(--t2)}
+#vitrine .rv-nav nav a:hover{color:var(--vp)}
+
+/* zones tableau de bord */
+.zone-tdb{padding:28px 0 36px}
+.zone-tdb .ldwrap{max-width:1280px;margin:0 auto}
+.zone-tdb + .zone-tdb{padding-top:0}
+.note-tdb{margin:4px 2px 0;font-size:13px;color:var(--t3)}
+
+/* diagnostic express */
+.diag{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px}
+.diag-q h2{margin:2px 0 0;font-size:30px;letter-spacing:-.03em;font-weight:600;line-height:1.1}
+.diag-sous{margin:6px 0 16px;font-size:14px;color:var(--t3)}
+.diag form{display:flex;flex-direction:column;gap:8px}
+.dq{display:flex;align-items:center;gap:12px;margin:0;padding:12px 14px;border:1px solid var(--ligne);border-radius:16px;background:var(--fond)}
+.dq legend{float:left;flex:1;padding:0;font-size:15px;line-height:1.4;color:var(--encre)}
+.dq label{position:relative;flex:none}
+.dq input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.dq span{display:inline-grid;place-items:center;min-width:58px;min-height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--ligne);background:var(--surface);font-size:14px;font-weight:600;color:var(--t2);transition:background .15s,color .15s,border-color .15s}
+.dq input:checked + span{background:#5536E8;border-color:#5536E8;color:#fff}
+.dq input:focus-visible + span{outline:2px solid var(--violet);outline-offset:2px}
+.diag-r{background:#5536E8;color:#fff;border-radius:28px;padding:26px;display:flex;flex-direction:column;gap:10px}
+.diag-r .d-k{margin:0;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.diag-r .d-num{margin:0;font-size:76px;line-height:1;font-weight:600;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.diag-r .d-num small{font-size:22px;font-weight:500;letter-spacing:0;margin-left:6px;color:rgba(255,255,255,.7)}
+.diag-r .d-barre{height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.25)}
+.diag-r .d-barre i{display:block;height:100%;width:0;border-radius:999px;background:#fff;transition:width .4s ease}
+.diag-r .d-grade{margin:4px 0 0;font-size:20px;font-weight:700}
+.diag-r .d-ex{margin:0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.8)}
+.diag-r .d-in{margin-top:auto;background:rgba(255,255,255,.12);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.diag-r .d-in p{margin:0;font-size:14px;line-height:1.5}
+.diag-r .cta-p{align-self:flex-start;background:#fff;color:#15132B}
+:root[data-theme="dark"] .diag-r{background:#2A2350}
+
+/* chaîne : APME, API, BVMAC */
+.echelle{list-style:none;margin:8px 0 18px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.echelle li{position:relative;background:var(--fond);border:1px solid var(--ligne);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:4px}
+.echelle li:not(:last-child)::after{content:"";position:absolute;right:-12px;top:38px;width:10px;height:2px;background:var(--violet)}
+.echelle .eta{width:34px;height:34px;border-radius:11px;background:#5536E8;color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;margin-bottom:8px}
+.echelle b{font-size:19px}
+.echelle span:not(.eta){font-size:13px;font-weight:600;color:var(--violet)}
+.echelle p{margin:6px 0 0;color:var(--t2);font-size:15px;line-height:1.5}
+#chaine{border-bottom:0}
+#chaine + .rv-trustsec{background:var(--fond)}
+
+/* outils sous les appareils */
+.appareils .ap-outils{display:flex;justify-content:center;gap:10px;margin-top:24px;flex-wrap:wrap}
+.appareils .ap-tabs{margin:0 auto 8px;align-self:center;width:fit-content}
+.appareils .ap-txt{text-align:center;margin-bottom:18px}
+
+.rv-cards a{color:var(--violet);font-weight:600}
+.rv-foot .rv-logo{margin-bottom:12px}
+
+@media (max-width:1024px){.diag{grid-template-columns:1fr}.echelle{grid-template-columns:1fr}.echelle li::after{display:none}}
+@media (max-width:860px){.zone-tdb .ldwrap{padding:4px 16px 0}.zone-tdb .ldh{flex-direction:column;align-items:flex-start}.zone-tdb .ldh h1{font-size:38px}
+  .dq{flex-wrap:wrap}.dq legend{width:100%;float:none}.diag-r .d-num{font-size:60px}}
+@media (prefers-reduced-motion:reduce){.diag-r .d-barre i,.dq span{transition:none}}

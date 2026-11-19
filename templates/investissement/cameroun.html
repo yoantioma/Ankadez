@@ -1,0 +1,16 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Le Cameroun{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc">{{ user.organisation.nom }} › Vue pays</p><h1>Bonjour, voici le Cameroun</h1></div>
+  {% if top3 %}<div class="acts top3" aria-label="Les trois secteurs les plus porteurs"><span class="t1">Secteurs les plus porteurs</span>
+    {% for s, score, n in top3 %}<a class="pbtn{% if forloop.first %} p{% endif %}" href="{% url 'investissement:secteur' s.slug %}" data-loader="Ouverture du secteur…" title="Score d’attractivité {{ score }}/100 · {{ n }} PME"><b class="rang">{{ forloop.counter }}</b>{{ s.nom|truncatechars:28 }}</a>{% endfor %}</div>{% endif %}
+</div>
+<div class="ldwrap vue-pays">
+  {{ v.hero }}
+  <div class="sh6"><span class="n">01</span><h3>Le pays en un coup d’œil</h3><span class="r">sources : FMI, BEAC, CNUCED, S&amp;P, Moody’s</span></div>
+  {% include 'core/_bloc_pays.html' %}
+  <div class="sh6"><span class="n">02</span><h3>Cible à 36 mois</h3><span class="r">jamais additionnée aux chiffres réels</span></div>
+  {% include 'core/_bloc_cibles.html' %}
+  <p class="note-tdb">Hypothèse : 10 % des entreprises scorées obtiennent un financement. Réalisé à ce jour : 0 closing.</p>
+</div>
+{% endblock %}

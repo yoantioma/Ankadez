@@ -4,7 +4,7 @@
 {% block body %}
 <div class="ob">
   <div class="ob-l" style="background-image:url('{% static 'img/photos/L.webp' %}')">
-    <a class="brand" href="{% url 'core:landing' %}"><span class="lg">R</span>ReadyMatch</a>
+    <a class="brand" href="{% url 'core:landing' %}">{% include "partials/logo.html" %}Ankadez</a>
     <div class="bas"><p class="kk" style="color:#FFD166">Connexion sécurisée</p><h2>Content de vous <span style="font-weight:300">revoir.</span></h2>
       <p>Vos accès aux data rooms sont protégés : chaque ouverture est inscrite au journal.</p></div>
   </div>

@@ -1,14 +1,74 @@
-{% extends 'base.html' %}{% load rm %}
-{% block title %}Entreprises compatibles{% endblock %}
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Marketplace des PME{% endblock %}
 {% block content %}
-<div class="gh"><div><p class="bc">{{ user.organisation.nom }} › Entreprises</p><h1>Les entreprises <em>pour votre thèse.</em></h1></div>
-  <div class="acts"><a class="btn" href="{% url 'investissement:these' %}">{% ic 'crayon' 16 %} Modifier ma thèse</a><a class="btn p" href="{% url 'investissement:pipeline' %}">Mon pipeline {% ic 'fleche-d' 16 %}</a></div></div>
-{% if not these %}<div class="band"><span class="bi">{% ic 'cible' 24 %}</span><div><h3>Renseignez votre thèse</h3><p>Sans thèse, l’indice reste approximatif.</p></div><div class="acts"><a class="btn p" href="{% url 'investissement:these' %}">Renseigner ma thèse</a></div></div>{% endif %}
-<form class="filters" method="get" action="{% url 'investissement:marketplace' %}" data-async data-target="#zone-cartes" data-skeleton="cartes" role="search">
-  <input type="search" name="q" value="{{ q }}" placeholder="Rechercher une entreprise, une ville…" aria-label="Rechercher">
-  <select name="secteur" aria-label="Secteur"><option value="">Tous les secteurs</option>{% for s in secteurs %}<option value="{{ s.slug }}"{% if s.slug == secteur %} selected{% endif %}>{{ s.nom }}</option>{% endfor %}</select>
-  <select name="tri" aria-label="Trier"><option value="indice"{% if tri == 'indice' %} selected{% endif %}>Trier par indice</option><option value="ticket"{% if tri == 'ticket' %} selected{% endif %}>Trier par montant</option></select>
-  <label class="chip n" style="padding:10px 14px;cursor:pointer"><input type="checkbox" name="comptes" value="1"{% if comptes == '1' %} checked{% endif %} style="accent-color:#5536E8"> Avec comptes déclarés</label>
-</form>
-<div id="zone-cartes" data-async-zone>{% include 'investissement/_cartes.html' %}</div>
+<input type="radio" class="tr" name="w20-mv" id="w20-mv-pile" checked><input type="radio" class="tr" name="w20-mv" id="w20-mv-liste"><input type="radio" class="tr" name="w20-mv" id="w20-mv-grille">
+<header class="ph"><div><p class="kicker">{{ user.organisation.nom }}{% if these %} · thèse {% for s in these.secteurs.all|slice:':2' %}{{ s.nom|lower }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if these.ticket_min or these.ticket_max %}, ticket {{ these.ticket_min|fcfa }} à {{ these.ticket_max|fcfa }}{% endif %}{% else %} · thèse à renseigner{% endif %}</p><h1>Marketplace des PME</h1></div>
+  <div class="ph-act"><div class="seg" role="radiogroup" aria-label="Affichage"><label for="w20-mv-pile">{% ic 'carte' 16 %}Pile</label><label for="w20-mv-liste">{% ic 'liste' 16 %}Liste</label><label for="w20-mv-grille">{% ic 'pile' 16 %}Grille</label></div></div></header>
+<div class="mk">
+  <form class="card filters" aria-label="Filtres" method="get" action="{% url 'investissement:marketplace' %}" data-loader="Mise à jour de la liste…" data-auto>
+    <div class="ch"><h3>Filtres</h3>{% if filtre_actif %}<a class="btn t sm" href="{% url 'investissement:marketplace' %}">Réinitialiser</a>{% endif %}</div>
+    <div class="fsrch">{% ic 'loupe' 16 %}<input type="search" name="q" value="{{ f.q }}" placeholder="Nom, ville, activité" aria-label="Rechercher une PME"></div>
+    <fieldset class="fgrp"><legend class="flab">Secteur</legend>
+      {% for s in secteurs %}{% if forloop.counter <= 6 or s.slug in f.secteurs %}<label class="ck"><input type="checkbox" name="secteur" value="{{ s.slug }}"{% if s.slug in f.secteurs %} checked{% endif %}><span class="ck-l">{{ s.nom }}</span><small>{{ s.n }}</small></label>{% endif %}{% endfor %}
+      {% if secteurs|length > 6 %}<details class="plus"><summary>Autres secteurs</summary>{% for s in secteurs %}{% if forloop.counter > 6 and s.slug not in f.secteurs %}<label class="ck"><input type="checkbox" name="secteur" value="{{ s.slug }}"><span class="ck-l">{{ s.nom }}</span><small>{{ s.n }}</small></label>{% endif %}{% endfor %}</details>{% endif %}
+    </fieldset>
+    <fieldset class="fgrp"><legend class="flab">Grade minimum</legend>
+      <select name="grade" aria-label="Grade minimum"><option value="">Tous les grades</option>{% for v, lab in grades %}<option value="{{ v }}"{% if f.grade == v %} selected{% endif %}>{{ lab }}</option>{% endfor %}</select></fieldset>
+    <fieldset class="fgrp"><legend class="flab">Montant recherché · M FCFA</legend>
+      <div class="two"><input type="text" inputmode="numeric" name="tmin" value="{{ f.tmin }}" placeholder="Min" aria-label="Montant minimum en millions"><input type="text" inputmode="numeric" name="tmax" value="{{ f.tmax }}" placeholder="Max" aria-label="Montant maximum en millions"></div></fieldset>
+    <fieldset class="fgrp"><legend class="flab">Instrument</legend>
+      <div class="chips">{% for v, lab in instruments %}<label class="chip"><input type="checkbox" name="instrument" value="{{ v }}"{% if v in f.instruments %} checked{% endif %}>{{ lab }}</label>{% endfor %}</div></fieldset>
+    <fieldset class="fgrp"><legend class="flab">Trier par</legend>
+      <select name="tri" aria-label="Trier par"><option value="indice"{% if f.tri == 'indice' %} selected{% endif %}>Indice de compatibilité</option><option value="score"{% if f.tri == 'score' %} selected{% endif %}>Score de préparation</option><option value="ticket"{% if f.tri == 'ticket' %} selected{% endif %}>Montant recherché</option></select></fieldset>
+    <fieldset class="fgrp">
+      <label class="sw"><input type="checkbox" name="comptes" value="1"{% if f.comptes %} checked{% endif %}><span class="sw-t" aria-hidden="true"></span>Comptes déclarés seulement</label>
+      <label class="sw"><input type="checkbox" name="zlecaf" value="1"{% if f.zlecaf %} checked{% endif %}><span class="sw-t" aria-hidden="true"></span>Export ZLECAf seulement</label></fieldset>
+    <noscript><button class="btn p" type="submit">Appliquer</button></noscript>
+  </form>
+  <div class="mk-main"><p class="muted" id="mk-count">{{ page.paginator.count }} PME{% if f.q %} pour « {{ f.q }} »{% endif %} · triées par {% if f.tri == 'ticket' %}montant recherché{% elif f.tri == 'score' %}score de préparation{% else %}indice de compatibilité{% endif %}{% if masquees %} · {{ masquees }} sous le seuil de {{ seuil }}, non affichée{{ masquees|pluralize }}{% endif %}</p>
+  {% if page.object_list %}
+    <div class="pgrid" data-mv="grille">{% for l in page.object_list %}{% include 'investissement/_pcard.html' %}{% endfor %}</div>
+    <div class="card tbl" data-mv="liste"><table class="ltab"><thead><tr><th></th><th>PME</th><th>Secteur</th><th>Montant</th><th>Grade</th><th>Indice</th><th>Mise à jour</th></tr></thead><tbody>
+      {% for l in page.object_list %}{% with o=l.org %}<tr><td>{% if l.photo %}<span class="thumb" style="background-image:url('{{ l.photo }}')"></span>{% else %}<span class="thumb sans-photo">{{ o.initiales }}</span>{% endif %}</td>
+        <td><a href="{% url 'investissement:fiche' o.slug %}" style="color:inherit;text-decoration:none"><b>{{ o.nom }}</b></a><span class="sub">{{ o.description|truncatechars:60|default:'Description à compléter' }}</span></td>
+        <td>{{ o.secteur.nom|default:'—' }}</td><td>{% if l.ticket %}{{ l.ticket|fcfa }}{% else %}—{% endif %}</td><td><span class="pill v">{{ l.score.palier }}</span></td><td class="tot">{{ l.c.total }}</td><td class="muted">il y a {{ o.updated_at|depuis }}</td></tr>{% endwith %}{% endfor %}
+    </tbody></table></div>
+    <div class="pile" data-mv="pile"><div class="pile-card">{% for l in page.object_list %}{% include 'investissement/_pcard.html' with pile=forloop.counter %}{% endfor %}</div>
+      <div class="pile-btns"><button type="button" class="rond non" data-pile="passer" aria-label="Passer à la suivante">{% ic 'croix' 22 %}</button><a class="rond inf" href="#" data-pile-fiche aria-label="Voir la fiche">{% ic 'info' 20 %}</a><button type="button" class="rond ok" data-pile="interesse" aria-label="Demander l’accès à la data room">{% ic 'check' 22 %}</button></div>
+      <p class="muted c" id="pile-msg">Glissez à droite pour demander l’accès à la data room, à gauche pour passer. « Intéressé » n’envoie jamais de message libre.</p>
+      <div class="card vide" id="pile-fin" hidden><b>Vous avez vu les PME de cette page.</b>{% if page.has_next %}<a class="btn p" href="?{{ params }}{% if params %}&amp;{% endif %}page={{ page.next_page_number }}" style="margin-top:12px">Page suivante</a>{% else %}Changez les filtres pour en voir d’autres.{% endif %}</div></div>
+    {% if page.has_other_pages %}<nav class="pag" aria-label="Pages">{% if page.has_previous %}<a class="btn s sm" href="?{{ params }}{% if params %}&{% endif %}page={{ page.previous_page_number }}">Précédent</a>{% endif %}<span class="muted">Page {{ page.number }} sur {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn s sm" href="?{{ params }}{% if params %}&{% endif %}page={{ page.next_page_number }}">Suivant</a>{% endif %}</nav>{% endif %}
+  {% else %}<div class="card vide"><b>Aucune PME ne correspond.</b>Élargissez les filtres ou votre thèse.</div>{% endif %}
+  {% include 'partials/cartouche.html' %}
+  </div>
+</div>
 {% endblock %}
+{% block scripts %}<script>
+(function(){
+  // Filtres : la liste se met à jour dès qu'un critère change
+  var f=document.querySelector('form[data-auto]'),t;
+  if(f){f.addEventListener('change',function(){f.requestSubmit?f.requestSubmit():f.submit()});
+    f.querySelectorAll('input[type=text]').forEach(function(i){i.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){f.requestSubmit?f.requestSubmit():f.submit()},700)})})}
+  // Affichage choisi (la pile par défaut), gardé pour la prochaine visite
+  try{var v=localStorage.getItem('rm-affichage');if(v){var r=document.getElementById('w20-mv-'+v);if(r)r.checked=true}}catch(e){}
+  document.querySelectorAll('input[name=w20-mv]').forEach(function(r){r.addEventListener('change',function(){try{localStorage.setItem('rm-affichage',r.id.replace('w20-mv-',''))}catch(e){}})});
+  // Pile : une carte à la fois. Glisser à droite = intéressé, à gauche = passer (souris, doigt ou flèches du clavier)
+  var cartes=[].slice.call(document.querySelectorAll('.pile-card .pcard')),i=0,lien=document.querySelector('[data-pile-fiche]'),fin=document.getElementById('pile-fin');
+  function montrer(){cartes.forEach(function(c,k){c.hidden=k!==i;c.classList.remove('out-l','out-r');c.style.transform=''});if(lien&&cartes[i])lien.href=cartes[i].dataset.fiche;
+    if(!cartes[i]){document.querySelector('.pile-btns').hidden=true;if(fin)fin.hidden=false}}
+  function sortir(sens){var c=cartes[i];if(!c)return;c.style.transform='';c.classList.add(sens>0?'out-r':'out-l');
+    setTimeout(function(){if(sens>0){var fo=c.querySelector('form.acces');if(fo){fo.requestSubmit?fo.requestSubmit():fo.submit();return}}i++;montrer()},280)}
+  if(cartes.length){montrer();
+    document.querySelector('[data-pile=passer]').addEventListener('click',function(){sortir(-1)});
+    document.querySelector('[data-pile=interesse]').addEventListener('click',function(){sortir(1)});
+    var zone=document.querySelector('.pile-card'),x0=null,dx=0;
+    zone.addEventListener('pointerdown',function(e){if(e.button||!cartes[i])return;x0=e.clientX;dx=0;cartes[i].style.transition='none'});
+    window.addEventListener('pointermove',function(e){if(x0===null)return;dx=e.clientX-x0;if(Math.abs(dx)>4){cartes[i].style.transform='translateX('+dx+'px) rotate('+(dx/20)+'deg)';zone.dataset.sens=dx>0?'ok':'non'}});
+    window.addEventListener('pointerup',function(){if(x0===null)return;var c=cartes[i];x0=null;c.style.transition='';delete zone.dataset.sens;
+      if(Math.abs(dx)>110){sortir(dx)}else{c.style.transform=''}});
+    zone.addEventListener('click',function(e){if(Math.abs(dx)>4){e.preventDefault();e.stopPropagation()}},true);
+    zone.addEventListener('dragstart',function(e){e.preventDefault()});
+    document.addEventListener('keydown',function(e){if(!document.getElementById('w20-mv-pile').checked||/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;
+      if(e.key==='ArrowRight')sortir(1);if(e.key==='ArrowLeft')sortir(-1)})}
+})();
+</script>{% endblock %}

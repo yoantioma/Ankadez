@@ -14,7 +14,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Identité', {'fields': ('first_name', 'last_name', 'telephone')}),
-        ('ReadyMatch', {'fields': ('role', 'organisation')}),
+        ('Ankadez', {'fields': ('role', 'organisation')}),
         ('Droits', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Dates', {'fields': ('last_login', 'date_joined')}),
     )

@@ -12,7 +12,7 @@
 
   <section class="hero" aria-label="Potentiel">
     <div class="bk">
-      <span class="live"><i></i>Estimation ReadyMatch · tous secteurs confondus</span>
+      <span class="live"><i></i>Estimation Ankadez · tous secteurs confondus</span>
       <p class="k">L’argent à se faire : marge brute cumulée des entreprises inscrites</p>
       {% if m.potentiel %}
         <p class="num">{{ m.potentiel_aff.0 }}<small>{{ m.potentiel_aff.1 }} FCFA</small></p>
@@ -94,7 +94,7 @@
 {# ===================== 2. La plateforme ===================== #}
 <section class="sec" id="plateforme">
   <div class="sec-h"><div><p class="kk">La plateforme</p><h2 class="h2">Préparer les PME, <em>éclairer les investisseurs.</em></h2>
-    <p class="lead">ReadyMatch mesure la préparation des entreprises, prouve chaque chiffre et explique la compatibilité avec chaque investisseur.</p></div></div>
+    <p class="lead">Ankadez mesure la préparation des entreprises, prouve chaque chiffre et explique la compatibilité avec chaque investisseur.</p></div></div>
   <div class="g g2">
     <article class="card" style="padding:26px;display:flex;flex-direction:column;gap:18px"><span class="chip">Pour les investisseurs</span><h3 style="font-size:28px">Des dossiers comparables, des preuves lisibles.</h3>
       <div class="g g3" style="gap:10px">
@@ -133,11 +133,11 @@
 {# ===================== 3. Acteurs ===================== #}
 <section class="sec" id="acteurs">
   <div class="sec-h"><div><p class="kk">Qui lit, qui régule</p><h2 class="h2">Un cadre public <em>clair et nommé.</em></h2>
-    <p class="lead">La tutelle peut lire un dossier, les agences instruisent et accompagnent, les régulateurs encadrent. Aucun d’eux n’agrée un dossier depuis ReadyMatch.</p></div><span class="cnt"><i></i>10 acteurs</span></div>
+    <p class="lead">La tutelle peut lire un dossier, les agences instruisent et accompagnent, les régulateurs encadrent. Aucun d’eux n’agrée un dossier depuis Ankadez.</p></div><span class="cnt"><i></i>10 acteurs</span></div>
   <div class="g g5">{% for sigle, groupe, nom, desc in acteurs %}
     <article class="card" style="display:flex;flex-direction:column;gap:10px;min-height:200px"><span class="lgm {{ groupe }}"{% if sigle|length > 6 %} style="font-size:10px"{% endif %}>{{ sigle }}</span><b>{{ nom }}</b><p class="muted" style="font-size:12.5px">{{ desc }}</p>
       <span class="t1" style="margin-top:auto;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase">{% if groupe == 'tutelle' %}Tutelle{% elif groupe == 'agence' %}Agence{% else %}Régulateur{% endif %}</span></article>{% endfor %}</div>
-  <p class="note"><b style="color:var(--encre)">ReadyMatch ne vise pas, n’agrée pas, ne porte pas le crédit ; un dossier privé n’est pas une offre au public.</b> Emplacements de logo : logos officiels à insérer avec autorisation.</p>
+  <p class="note"><b style="color:var(--encre)">Ankadez ne vise pas, n’agrée pas, ne porte pas le crédit ; un dossier privé n’est pas une offre au public.</b> Emplacements de logo : logos officiels à insérer avec autorisation.</p>
 </section>
 
 {# ===================== 4. Incitations ===================== #}
@@ -191,7 +191,7 @@
 {# ===================== 7. Outils PME ===================== #}
 <section class="sec" id="outils">
   <div class="sec-h"><div><p class="kk">Outils et leviers pour les PME</p><h2 class="h2">Au-delà de l’investissement, <em>la PME grandit.</em></h2>
-    <p class="lead">Gestion, croissance, optimisation : tout ce que ReadyMatch met à disposition pour que l’entreprise avance, avec ou sans levée de fonds.</p></div>
+    <p class="lead">Gestion, croissance, optimisation : tout ce que Ankadez met à disposition pour que l’entreprise avance, avec ou sans levée de fonds.</p></div>
     <a class="btn y lg" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit {% ic 'fleche-d' 16 %}</a></div>
   <div class="g g3">{% for icone, tag, titre, desc in outils %}<article class="card" style="display:flex;flex-direction:column;gap:10px"><span class="av" style="width:48px;height:48px;border-radius:14px;background:var(--vd);color:var(--vp);display:grid;place-items:center">{% ic icone 22 %}</span>
     <span class="kk">{{ tag }}</span><h3>{{ titre }}</h3><p class="muted" style="font-size:13.5px">{{ desc }}</p></article>{% endfor %}</div>
@@ -199,7 +199,7 @@
 
 <section class="ph" style="background-image:url('{% static 'img/photos/A.webp' %}');min-height:380px;margin-top:48px;align-items:center;justify-content:center;text-align:center">
   <div class="bas" style="margin:auto;max-width:760px;display:flex;flex-direction:column;align-items:center;gap:16px"><h2 style="font-size:42px">Derrière chaque dossier, une entreprise qui nourrit une ville.</h2>
-    <p style="opacity:.9">ReadyMatch aide les PME camerounaises à montrer ce qu’elles valent, preuves à l’appui.</p>
+    <p style="opacity:.9">Ankadez aide les PME camerounaises à montrer ce qu’elles valent, preuves à l’appui.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><a class="btn" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.6)" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis</a>
       <a class="btn y" href="{% url 'accounts:inscription_compte' 'pme' %}">Faire mon diagnostic gratuit</a></div></div>
 </section>

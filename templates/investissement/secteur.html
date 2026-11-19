@@ -1,0 +1,50 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}{% if vide %}Secteurs{% else %}{{ st.secteur.nom }}{% endif %}{% endblock %}
+{% block content %}
+{% if vide %}<div class="card vide"><b>Aucun secteur à afficher.</b>Les secteurs apparaissent dès qu’une PME inscrite en renseigne un.</div>{% else %}
+<div class="gh"><div><p class="bc"><a href="{% url 'investissement:secteurs' %}">Secteurs</a> › {{ st.secteur.nom }}</p><h1>{{ st.secteur.nom }}, n°{{ rang }} sur {{ n_secteurs }}</h1></div>
+  <div class="acts"><form method="get" onchange="location.href=this.s.value" style="margin:0"><select name="s" aria-label="Changer de secteur" style="min-width:240px">{% for s, sc, n in classement %}<option value="{% url 'investissement:secteur' s.slug %}"{% if s == st.secteur %} selected{% endif %}>{{ forloop.counter }}. {{ s.nom }} · {{ n }} PME</option>{% endfor %}</select></form>
+    <a href="{% url 'investissement:entreprises' %}?secteur={{ st.secteur.slug }}" class="pbtn p">{% ic 'liste' 16 %}Comparer les {{ st.n }} PME</a></div>
+</div>
+<div class="bento">
+  <section class="bx bph{% if not photo %} sans-photo{% endif %}" style="grid-area:ph{% if photo %};background-image:url('{{ photo }}'){% endif %}"><span class="tag"><i></i>Rang {{ rang }} sur {{ n_secteurs }} · {% if score >= 60 %}attractif{% elif score >= 40 %}moyen{% else %}en construction{% endif %}</span>
+    <span class="ov">{% ic 'financer' 14 %}{{ st.n }} PME · {{ total_tickets }} recherchés</span>
+    <div class="pn2"><div><b>{{ st.secteur.nom }}</b><span>Score {{ score }}/100 · montant médian {{ ticket_median }}</span></div>
+      <a href="{% url 'investissement:entreprises' %}?secteur={{ st.secteur.slug }}" aria-label="Comparer les PME du secteur">{% ic 'fleche-d' 18 %}</a></div></section>
+
+  <section class="bx" style="grid-area:bg"><div class="bbig"><div><div class="kpi1"><span class="ic">{% ic 'jauge' 18 %}</span><b>{{ marge_mediane }}</b><span class="chipv">marge EBITDA médiane</span></div>
+      <p class="t1" style="margin-top:8px">{% if st.marges %}les {{ st.marges|length }} PME aux comptes déclarés, rangées par marge : la rentabilité fixe la valeur à la sortie{% else %}aucune PME du secteur n’a encore déclaré d’EBITDA{% endif %}</p>
+      <div class="dmw" style="--ds:22px;--dg:8px"><div class="dmx" role="img" aria-label="Répartition des PME par marge EBITDA">{% for col in matrice %}<div class="dcol" tabindex="0"><span class="tipc"><b>{{ col.lab }}</b> · {{ col.n }} PME</span>{% for _ in col.pleins %}<i class="c-f"></i>{% endfor %}{% for _ in col.vides %}<i class="c-e"></i>{% endfor %}</div>{% endfor %}</div>
+        <div class="dlx">{% for col in matrice %}<span>{{ col.lab }}</span>{% endfor %}</div></div>
+      <div class="lg2"><span><i class="c-f"></i>une PME</span><span><i class="c-e"></i>case vide</span></div></div>
+    <div class="bv"><div class="top"><span class="ic">{% ic 'check' 18 %}</span><span class="chip">médiane</span></div>
+      <span class="big">{{ score_median|default:'—' }}</span><span class="lb">score de préparation</span>
+      <div class="in"><div class="r"><span>Confiance des données</span><span>médiane</span></div><b>{% if confiance_mediane is not None %}{{ confiance_mediane }} %{% else %}—{% endif %}</b><span class="s">{{ st.avec_comptes }} PME sur {{ st.n }} ont déclaré leurs comptes.</span></div></div>
+  </div></section>
+
+  <section class="bx" style="grid-area:ls"><p class="t1">Selon votre thèse</p><div class="bh"><h3 style="font-size:24px">Meilleures PME</h3><span class="cnt"><i></i>{{ st.n }} PME</span></div>
+    <ol class="nl">{% for l in top %}<li{% if forloop.first %} class="on"{% endif %}><a href="{% url 'investissement:fiche' l.org.slug %}" data-loader="Ouverture de la fiche…"><span class="av4{% if not l.photo %} sans-photo{% endif %}"{% if l.photo %} style="background-image:url('{{ l.photo }}')"{% endif %}>{% if not l.photo %}{{ l.org.initiales }}{% endif %}<em>{{ forloop.counter }}</em></span><span class="tx"><b>{{ l.org.nom }}</b><span class="s">{{ l.org.description|truncatechars:40|default:l.org.ville }}</span></span><span class="st">{{ l.c.total }} <small class="tr-eq">indice</small></span></a></li>{% endfor %}</ol>
+    <a class="pbtn" href="{% url 'investissement:entreprises' %}?secteur={{ st.secteur.slug }}" style="width:100%;justify-content:center;margin-top:10px;box-sizing:border-box">Voir les {{ st.n }} entreprises</a></section>
+
+  <section class="bx" style="grid-area:ln"><div class="bh"><div><p class="t1">Demande du secteur</p><h3>Montants recherchés</h3></div></div>
+    <div class="vh"><b>{{ total_tickets }}</b><span class="chipv">au total · {{ st.tickets|length }} PME</span></div>
+    {% if sucettes %}<div class="lps" role="img" aria-label="Montant recherché par PME">{% for s in sucettes %}<div class="lp" tabindex="0"><span class="tipc">{{ s.v }} FCFA</span><span class="stm" style="height:{{ s.h }}%"><i class="on"></i></span></div>{% endfor %}</div>
+      <p class="src2">{% ic 'info' 14 %}Une sucette par PME, du plus petit au plus grand montant · médiane {{ ticket_median }}</p>
+    {% else %}<p class="t1">Aucune PME du secteur n’a indiqué de montant.</p>{% endif %}</section>
+
+  <section class="bx" style="grid-area:ck"><div class="bh"><div><p class="t1">Pourquoi {{ score }} sur 100 ?</p><h3>Score d’attractivité</h3></div></div>
+    {{ jauge }}
+    <div class="rws">{% for lab, v, poids in axes %}<div><i style="background:{% cycle 'var(--violet)' '#6E55EC' '#8B78F0' '#A898F4' '#C3B8F8' %}"></i><span>{{ lab }} <small class="t1">· poids {{ poids }}</small></span><b>{{ v }}</b></div>{% endfor %}</div></section>
+
+  <section class="bx" style="grid-area:le"><div class="bh"><div><p class="t1">Qualité des dossiers</p><h3>Comptes et preuves</h3></div></div>
+    <div class="tiles"><div class="tile v"><span>Comptes déclarés</span><b>{{ st.avec_comptes }}/{{ st.n }}</b></div><div class="tile"><span>Pièces attestées</span><b>{{ st.attestees }}</b></div>
+      <div class="tile d"><span class="ic">{% ic 'bouclier' 18 %}</span><div><span>Confiance</span><b style="display:block;font-size:15px">{% if confiance_mediane is not None %}{{ confiance_mediane }} %{% else %}—{% endif %}</b></div></div></div>
+    <p class="t1" style="margin-top:14px">Sans pièce justifiée, le score d’une PME reste plafonné à 59.</p></section>
+
+  <section class="bd" style="grid-area:dk"><p class="t1">Votre thèse</p><h3 style="margin:3px 0 0;font-size:19px;color:#fff">{% if not these %}À renseigner{% elif dans_these %}Secteur inclus{% else %}Hors de votre thèse{% endif %}</h3>
+    <div class="pl2"><span class="on" style="width:100%">Indice moyen<b>{{ st.indice_moyen }}</b></span><span style="width:{% widthratio st.au_dessus st.n 100 %}%;min-width:60%">Au-dessus du seuil<b>{{ st.au_dessus }}/{{ st.n }}</b></span></div>
+    <div class="ft"><a class="pbtn" href="{% url 'investissement:these' %}" style="height:36px">{% ic 'crayon' 14 %}Modifier ma thèse</a></div></section>
+</div>
+<p class="srcs">Calculé sur les PME inscrites et leurs déclarations. Le score d’attractivité combine cinq axes notés sur 100 : demande 25 %, nombre de PME 20 %, rentabilité 20 %, préparation 20 %, confiance 15 %.</p>
+{% endif %}
+{% endblock %}
