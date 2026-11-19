@@ -1,4 +1,4 @@
-/* Ankadez · écrans de chargement, thème, messages.
+/* AnkadeZ · écrans de chargement, thème, messages.
    - Changement de page (lien ou formulaire) : barre de progression + écran de chargement plein.
    - Requête asynchrone (filtres) : barre de progression + cartes squelettes dans la zone mise à jour. */
 (function () {

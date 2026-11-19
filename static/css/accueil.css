@@ -58,6 +58,28 @@
 .appareils .ap-tabs{margin:0 auto 8px;align-self:center;width:fit-content}
 .appareils .ap-txt{text-align:center;margin-bottom:18px}
 
+/* Flip 8 et Fold 8 : l'appareil à côté de ce qu'il change, l'étape courante en surbrillance */
+.appareils .foldp,.appareils .foldo{--r:24px;--pad:4px;--bz:6px}
+.appareils .ap-forme{display:grid;grid-template-columns:auto minmax(260px,360px);gap:48px;align-items:center;justify-content:center;width:100%}
+.appareils .fold-forme{grid-template-columns:auto minmax(240px,320px)}
+.appareils .ap-etapes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;counter-reset:e}
+.appareils .ap-etapes li{position:relative;padding:16px 18px 16px 56px;border-radius:20px;background:var(--surface);border:1px solid var(--ligne);transition:border-color .2s,box-shadow .2s;counter-increment:e}
+.appareils .ap-etapes li::before{content:counter(e);position:absolute;left:16px;top:16px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--creux);color:var(--t2);font-size:13px;font-weight:700}
+.appareils .ap-etapes b{display:block;font-size:16px;margin-bottom:4px;color:var(--encre)}
+.appareils .ap-etapes span{font-size:14px;line-height:1.5;color:var(--t2)}
+.appareils .ap-forme[data-state="plie"] li[data-etat="plie"],.appareils .ap-forme[data-state="ouvert"] li[data-etat="ouvert"]{border-color:var(--violet);box-shadow:0 0 0 3px var(--vd)}
+.appareils .ap-forme[data-state="plie"] li[data-etat="plie"]::before,.appareils .ap-forme[data-state="ouvert"] li[data-etat="ouvert"]::before{background:#5536E8;color:#fff}
+.appareils .fold .foldo{--s:.5!important}
+.appareils .fold .foldp{--s:.56!important}
+@media (max-width:1100px){.appareils .fold .foldo{--s:.4!important}}
+@media (max-width:860px){
+  .appareils .ap-forme,.appareils .fold-forme{grid-template-columns:1fr;gap:24px;justify-items:center}
+  .appareils .ap-etapes{width:100%;max-width:420px}
+  .appareils .fold .foldo{--s:.36!important}.appareils .fold .foldp{--s:.48!important}
+  .appareils .flip{--s:.52!important}
+}
+@media (max-width:420px){.appareils .fold .foldo{--s:.33!important}}
+
 .rv-cards a{color:var(--violet);font-weight:600}
 .rv-foot .rv-logo{margin-bottom:12px}
 
@@ -65,3 +87,32 @@
 @media (max-width:860px){.zone-tdb .ldwrap{padding:4px 16px 0}.zone-tdb .ldh{flex-direction:column;align-items:flex-start}.zone-tdb .ldh h1{font-size:38px}
   .dq{flex-wrap:wrap}.dq legend{width:100%;float:none}.diag-r .d-num{font-size:60px}}
 @media (prefers-reduced-motion:reduce){.diag-r .d-barre i,.dq span{transition:none}}
+/* téléphone et tablette : les tableaux de bord du canevas passent en une colonne */
+@media (max-width:1100px){
+  #vitrine .bento{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"ph ph" "bg bg" "ls ln" "ck le" "dk dk"}
+  #vitrine .tg5{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  #vitrine .ldwrap{padding-left:16px;padding-right:16px}
+  #vitrine .ldh{flex-direction:column;align-items:flex-start;gap:14px}
+  #vitrine .ldh h1{font-size:36px}#vitrine .ldh h2{font-size:30px}
+  #vitrine .ldh .acts{flex-wrap:wrap}
+  #vitrine .sh6{flex-wrap:wrap}#vitrine .sh6 .r{margin-left:0;flex-basis:100%}
+  #vitrine .hero6{grid-template-columns:1fr!important;display:grid}
+  #vitrine .hero6 .bk>b{font-size:60px;white-space:normal}
+  #vitrine .hero6::before,#vitrine .hero6::after{display:none}
+  #vitrine .bento{grid-template-columns:minmax(0,1fr);grid-template-areas:"ph" "bg" "ls" "ln" "ck" "le" "dk"}
+  #vitrine .bento>*{grid-row:auto!important;grid-column:auto!important}
+  #vitrine .bph{min-height:300px}
+  #vitrine .bbig{grid-template-columns:minmax(0,1fr)}
+  #vitrine .tg5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #vitrine .cv5,#vitrine .duo,#vitrine .paths2{grid-template-columns:minmax(0,1fr)}
+  #vitrine .tipc{max-width:220px;white-space:normal}
+}
+#vitrine{overflow-x:clip}
+/* téléphone : « Se connecter » reste accessible dans la barre du haut */
+@media (max-width:600px){#vitrine .rv-nav .rv-wrap{gap:10px}#vitrine .rv-nav .rv-cta.ghost.sm{display:inline-flex;margin-left:auto;min-height:40px;padding:0 14px;font-size:14px}#vitrine .rv-nav .rv-theme{order:3}}
+@media (max-width:1100px) and (min-width:761px){#vitrine .hero6{grid-template-columns:1fr 1fr!important}#vitrine .hero6 .bk{grid-column:1/-1}}
+
+/* logotype AnkadeZ : minuscules, le A et le Z dans la couleur principale (dossier BIH) */
+#vitrine .nom-marque{letter-spacing:-.01em}#vitrine .nom-marque i{font-style:normal;color:var(--violet)}

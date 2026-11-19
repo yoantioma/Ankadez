@@ -29,7 +29,7 @@ PIECES_SAVANE = [('01', 'Pitch 2026', 'recoupe'), ('02', 'États financiers 2025
 
 
 class Command(BaseCommand):
-    help = 'Crée les données de démonstration de Ankadez.'
+    help = 'Crée les données de démonstration de AnkadeZ.'
 
     def add_arguments(self, parser):
         parser.add_argument('--comptes', action='store_true', help='Créer aussi les comptes de test pme@demo.cm et investisseur@demo.cm')

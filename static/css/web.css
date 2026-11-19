@@ -111,3 +111,50 @@ html,body{margin:0;background:#F8F8FB}
   .wapp .kpi1 b{white-space:nowrap}
   .wapp .tbr{flex-basis:auto}.wapp .rsw>span{font-size:0;gap:0;padding:0 4px}.wapp .rsw>span .av3{font-size:13px}
 }
+
+/* téléphone : filtres repliables, tableaux qui défilent dans leur carte */
+.wapp .f-bascule{display:none}
+@media (max-width:900px){
+  .wapp .f-bascule{display:inline-flex}
+  .wapp .filters.replie>:not(.ch){display:none}
+  .wapp .filters.replie .ch{margin:0}
+  .wapp .mk{gap:12px}
+  .wapp .card.tbl,.wapp .bx.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .wapp .ph{margin-bottom:16px}.wapp .ph h1{font-size:28px}
+  .wapp .ph-act{width:100%}.wapp .ph-act .seg{width:100%;justify-content:space-between}
+  .wapp .gh h1{font-size:28px}
+  .wapp .gh .top3{justify-content:flex-start}
+  .wapp .pile-btns{gap:16px}
+  .wapp .tabs{margin-left:-16px;margin-right:-16px;padding:0 16px}
+  .wapp .stepper{grid-template-columns:repeat(4,1fr);row-gap:14px}
+  .wapp .kanban{grid-template-columns:repeat(7,78vw);scroll-snap-type:x mandatory}.wapp .kcol{scroll-snap-align:start}
+  .wapp .dh-act .btn,.wapp .dh-act form{width:100%}
+  .wapp .hero-n{font-size:40px}
+  .wapp .form2{grid-template-columns:1fr 1fr}
+}
+/* téléphone et tablette : les tableaux de bord du canevas passent en une colonne */
+@media (max-width:1100px){
+  .wapp .bento{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"ph ph" "bg bg" "ls ln" "ck le" "dk dk"}
+  .wapp .tg5{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .wapp .ldwrap{padding-left:16px;padding-right:16px}
+  .wapp .ldh{flex-direction:column;align-items:flex-start;gap:14px}
+  .wapp .ldh h1{font-size:36px}.wapp .ldh h2{font-size:30px}
+  .wapp .ldh .acts{flex-wrap:wrap}
+  .wapp .sh6{flex-wrap:wrap}.wapp .sh6 .r{margin-left:0;flex-basis:100%}
+  .wapp .hero6{grid-template-columns:1fr!important;display:grid}
+  .wapp .hero6 .bk>b{font-size:60px;white-space:normal}
+  .wapp .hero6::before,.wapp .hero6::after{display:none}
+  .wapp .bento{grid-template-columns:minmax(0,1fr);grid-template-areas:"ph" "bg" "ls" "ln" "ck" "le" "dk"}
+  .wapp .bento>*{grid-row:auto!important;grid-column:auto!important}
+  .wapp .bph{min-height:300px}
+  .wapp .bbig{grid-template-columns:minmax(0,1fr)}
+  .wapp .tg5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wapp .cv5,.wapp .duo,.wapp .paths2{grid-template-columns:minmax(0,1fr)}
+  .wapp .tipc{max-width:220px;white-space:normal}
+}
+@media (max-width:1100px) and (min-width:761px){.wapp .hero6{grid-template-columns:1fr 1fr!important}.wapp .hero6 .bk{grid-column:1/-1}}
+
+/* logotype AnkadeZ : minuscules, le A et le Z dans la couleur principale (dossier BIH) */
+.wapp .nom-marque{letter-spacing:-.01em}.wapp .nom-marque i{font-style:normal;color:var(--violet)}

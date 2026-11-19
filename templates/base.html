@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}Ankadez{% endblock %} · Ankadez</title>
+<title>{% block title %}AnkadeZ{% endblock %} · AnkadeZ</title>
 <meta name="description" content="{% block description %}Préparation à l’investissement et mise en relation des PME au Cameroun.{% endblock %}">
 <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,16 +15,16 @@
 <body>
 <!-- ============================================================
      Y O A N   T I O M A
-     Ankadez · application web
+     AnkadeZ · application web
      ============================================================ -->
 <a class="skip" href="#contenu">Aller au contenu</a>
 <div id="rm-bar" aria-hidden="true"></div>
 <div id="rm-loader" role="status" aria-live="polite" aria-label="Chargement">
-  <div class="ld-box"><div class="ld-logo">{% include "partials/logo.html" with taille=40 fond="transparent" %}</div><p class="ld-msg">Chargement…</p><p class="ld-sub">Ankadez prépare votre écran</p></div>
+  <div class="ld-box"><div class="ld-logo">{% include "partials/logo.html" with taille=40 fond="transparent" %}</div><p class="ld-msg">Chargement…</p><p class="ld-sub">AnkadeZ prépare votre écran</p></div>
 </div>
 {% block chrome %}
 <header class="tb">
-  <a class="brand" href="{% url 'core:landing' %}">{% include "partials/logo.html" %}Ankadez</a>
+  <a class="brand" href="{% url 'core:landing' %}">{% include "partials/logo.html" %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></a>
   <nav class="pn" aria-label="Navigation principale">{% for lab, url, actif in rm_nav %}<a href="{{ url }}"{% if actif %} aria-current="page"{% endif %}>{{ lab }}</a>{% endfor %}</nav>
   <div class="tbr">
     <button class="btn theme" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
@@ -41,7 +41,7 @@
 <main id="contenu">{% block body %}<div class="wrap">{% block content %}{% endblock %}</div>{% endblock %}</main>
 {% block footer %}
 <footer class="foot"><div class="wrap g">
-  <div><b>Ankadez</b>La plateforme de préparation à l’investissement et de mise en relation des PME au Cameroun.<p style="margin-top:10px">CIF 2026 · Défi n°3 · conçu par Yoan Tioma.</p></div>
+  <div><b>AnkadeZ</b>La plateforme de préparation à l’investissement et de mise en relation des PME au Cameroun.<p style="margin-top:10px">CIF 2026 · Défi n°3 · conçu par Yoan Tioma.</p></div>
   <div><b>Investisseurs</b><a href="{% url 'core:landing' %}#cameroun">Le Cameroun en chiffres</a><a href="{% url 'accounts:inscription_compte' 'investisseur' %}">Créer mon profil</a><a href="{% url 'accounts:connexion' %}">Se connecter</a></div>
   <div><b>PME</b><a href="{% url 'accounts:inscription_compte' 'pme' %}">Diagnostic gratuit</a><a href="{% url 'annuaire:ecosysteme' %}">Écosystème</a></div>
   <div><b>À savoir</b>Données de démonstration. Indicateurs pays sourcés, à vérifier. Photographies Unsplash (licence Unsplash). Logos officiels à insérer avec autorisation.</div>

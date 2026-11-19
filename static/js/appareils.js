@@ -1,4 +1,4 @@
-/* Appareils interactifs de la vitrine (moteur repris du site v2) : écrans iOS / Android, Flip 8, duo, ordinateur.
+/* Appareils interactifs de la vitrine (moteur repris du site v2) : écrans iOS / Android, Flip 8, Fold 8, ordinateur.
    Le thème suit celui de la page (bouton « Clair / sombre » géré par app.js). */
 (function () {
   var root = document.documentElement;
@@ -58,7 +58,9 @@
     var ouvert = box.dataset.state !== 'ouvert';
     box.dataset.state = ouvert ? 'ouvert' : 'plie';
     var btn = box.querySelector('[data-toggle-fold]');
-    if (btn) btn.textContent = ouvert ? 'Refermer le Flip' : 'Ouvrir le Flip';
+    if (btn) btn.textContent = ouvert ? (btn.dataset.fermer || 'Refermer') : (btn.dataset.ouvrir || 'Ouvrir');
+    var forme = box.closest('.ap-forme');
+    if (forme) forme.dataset.state = box.dataset.state;
     var vu = box.querySelector(ouvert ? '.flipo' : '.flipp');
     if (vu) { vu.classList.remove('opening'); void vu.offsetWidth; vu.classList.add('opening'); }
   }

@@ -1,21 +1,21 @@
 {% load rm %}
 <section class="rv-try appareils" id="essayer"><div class="rv-wrap">
   <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Essayez l’app</p><h2>Sur votre appareil, <em>tel que vous le tenez.</em></h2>
-    <p class="rv-lead c">Ordinateur, iPhone, Android, Flip ou les deux téléphones côte à côte. Touchez les écrans pour naviguer.</p></header>
+    <p class="rv-lead c">Ordinateur, iPhone, Android, Galaxy Z Flip 8 ou Galaxy Z Fold 8. Touchez les écrans pour naviguer.</p></header>
 
   <div class="ap-tabs" role="tablist" aria-label="Appareils">
     <button type="button" role="tab" id="tab-pc" aria-controls="pan-pc" aria-selected="true" data-tab="pc">{% ic 'liste' 16 %} Ordinateur</button>
     <button type="button" role="tab" id="tab-iphone" aria-controls="pan-iphone" aria-selected="false" tabindex="-1" data-tab="iphone">iPhone 17</button>
     <button type="button" role="tab" id="tab-samsung" aria-controls="pan-samsung" aria-selected="false" tabindex="-1" data-tab="samsung">Android · Galaxy S27 Ultra</button>
     <button type="button" role="tab" id="tab-flip" aria-controls="pan-flip" aria-selected="false" tabindex="-1" data-tab="flip">Galaxy Z Flip 8</button>
-    <button type="button" role="tab" id="tab-duo" aria-controls="pan-duo" aria-selected="false" tabindex="-1" data-tab="duo">Duo iPhone + Android</button>
+    <button type="button" role="tab" id="tab-fold" aria-controls="pan-fold" aria-selected="false" tabindex="-1" data-tab="fold">Galaxy Z Fold 8</button>
   </div>
   <div class="ap-txt" aria-live="polite">
     <p data-for="pc">La version web, sur grand écran : tableau de bord, entreprises compatibles, fiche d’une PME. Ce sont les vrais écrans de l’application.</p>
     <p data-for="iphone" hidden>Pilule de navigation flottante, « + » central, grand titre : l’app parle iOS.</p>
     <p data-for="samsung" hidden>Barre Material, bouton flottant, onglets soulignés : l’app parle Android.</p>
-    <p data-for="flip" hidden>Fermé, l’écran externe montre le score et la prochaine action. Ouvert, l’app complète.</p>
-    <p data-for="duo" hidden>Le même contenu, deux grammaires : iOS et Android côte à côte.</p>
+    <p data-for="flip" hidden>Un téléphone à clapet : un petit écran carré quand il est plié, un grand écran vertical quand il est ouvert.</p>
+    <p data-for="fold" hidden>Un téléphone qui s’ouvre comme un livre : un écran étroit plié, deux volets côte à côte déplié.</p>
   </div>
 
   <div class="ap-stage">
@@ -23,7 +23,7 @@
       <div class="pc">
         <div class="pc-ecran"><div class="pc-cam"></div>
           <div class="pc-fen"><div class="pc-barre"><i></i><i></i><i></i><span class="pc-url" data-pc-url>{{ request.get_host }}/pme</span></div>
-            <div class="pc-vue"><iframe data-pc-frame src="{% url 'core:apercu' 'pme' %}" title="Aperçu de la version web d’Ankadez" loading="lazy"></iframe></div></div></div>
+            <div class="pc-vue"><iframe data-pc-frame src="{% url 'core:apercu' 'pme' %}" title="Aperçu de la version web d’AnkadeZ" loading="lazy"></iframe></div></div></div>
         <div class="pc-base"><span></span></div>
       </div>
       <div class="pc-onglets" role="group" aria-label="Écran affiché sur l’ordinateur">
@@ -36,7 +36,7 @@
     {% include 'core/_cadre_iphone.html' %}
     {% include 'core/_cadre_samsung.html' %}
     {% include 'core/_cadre_flip.html' %}
-    {% include 'core/_cadre_duo.html' %}
+    {% include 'core/_cadre_fold.html' %}
   </div>
   <div class="ap-outils"><button type="button" class="rv-cta ghost sm" data-theme-toggle>{% ic 'theme' 18 %} Clair / sombre</button><button type="button" class="rv-cta ghost sm" data-reset>Revenir au début</button></div>
 </div></section>

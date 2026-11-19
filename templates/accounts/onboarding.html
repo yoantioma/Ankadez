@@ -4,7 +4,7 @@
 {% block body %}
 <div class="ob">
   <div class="ob-l" style="background-image:url('{% static 'img/photos/' %}{{ p.photo }}.webp')">
-    <a class="brand" href="{% url 'core:landing' %}">{% include "partials/logo.html" %}Ankadez</a>
+    <a class="brand" href="{% url 'core:landing' %}">{% include "partials/logo.html" %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></a>
     <div class="bas"><p class="kk" style="color:#FFD166">{{ p.titre }}</p><h2>{% if role == 'pme' %}Votre dossier, <span style="font-weight:300">pas à pas.</span>{% else %}Votre thèse, <span style="font-weight:300">vos critères.</span>{% endif %}</h2><p>{{ p.accroche }}</p>
       <ol class="ob-steps">{% for e in p.etapes %}<li class="{% if forloop.counter0 < etape %}f{% elif forloop.counter0 == etape %}c{% endif %}"><i>{% if forloop.counter0 < etape %}✓{% else %}{{ forloop.counter }}{% endif %}</i>{{ e }}</li>{% endfor %}</ol></div>
   </div>

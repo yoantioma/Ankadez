@@ -1,13 +1,13 @@
 {% extends 'base.html' %}{% load static rm %}
 {% block title %}Investir au Cameroun{% endblock %}
-{% block description %}Ankadez prépare les PME camerounaises au financement et montre aux investisseurs des dossiers vérifiables.{% endblock %}
+{% block description %}AnkadeZ prépare les PME camerounaises au financement et montre aux investisseurs des dossiers vérifiables.{% endblock %}
 {% block styles %}<link rel="stylesheet" href="{% static 'css/vitrine.css' %}"><link rel="stylesheet" href="{% static 'css/recit.css' %}"><link rel="stylesheet" href="{% static 'css/appareils.css' %}"><link rel="stylesheet" href="{% static 'css/accueil.css' %}">{% endblock %}
 {% block chrome %}{% endblock %}{% block footer %}{% endblock %}
 {% block body %}
 <div class="wapp" id="vitrine">
 
 <header class="rv-nav"><div class="rv-wrap">
-  <a class="rv-logo" href="#cameroun">{% include 'partials/logo.html' with taille=30 %}Ankadez</a>
+  <a class="rv-logo" href="#cameroun">{% include 'partials/logo.html' with taille=30 %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></a>
   <nav aria-label="Sections"><a href="#cameroun">Le Cameroun</a><a href="#diagnostic">Diagnostic</a><a href="#parcours">Le parcours</a><a href="#chaine">La chaîne</a><a href="#essayer">L’app</a></nav>
   <button class="rv-theme" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
   <a class="rv-cta ghost sm" href="{% url 'accounts:connexion' %}">Se connecter</a>
@@ -113,9 +113,9 @@
     <a class="rv-cta" href="{% url 'accounts:inscription_compte' 'pme' %}">Préparer mon dossier</a></div></div></section>
 </div>
 
-{# ================= La chaîne Ankadez ================= #}
+{# ================= La chaîne AnkadeZ ================= #}
 <section class="rv-trustsec" id="chaine"><div class="rv-wrap">
-  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">La chaîne Ankadez</p><h2>De la structuration <em>au marché financier.</em></h2>
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">La chaîne AnkadeZ</p><h2>De la structuration <em>au marché financier.</em></h2>
     <p class="rv-lead c">Un seul passeport, transmis avec l’accord de la PME, d’un guichet à l’autre.</p></header>
   <ol class="echelle">
     <li><span class="eta">1</span><b>APME · structuration</b><span>Structuring à Pré-Ready</span><p>Profil de l’entreprise et plan de mise à niveau.</p></li>
@@ -148,13 +148,13 @@
 
 <section class="rv-bleed end"><img src="{% static 'img/recit/agricultrice.webp' %}" alt="Agricultrice tenant des herbes dans un champ" loading="lazy"><div class="rv-bleed-tx">
   <h2>Derrière chaque dossier, <em>une entreprise qui nourrit une ville.</em></h2>
-  <p>Ankadez aide les PME camerounaises à montrer ce qu’elles valent, et les investisseurs à le vérifier.</p>
+  <p>AnkadeZ aide les PME camerounaises à montrer ce qu’elles valent, et les investisseurs à le vérifier.</p>
   <div class="rv-actions"><a class="rv-cta light" href="{% url 'accounts:inscription_compte' 'pme' %}">Créer mon passeport</a><a class="rv-cta ghost light" href="{% url 'accounts:inscription_compte' 'investisseur' %}">J’investis</a></div></div></section>
 
 <footer class="rv-foot"><div class="rv-wrap">
-  <p class="rv-logo">{% include 'partials/logo.html' with taille=28 %}Ankadez</p>
+  <p class="rv-logo">{% include 'partials/logo.html' with taille=28 %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></p>
   <p>CIF 2026 · Défi n°3 · conçu par <b>Yoan Tioma</b>.</p>
-  <p class="rv-small">Ankadez n’est ni une banque, ni un conseiller en investissement, ni une plateforme de financement participatif. Les montants et les taux affichés sont indicatifs. Entreprises et personnes de démonstration fictives. Photographies Unsplash.</p>
+  <p class="rv-small">AnkadeZ n’est ni une banque, ni un conseiller en investissement, ni une plateforme de financement participatif. Les montants et les taux affichés sont indicatifs. Entreprises et personnes de démonstration fictives. Photographies Unsplash.</p>
 </div></footer>
 </div>
 {% endblock %}

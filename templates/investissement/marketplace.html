@@ -6,7 +6,7 @@
   <div class="ph-act"><div class="seg" role="radiogroup" aria-label="Affichage"><label for="w20-mv-pile">{% ic 'carte' 16 %}Pile</label><label for="w20-mv-liste">{% ic 'liste' 16 %}Liste</label><label for="w20-mv-grille">{% ic 'pile' 16 %}Grille</label></div></div></header>
 <div class="mk">
   <form class="card filters" aria-label="Filtres" method="get" action="{% url 'investissement:marketplace' %}" data-loader="Mise à jour de la liste…" data-auto>
-    <div class="ch"><h3>Filtres</h3>{% if filtre_actif %}<a class="btn t sm" href="{% url 'investissement:marketplace' %}">Réinitialiser</a>{% endif %}</div>
+    <div class="ch"><h3>Filtres</h3><button type="button" class="btn t sm f-bascule" aria-expanded="true" aria-controls="corps-filtres">Afficher</button>{% if filtre_actif %}<a class="btn t sm" href="{% url 'investissement:marketplace' %}">Réinitialiser</a>{% endif %}</div>
     <div class="fsrch">{% ic 'loupe' 16 %}<input type="search" name="q" value="{{ f.q }}" placeholder="Nom, ville, activité" aria-label="Rechercher une PME"></div>
     <fieldset class="fgrp"><legend class="flab">Secteur</legend>
       {% for s in secteurs %}{% if forloop.counter <= 6 or s.slug in f.secteurs %}<label class="ck"><input type="checkbox" name="secteur" value="{{ s.slug }}"{% if s.slug in f.secteurs %} checked{% endif %}><span class="ck-l">{{ s.nom }}</span><small>{{ s.n }}</small></label>{% endif %}{% endfor %}
@@ -49,6 +49,11 @@
   var f=document.querySelector('form[data-auto]'),t;
   if(f){f.addEventListener('change',function(){f.requestSubmit?f.requestSubmit():f.submit()});
     f.querySelectorAll('input[type=text]').forEach(function(i){i.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){f.requestSubmit?f.requestSubmit():f.submit()},700)})})}
+  // Sur téléphone, les filtres sont repliés pour laisser voir les PME tout de suite
+  if(f){var bt=f.querySelector('.f-bascule');
+    var plier=function(oui){f.classList.toggle('replie',oui);bt.setAttribute('aria-expanded',!oui);bt.textContent=oui?'Afficher':'Masquer'};
+    if(matchMedia('(max-width:900px)').matches)plier(true);
+    bt.addEventListener('click',function(){plier(!f.classList.contains('replie'))})}
   // Affichage choisi (la pile par défaut), gardé pour la prochaine visite
   try{var v=localStorage.getItem('rm-affichage');if(v){var r=document.getElementById('w20-mv-'+v);if(r)r.checked=true}}catch(e){}
   document.querySelectorAll('input[name=w20-mv]').forEach(function(r){r.addEventListener('change',function(){try{localStorage.setItem('rm-affichage',r.id.replace('w20-mv-',''))}catch(e){}})});

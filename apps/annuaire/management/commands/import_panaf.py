@@ -29,7 +29,7 @@ def _url(v):
 
 
 class Command(BaseCommand):
-    help = 'Importe les acteurs des fichiers CSV panaf dans l’annuaire Ankadez.'
+    help = 'Importe les acteurs des fichiers CSV panaf dans l’annuaire AnkadeZ.'
 
     def add_arguments(self, parser):
         parser.add_argument('fichiers', nargs='+', help='Chemins ou motifs de fichiers CSV')

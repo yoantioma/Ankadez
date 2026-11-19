@@ -190,3 +190,8 @@ opacity:0;pointer-events:none;transition:opacity .18s}
 .pn6 .bar{background:#ECEAF5}
 .cartouche{margin:22px 2px 0;padding:14px 16px;border-radius:16px;border:1px dashed var(--lf);font-size:12.5px;line-height:1.55;color:var(--t2)}
 .dil{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dil output{display:block;font-size:30px;font-weight:400;letter-spacing:-.02em}
+/* téléphone : la barre du haut ne déborde plus (rôle masqué, boutons compacts) */
+@media (max-width:600px){.tb{gap:8px}.tbr{gap:6px;min-width:0}.tbr .chip{display:none}.tbr .btn{padding:0 12px;font-size:13px}.brand{font-size:17px}}
+
+/* logotype AnkadeZ : minuscules, le A et le Z dans la couleur principale (dossier BIH) */
+.nom-marque{letter-spacing:-.01em}.nom-marque i{font-style:normal;color:var(--violet)}
