@@ -1,4 +1,4 @@
-"""Réglages de ReadyMatch. Tout ce qui change entre le poste local et le VPS se lit dans le fichier .env."""
+"""Réglages d’AnkadeZ. Tout ce qui change entre le poste local et le VPS se lit dans le fichier .env."""
 import mimetypes
 import os
 from pathlib import Path
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.annuaire',
     'apps.pme',
     'apps.investissement',
+    'apps.offres',
     'apps.core',
 ]
 
@@ -129,7 +130,7 @@ LOGGING = {
 }
 
 # Cibles à 36 mois arrêtées par le projet (affichées sur la landing, jamais additionnées aux chiffres réels)
-READYMATCH_CIBLES = {
+ANKADEZ_CIBLES = {
     'entreprises_scorees': 600,
     'financements': '40 à 45',
     'montants_leves': '10 à 12 Md FCFA',

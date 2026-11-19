@@ -15,4 +15,8 @@ urlpatterns = [
     path('pipeline/<int:pk>/avancer/', views.faire_avancer, name='faire_avancer'),
     path('entreprise/<slug:slug>/', views.fiche, name='fiche'),
     path('entreprise/<slug:slug>/acces/', views.demander_acces, name='demander_acces'),
+    path('entreprise/<slug:slug>/signaler/', views.signaler, name='signaler'),
+    path('entreprise/<slug:slug>/question/', views.questionner, name='questionner'),
+    path('impact/', views.impact, name='impact'),
+    path('reprises/', views.reprises, name='reprises'),
 ]

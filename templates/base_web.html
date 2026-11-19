@@ -25,7 +25,7 @@
     {% if user.role == 'investisseur' %}<form class="srch" role="search" method="get" action="{% url 'investissement:marketplace' %}">{% ic 'loupe' 16 %}<input type="search" name="q" placeholder="Rechercher" aria-label="Rechercher une PME" value="{{ request.GET.q }}"></form>{% endif %}
     <button class="icb" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
     <div class="rsw" tabindex="0"><span><span class="av3">{{ user.organisation.initiales|default:'A' }}</span>{{ user.organisation.nom|default:user.email|truncatechars:24 }}</span>
-      <div class="menu"><p>{{ user.get_role_display }}</p>{% if user.role == 'investisseur' %}<a href="{% url 'investissement:these' %}">Ma thèse</a>{% else %}<a href="{% url 'pme:profil' %}">Profil de l’entreprise</a>{% endif %}<a href="{% url 'annuaire:ecosysteme' %}">Écosystème</a>
+      <div class="menu"><p>{{ user.get_role_display }}</p>{% if user.role == 'investisseur' %}<a href="{% url 'investissement:these' %}">Mon monde idéal</a>{% elif user.role == 'pme' %}<a href="{% url 'pme:profil' %}">Profil de l’entreprise</a><a href="{% url 'pme:passeport' %}">Passeport</a>{% endif %}<a href="{% url 'core:observatoire' %}">Observatoire</a><a href="{% url 'annuaire:ecosysteme' %}">Écosystème</a>
         <form method="post" action="{% url 'accounts:deconnexion' %}" data-loader="Déconnexion…">{% csrf_token %}<button type="submit">Se déconnecter</button></form></div></div>
   </div>
 </header>

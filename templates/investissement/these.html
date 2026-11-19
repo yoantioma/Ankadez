@@ -1,9 +1,12 @@
 {% extends 'base_web.html' %}{% load rm %}
-{% block title %}Ma thèse{% endblock %}
+{% block title %}Mon monde idéal{% endblock %}
 {% block content %}
-<header class="ph"><div><p class="kicker">{{ user.organisation.nom }} · critères d’investissement</p><h1>Votre thèse, <em>vos critères.</em></h1></div></header>
-<section class="card" style="max-width:960px"><div class="ch"><h3>Ce que vous cherchez</h3><span>elle fixe les PME affichées et l’indice de compatibilité</span></div>
-  <form method="post" class="form" novalidate data-loader="Recalcul des indices…">{% csrf_token %}
-  <div class="fgrid">{% for f in form %}{% if f.name in 'secteurs zones stades instruments exigence_esg' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>
-  <div style="display:flex;justify-content:flex-end"><button class="btn p" type="submit">Enregistrer ma thèse {% ic 'fleche-d' 16 %}</button></div></form></section>
+<header class="ph"><div><p class="kicker">{{ user.organisation.nom }} · neuf écrans, un geste chacun</p><h1>À quoi ressemble <em>votre monde idéal ?</em></h1></div></header>
+<div class="g g3">
+  <section class="card span2"><form method="post" class="form" novalidate data-loader="Recalcul des indices…">{% csrf_token %}{% include 'partials/monde_ideal.html' %}</form></section>
+  <section class="card"><div class="ch"><h3>Historique de votre thèse</h3><span>chaque changement est daté</span></div>
+    {% if versions %}<ul class="rows">{% for v in versions %}<li><div><b>{{ v.created_at|date:'d/m/Y H:i' }}</b><span>{{ v.donnees.type_acteur|default:'type non précisé' }} · {{ v.donnees.secteurs|length }} secteur{{ v.donnees.secteurs|length|pluralize }} · {{ v.donnees.stades|join:', '|default:'tous stades' }}</span></div></li>{% endfor %}</ul>
+    {% else %}<p class="muted">Première version : elle sera datée à l’enregistrement.</p>{% endif %}
+    <p class="note">{% ic 'info' 14 %} Les entreprises ne voient votre fiche qu’avec votre accord. Vous ne voyez une entreprise nommément qu’après son consentement.</p></section>
+</div>
 {% endblock %}

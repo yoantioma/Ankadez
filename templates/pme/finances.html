@@ -2,8 +2,8 @@
 {% block title %}Financer{% endblock %}
 {% block content %}
 <header class="ph"><div><p class="kicker">{% if profil.ticket_recherche %}Besoin déclaré : {{ profil.ticket_recherche|fcfa }}{% if profil.get_instrument_souhaite_display %} · {{ profil.get_instrument_souhaite_display|lower }}{% endif %} · {% endif %}montants en FCFA</p><h1>Financer</h1></div><div class="ph-act"></div></header>
-<input type="radio" class="tr" name="w12-fin" id="w12-fin-montant"{% if not ouvrir_exercices %} checked{% endif %}><input type="radio" class="tr" name="w12-fin" id="w12-fin-proj"{% if ouvrir_exercices %} checked{% endif %}><input type="radio" class="tr" name="w12-fin" id="w12-fin-risk"><input type="radio" class="tr" name="w12-fin" id="w12-fin-hub">
-<div class="tabs" role="tablist"><label for="w12-fin-montant">Montant légitime</label><label for="w12-fin-proj">Exercices</label><label for="w12-fin-risk">Stress tests</label><label for="w12-fin-hub">Simulateurs</label></div>
+<input type="radio" class="tr" name="w12-fin" id="w12-fin-montant"{% if not ouvrir_exercices %} checked{% endif %}><input type="radio" class="tr" name="w12-fin" id="w12-fin-proj"{% if ouvrir_exercices %} checked{% endif %}><input type="radio" class="tr" name="w12-fin" id="w12-fin-risk"><input type="radio" class="tr" name="w12-fin" id="w12-fin-hub"><input type="radio" class="tr" name="w12-fin" id="fin-ratios"><input type="radio" class="tr" name="w12-fin" id="fin-incit">
+<div class="tabs" role="tablist"><label for="w12-fin-montant">Montant légitime</label><label for="w12-fin-proj">Exercices</label><label for="w12-fin-risk">Stress tests</label><label for="w12-fin-hub">Simulateurs</label><label for="fin-ratios">Ratios</label><label for="fin-incit">Incitations</label></div>
 
 <div class="tp" data-p="fin-montant"><div class="g g3">
   <section class="card span2">{% if montant %}<p class="kicker">Fourchette légitime · calcul indicatif, jamais bloquant</p>
@@ -57,6 +57,15 @@
     <p class="kicker">Part cédée à l’investisseur</p><p class="hero-n sm" id="dil-part">— </p><p class="muted" id="dil-post"></p>
     <p class="note">{% ic 'info' 14 %} Si votre besoin peut se couvrir par crédit-bail ou banque, vous n’avez pas forcément besoin de céder des parts.</p></section>
 </div></div>
+<div class="tp" data-p="fin-ratios"><section class="card tbl"><div class="ch"><h3>Ratios du compte de résultat et du bilan</h3><span>{% if ratios %}exercice {{ ratios.0.annee }} · {{ ratios.0.preuve|lower }}{% endif %}</span></div>
+  {% if ratios %}<table><thead><tr><th>Famille</th><th>Indicateur</th><th>Valeur</th><th>Formule</th><th>Ce que ça dit</th></tr></thead><tbody>
+  {% for r in ratios %}<tr><td class="muted">{{ r.famille }}</td><td><b>{{ r.libelle }}</b></td><td class="tot">{% chiffre r.texte "ratio" r.preuve %}</td><td class="muted">{{ r.formule }}</td><td>{{ r.sens }}</td></tr>{% endfor %}</tbody></table>
+  <p class="note">{% ic 'info' 14 %} Repères de lecture à confirmer avec deux banques partenaires avant d’en faire des seuils. « — » : ligne de la liasse non renseignée.</p>
+  {% else %}<p class="muted">Déclarez un exercice (onglet Exercices) pour calculer les ratios.</p>{% endif %}</section></div>
+<div class="tp" data-p="fin-incit"><section class="card"><div class="ch"><h3>Incitations dont vous pourriez bénéficier</h3><span>éligibilité probable, à confirmer auprès de l’administration</span></div>
+  {% if incitations %}<ul class="rows">{% for i, raisons in incitations %}<li><div><b>{{ i.famille }}</b><span>{{ i.description }}</span><span class="t1">Repéré par : {{ raisons|join:', ' }} · Source : {{ i.source_libelle }} · {{ i.fiabilite }}</span></div></li>{% endfor %}</ul>
+  {% else %}<p class="muted">Aucune incitation repérée avec votre profil actuel. Indiquez votre zone (sinistrée, portuaire) et votre part d’export dans le profil.</p>{% endif %}
+  <div class="alert warn">{% ic 'alerte' 18 %}<span>Un régime préférentiel exige une comptabilité séparée du projet agréé et une DSF propre au projet (LF 2026). Un avantage n’est jamais acquis avant l’accord de l’administration.</span></div></section></div>
 {% include 'partials/cartouche.html' %}
 {% endblock %}
 {% block scripts %}<script>

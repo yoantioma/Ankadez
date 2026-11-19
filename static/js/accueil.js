@@ -43,20 +43,19 @@
     score: document.querySelector('[data-diag-score]'), barre: document.querySelector('[data-diag-barre]'),
     grade: document.querySelector('[data-diag-grade]'), texte: document.querySelector('[data-diag-texte]')
   };
-  var PALIERS = [[90, 'Institutional-Ready'], [75, 'Série A / Growth-Ready'], [60, 'Investment-Ready'], [40, 'Pré-Ready'], [0, 'Structuring']];
+  // v3 : le score est déclaré, il oriente sans donner de grade ; on montre la phrase et les pièces manquantes
+  var PHRASES = [[80, 'Votre dossier est presque prêt pour un financeur.'], [60, 'Vous avez fait plus de la moitié du chemin.'],
+                 [40, 'Vous êtes à la moitié du chemin.'], [20, 'Les bases sont posées.'], [0, 'Tout commence ici.']];
   function maj() {
-    var total = 0, rep = 0, n = form.querySelectorAll('fieldset').length;
-    form.querySelectorAll('input:checked').forEach(function (i) { total += +i.value; rep++; });
-    var s = Math.min(total, 59);
-    out.score.innerHTML = s + '<small>/100</small>';
-    out.barre.style.width = s + '%';
-    var g = PALIERS.filter(function (p) { return s >= p[0]; })[0][1];
-    out.grade.textContent = rep ? g : 'Répondez aux questions';
+    var total = 0, rep = 0, n = form.querySelectorAll('fieldset').length, manque = [];
+    form.querySelectorAll('input:checked').forEach(function (i) { total += +i.dataset.poids; rep++; if (i.value === '0') manque.push(i.dataset.piece); });
+    out.score.innerHTML = total + '<small>/100</small>';
+    out.barre.style.width = total + '%';
+    out.grade.textContent = rep ? PHRASES.filter(function (p) { return total >= p[0]; })[0][1] : 'Répondez aux questions';
     var reste = n - rep;
     if (reste) out.texte.textContent = reste + (reste > 1 ? ' questions restantes.' : ' question restante.');
-    else if (total > 59) out.texte.textContent = 'Vos réponses valent ' + total + ' points. Sans pièce déposée, le score reste plafonné à 59 : déposez vos documents pour aller plus haut.';
-    else if (s >= 40) out.texte.textContent = 'Les bases sont là. Il reste à compléter le dossier avant de rencontrer un financeur.';
-    else out.texte.textContent = 'Commencez par les états financiers et la DSF : ce sont les premières pièces qu’une banque demande.';
+    else if (manque.length) out.texte.textContent = 'À rassembler d’abord : ' + manque.slice(0, 3).join(' ; ') + '.';
+    else out.texte.textContent = 'Tout est en place : créez votre passeport pour le faire vérifier.';
   }
   form.addEventListener('change', maj);
 })();

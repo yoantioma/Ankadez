@@ -1,0 +1,24 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Impact{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Vue des partenaires techniques et financiers · un PTF ne cherche pas un rendement, il cherche un effet</p><h1>Impact</h1></div>
+  <div class="ph-act"><div class="seg" role="group" aria-label="Portée"><a class="btn {% if portee == 'pipeline' %}p{% else %}s{% endif %} sm" href="?portee=pipeline">Mon pipeline</a><a class="btn {% if portee == 'tout' %}p{% else %}s{% endif %} sm" href="?portee=tout">Toutes les entreprises</a></div>
+    <a class="btn s" href="?portee={{ portee }}&export=csv">{% ic 'import' 16 %}Rapport (CSV)</a></div></header>
+{% if not i.n %}<div class="card vide"><b>Aucune entreprise dans cette portée.</b>Demandez l’accès à des PME, ou affichez toutes les entreprises.</div>{% else %}
+<div class="kp">
+  <div><small>Emplois{% src "impact" %}</small><b>{{ i.emplois }}</b><span class="d">dont {{ i.femmes }} femmes et {{ i.jeunes }} jeunes</span></div>
+  <div><small>Direction féminine{% src "impact" %}</small><b>{{ i.dirigeantes }} %</b><span class="d">PME dirigées ou détenues par des femmes</span></div>
+  <div><small>Formalisation{% src "impact" %}</small><b>{{ i.cnps }}</b><span class="d">salariés déclarés à la CNPS</span></div>
+  <div><small>Ouverture à l’Afrique{% src "impact" %}</small><b>{{ i.export }} %</b><span class="d">export moyen · {{ i.zlecaf }} PME ZLECAf</span></div>
+  <div><small>Territoire{% src "impact" %}</small><b>{{ i.rurales }}</b><span class="d">en zone rurale · {{ i.incitatives }} en zone incitative</span></div>
+  <div><small>Effet de levier{% src "impact" %}</small><b>{% if i.levier %}{{ i.levier }}{% else %}—{% endif %}</b><span class="d">FCFA privés pour 1 FCFA de PTF</span></div>
+</div>
+<div class="g g2">
+  <section class="card tbl"><div class="ch"><h3>Ancrage territorial</h3><span>{{ i.n }} entreprise{{ i.n|pluralize }}</span></div>
+    <table><tbody>{% for r, n in i.regions %}<tr><td>{{ r }}</td><td class="tot">{{ n }}</td></tr>{% endfor %}</tbody></table></section>
+  <section class="card"><div class="ch"><h3>Objectifs du hackathon suivis</h3><span>règlement du BIH, § 9</span></div>
+    <ul class="rows">{% for lab, cible in i.objectifs %}<li><div><b>{{ lab }}</b><span>cible : {% if cible > 1000 %}{{ cible|fcfa }}{% else %}{{ cible }}{% endif %}</span></div></li>{% endfor %}</ul>
+    <p class="note">{% ic 'info' 14 %} Environnement : {{ i.energie }} PME mesurent une énergie propre. Indicateurs déclarés par les entreprises, sauf pièce attestée.</p></section>
+</div>{% endif %}
+{% include 'partials/cartouche.html' %}
+{% endblock %}

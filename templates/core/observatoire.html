@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Observatoire{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'core:landing' %}">Accueil</a> › Observatoire</p><h1>La préparation des PME, <em>sans nommer personne.</em></h1>
+  <p class="lead">Médianes par secteur et par région, publiées seulement pour les groupes d’au moins {{ k }} entreprises (k ≥ {{ k }}). {{ masques }} groupe{{ masques|pluralize }} trop petit{{ masques|pluralize }} masqué{{ masques|pluralize }}.</p></div></div>
+<section class="card tbl"><table><thead><tr><th>Axe</th><th>Groupe</th><th>Entreprises</th><th>Score médian</th><th>Confiance médiane</th><th>Montant médian recherché</th></tr></thead><tbody>
+{% for l in lignes %}<tr><td class="muted">{{ l.axe }}</td><td><b>{{ l.nom }}</b></td><td>{{ l.n }}</td><td>{{ l.score }}/100</td><td>{{ l.confiance }} %</td><td>{% if l.ticket %}{{ l.ticket|fcfa }}{% else %}—{% endif %}</td></tr>{% endfor %}
+</tbody></table><p class="t1" style="margin-top:8px">{% ic 'info' 13 %} Source : passeports AnkadeZ (entreprises fictives de démonstration et entreprises inscrites), calcul à la date du jour.</p></section>
+{% endblock %}

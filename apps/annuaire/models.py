@@ -20,7 +20,10 @@ class Secteur(models.Model):
 
 class OrganisationQuerySet(models.QuerySet):
     def entreprises(self):
-        return self.filter(kind__in=Organisation.KINDS_ENTREPRISE, actif=True)
+        """Vivier de matching (v3, décision D8) : PME fictives marquées FICTIF et PME réellement inscrites.
+        Les entreprises réelles importées d’annuaires publics n’y entrent pas tant qu’elles n’ont pas donné leur accord."""
+        return (self.filter(kind__in=Organisation.KINDS_ENTREPRISE, actif=True)
+                .exclude(models.Q(external_id__isnull=False) & ~models.Q(external_id__startswith='FICTIF-') & models.Q(est_demo=False)))
 
     def investisseurs(self):
         return self.filter(kind=Organisation.Kind.INVESTISSEUR, actif=True)
@@ -63,7 +66,26 @@ class Organisation(models.Model):
     external_id = models.CharField('identifiant externe', max_length=40, unique=True, null=True, blank=True)
     completude = models.PositiveSmallIntegerField('complétude (%)', default=0)
     a_verifier = models.BooleanField('à vérifier', default=True)
-    est_demo = models.BooleanField('donnée de démonstration', default=False)
+    est_demo = models.BooleanField('donnée fictive (démonstration)', default=False)
+    # v3 · 9.3 et 9.4 : source visible, date de vérification, statut de contact
+    source_libelle = models.CharField('source (libellé)', max_length=255, blank=True)
+    verifie_le = models.DateField('dernière vérification', null=True, blank=True)
+    statut_contact = models.CharField('statut de contact', max_length=12, default='non_contacte',
+                                      choices=[('non_contacte', 'Non contacté'), ('contacte', 'Contacté'), ('accord', 'Accord donné')])
+    type_acteur = models.CharField('type d’acteur', max_length=16, blank=True, choices=[
+        ('banque', 'Banque'), ('fonds', 'Fonds d’investissement'), ('business_angel', 'Business angel'), ('diaspora', 'Diaspora'),
+        ('mutuelle', 'Mutuelle d’entreprises'), ('ptf', 'Partenaire technique et financier'), ('repreneur', 'Repreneur'),
+        ('multilateral', 'Financeur multilatéral'), ('garantie', 'Fonds de garantie'), ('marche', 'Marché financier'),
+        ('incubateur', 'Incubateur ou structure d’appui'), ('cabinet', 'Cabinet comptable, fiscaliste ou CGA'),
+        ('juridique', 'Avocat ou conseil juridique'), ('public', 'Institution publique')])
+    # v3 · 8.2 : règles publiques de référencement des accompagnateurs
+    specialites = models.JSONField('spécialités d’accompagnement', default=list, blank=True)
+    qualification_verifiee = models.BooleanField('qualification vérifiée (ordre, agrément)', default=False)
+    dossiers_menes = models.PositiveSmallIntegerField('PME menées à un grade supérieur', default=0)
+    tarif = models.CharField('prix affiché', max_length=120, blank=True)
+    remuneration_succes = models.BooleanField('rémunération au succès', default=False)
+    partenaire_payant = models.BooleanField('référencement payant (badge séparé, sans effet sur le rang)', default=False)
+    conflits = models.CharField('conflits d’intérêts déclarés', max_length=255, blank=True)
     actif = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

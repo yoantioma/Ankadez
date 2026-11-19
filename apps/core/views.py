@@ -8,21 +8,12 @@ from . import contenu, vitrine
 from .services import accueil_investisseur
 
 
-# Diagnostic express de l’accueil : six pièces que tout financeur demande, pondérées sur 100.
-DIAGNOSTIC = [
-    ('Vos états financiers SYSCOHADA des deux derniers exercices sont établis.', 25),
-    ('Votre DSF est déposée et vous avez une attestation de non-redevance.', 20),
-    ('Statuts, RCCM et NIU sont à jour.', 15),
-    ('Votre besoin est chiffré, avec l’usage prévu des fonds.', 15),
-    ('Vous avez un contrat, une lettre d’intention ou 24 mois de ventes suivies.', 15),
-    ('La répartition du capital entre associés est documentée.', 10),
-]
-
-
 def landing(request):
     """Accueil : le Cameroun en chiffres et le diagnostic (style tableau de bord), puis le récit et les appareils (style site v2)."""
     m = accueil_investisseur()
-    return render(request, 'core/accueil.html', {'m': m, 'v': vitrine.composants(m), 'diagnostic': DIAGNOSTIC})
+    from apps.offres.services import questions
+    from .pages_v3 import PARTIES
+    return render(request, 'core/accueil.html', {'m': m, 'v': vitrine.composants(m), 'questions': questions(), 'parties': PARTIES})
 
 
 def landing_vitrine(request):
@@ -86,7 +77,11 @@ def espace(request):
         return redirect('admin:index')
     if u.organisation is None and u.role in ('pme', 'investisseur'):
         return redirect('accounts:onboarding', role=u.role)
-    return redirect({'pme': 'pme:tableau', 'investisseur': 'investissement:cameroun'}.get(u.role, 'core:landing'))
+    if u.organisation is None and u.role == 'partenaire':
+        from django.contrib import messages
+        messages.info(request, 'Votre compte de structure doit être rattaché à votre organisation par l’équipe AnkadeZ.')
+        return redirect('core:landing')
+    return redirect({'pme': 'pme:tableau', 'investisseur': 'investissement:cameroun', 'partenaire': 'partenaire:tableau'}.get(u.role, 'core:landing'))
 
 
 def erreur_404(request, exception):

@@ -1,0 +1,25 @@
+{% load rm %}<style>
+.mi-barre{display:flex;gap:4px;margin:0 0 14px}.mi-barre i{flex:1;height:5px;border-radius:999px;background:var(--ligne)}.mi-barre i.on{background:#5536E8}
+.mi-ecran{border:0;margin:0;padding:0}.js-mi .mi-ecran{display:none}.js-mi .mi-ecran.on{display:block}
+.mi-ecran legend{font-size:22px;font-weight:700;letter-spacing:-.02em;padding:0;margin-bottom:2px}.mi-ecran .mi-aide{margin:0 0 12px;color:var(--t3);font-size:13.5px}
+.mi-nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}.mi-nav [hidden]{display:none}
+.mi-mutuelle{margin-top:12px;padding:12px;border:1px dashed var(--ligne);border-radius:14px}
+</style>
+{% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors|join:' ' }}</div>{% endif %}
+<div class="mi" data-mi>
+  <div class="mi-barre" aria-hidden="true">{% for n, t, aide, champs in form.ecrans %}<i></i>{% endfor %}</div>
+  {% for n, titre, aide, champs in form.ecrans %}<fieldset class="mi-ecran" data-ecran="{{ n }}"><legend>{{ n }}. {{ titre }}</legend><p class="mi-aide">{{ aide }}</p>
+    <div class="fgrid">{% for f in champs %}{% if f.name|slice:':8' == 'mutuelle' %}{% if forloop.counter0 == 1 %}<div class="mi-mutuelle full" data-mutuelle><p class="t1" style="grid-column:1/-1;margin:0 0 6px">Mutuelle d’entreprises : vos critères propres. AnkadeZ n’encaisse ni ne place aucun fonds ; toute collecte d’épargne ou activité de crédit relève du cadre COBAC/BEAC.</p>{% endif %}{% include 'partials/champ.html' with f=f %}{% if forloop.last %}</div>{% endif %}{% elif f.name in 'secteurs zones stades instruments non_negociables sorties type_acteur exigence_esg contact_accompagnateur' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div></fieldset>{% endfor %}
+  <div class="mi-nav"><button type="button" class="btn" data-prec>Précédent</button><span class="t1" data-compteur></span><button type="button" class="btn p" data-suiv>Suivant</button><button type="submit" class="btn p" data-fin>{{ submit|default:'Enregistrer mon monde idéal' }}</button></div>
+</div>
+<script>
+(function(){var m=document.querySelector('[data-mi]');if(!m)return;m.classList.add('js-mi');
+ var e=[].slice.call(m.querySelectorAll('.mi-ecran')),b=[].slice.call(m.querySelectorAll('.mi-barre i')),i=0,
+ p=m.querySelector('[data-prec]'),s=m.querySelector('[data-suiv]'),f=m.querySelector('[data-fin]'),c=m.querySelector('[data-compteur]');
+ var err=e.findIndex(function(x){return x.querySelector('.err')});if(err>=0)i=err;
+ function voir(){e.forEach(function(x,k){x.classList.toggle('on',k===i)});b.forEach(function(x,k){x.classList.toggle('on',k<=i)});
+  p.hidden=i===0;s.hidden=i===e.length-1;f.hidden=i!==e.length-1;c.textContent='Écran '+(i+1)+' sur '+e.length;
+  var mu=m.querySelector('[data-mutuelle]'),t=m.querySelector('input[name=type_acteur]:checked');if(mu)mu.style.display=t&&t.value==='mutuelle'?'':'none'}
+ p.addEventListener('click',function(){i=Math.max(0,i-1);voir()});s.addEventListener('click',function(){i=Math.min(e.length-1,i+1);voir()});
+ m.addEventListener('change',voir);voir();})();
+</script>

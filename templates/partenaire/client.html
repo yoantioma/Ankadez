@@ -1,0 +1,20 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}{{ o.nom }}{% endblock %}
+{% block content %}
+<nav class="crumb"><a href="{% url 'partenaire:tableau' %}">Mes PME</a>{% ic 'fleche-d' 14 %}<b>{{ o.nom }}</b></nav>
+<header class="ph"><div><p class="kicker">{{ score.affichage }}</p><h1>{{ o.nom }}{% if o.est_demo %} <span class="tag-fictif">FICTIF</span>{% endif %}</h1></div>
+  <div class="ph-act"><form method="post" action="{% url 'partenaire:attester' o.pk %}">{% csrf_token %}<input type="hidden" name="cible" value="identite"><button class="btn s" type="submit"{% if o.profil_pme.identite_verifiee %} disabled{% endif %}>{% ic 'bouclier' 16 %}{% if o.profil_pme.identite_verifiee %}Identité vérifiée{% else %}Attester l’identité des dirigeants{% endif %}</button></form></div></header>
+<div class="g g3">
+  <section class="card span2 tbl"><div class="ch"><h3>Pièces et exercices</h3><span>attester = niveau A, à votre nom, révocable</span></div>
+    <table><tbody>{% for e in exercices %}<tr><td><b>Exercice {{ e.annee }}</b><span class="sub">CA {{ e.chiffre_affaires|fcfa }}</span></td><td>{{ e.get_niveau_preuve_display }}</td>
+      <td>{% if e.niveau_preuve != 'certifie' %}<form method="post" action="{% url 'partenaire:attester' o.pk %}" style="display:flex;gap:6px">{% csrf_token %}<input type="hidden" name="cible" value="e{{ e.pk }}"><input type="text" name="portee" placeholder="Portée (ex. états visés)" aria-label="Portée"><button class="btn p sm" type="submit">Attester</button></form>{% endif %}</td></tr>{% endfor %}
+    {% for p in pieces %}<tr><td><b>{{ p.titre }}</b><span class="sub">dossier {{ p.dossier }}</span></td><td>{{ p.get_niveau_preuve_display }}</td>
+      <td>{% if p.niveau_preuve != 'certifie' %}<form method="post" action="{% url 'partenaire:attester' o.pk %}" style="display:flex;gap:6px">{% csrf_token %}<input type="hidden" name="cible" value="p{{ p.pk }}"><input type="text" name="portee" placeholder="Portée" aria-label="Portée"><button class="btn p sm" type="submit">Attester</button></form>{% endif %}</td></tr>
+    {% empty %}{% if not exercices %}<tr><td class="muted">Aucune pièce ni exercice.</td></tr>{% endif %}{% endfor %}</tbody></table></section>
+  <div class="col">
+    <section class="card"><div class="ch"><h3>Verser une pièce</h3></div><form method="post" enctype="multipart/form-data" class="form">{% csrf_token %}{% for f in form %}{% include 'partials/champ.html' with f=f %}{% endfor %}<button class="btn p" type="submit">Verser</button></form></section>
+    <section class="card"><div class="ch"><h3>Exports par financeur</h3><span>depuis le format pivot</span></div><ul class="rows">{% for v, l in formats %}<li><div><b>{{ l }}</b></div><a class="btn s sm" href="{% url 'partenaire:export' o.pk v %}">CSV</a></li>{% endfor %}</ul></section>
+    <section class="card"><div class="ch"><h3>Vos attestations</h3></div>{% for a in attestations %}<p style="margin:6px 0"><b>{{ a.portee }}</b> · {{ a.created_at|date:'d/m/Y' }}{% if a.revoquee_le %} · révoquée{% else %}<form method="post" action="{% url 'partenaire:revoquer' o.pk a.pk %}" style="display:inline">{% csrf_token %} <button class="btn t sm" type="submit">Révoquer</button></form>{% endif %}</p>{% empty %}<p class="muted">Aucune.</p>{% endfor %}</section>
+  </div>
+</div>
+{% endblock %}

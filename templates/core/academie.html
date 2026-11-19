@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Académie{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'core:landing' %}">Accueil</a> › Académie</p><h1>Chaque pièce manquante devient <em>une leçon courte.</em></h1>
+  <p class="lead">Micro-leçons de 5 minutes, quiz et simulateurs utilisables sur téléphone. Pour la démo du hackathon : cette page et un quiz.</p></div></div>
+<div class="g g3">{% for titre, contenu, lien in parcours %}<section class="card"><p class="t1">Parcours {{ forloop.counter }}</p><h3>{{ titre }}</h3><p class="muted">{{ contenu }}</p><p class="t1">Lié à : {{ lien }}</p><span class="chip n">phase suivante</span></section>{% endfor %}</div>
+<section class="card" style="margin-top:16px;max-width:860px"><div class="ch"><div><p class="t1">Quiz · 5 questions</p><h3>Badge « Éduqué financièrement »</h3></div><span class="t1">70 % de bonnes réponses</span></div>
+  {% if resultat is not None %}<div class="band" style="margin:8px 0"><span class="bi">{% ic 'check' 22 %}</span><div><h3>{{ resultat }} % de bonnes réponses</h3><p>{% if resultat >= 70 %}Badge obtenu{% if user.is_authenticated and user.role == 'pme' %} et ajouté à votre passeport{% else %} : connectez-vous en PME pour l’ajouter à votre passeport{% endif %}.{% else %}Encore un effort : relisez les ratios et le simulateur de dilution, puis réessayez.{% endif %}</p></div></div>{% endif %}
+  <form method="post" class="form">{% csrf_token %}{% for q, choix, juste in quiz %}{% with i=forloop.counter0 %}
+    <fieldset style="border:0;margin:0;padding:10px 0;border-top:1px solid var(--ligne)"><legend style="font-weight:600;padding:0">{{ forloop.counter }}. {{ q }}</legend>
+      <div class="choices"><div>{% for c in choix %}<label><input type="radio" name="q{{ i }}" value="{{ forloop.counter0 }}" required> {{ c }}</label>{% endfor %}</div></div></fieldset>{% endwith %}{% endfor %}
+    <button class="btn p" type="submit">Valider mes réponses</button></form></section>
+{% endblock %}

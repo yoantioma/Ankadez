@@ -1,0 +1,4 @@
+{% load rm %}<article class="vt-carte{% if p.perime %} perime{% endif %}"><p class="vt-inst">{{ p.institution_nom }} · {{ p.get_type_display }}</p><h3>{{ p.nom }}</h3>
+  <dl><dt>Public</dt><dd>{{ p.public }}</dd><dt>Montant</dt><dd>{{ p.montant }}</dd><dt>Taux</dt><dd>{{ p.taux }}</dd><dt>Garanties</dt><dd>{{ p.garanties }}</dd><dt>Délai</dt><dd>{{ p.delai }}</dd></dl>
+  {% if manque %}<p class="vt-manque">{% ic 'plus' 14 %} À fournir : {{ manque|join:' ; ' }}</p>{% endif %}
+  <p class="vt-src">{% ic 'info' 13 %} {{ p.source_libelle }}{% if p.verifie_le %} · vérifié le {{ p.verifie_le|date:'d/m/Y' }}{% endif %}{% if p.perime %} · <b>à reconfirmer</b>{% endif %}{% if p.a_confirmer %}<br>À confirmer : {{ p.a_confirmer }}{% endif %}</p></article>

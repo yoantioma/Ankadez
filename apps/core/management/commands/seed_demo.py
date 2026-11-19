@@ -59,9 +59,22 @@ class Command(BaseCommand):
         fonds, _ = Organisation.objects.update_or_create(nom='Fonds Baobab Croissance', est_demo=True, defaults={
             'kind': 'investisseur', 'ville': 'Douala', 'region': 'Littoral', 'description': 'Fonds de croissance, démonstration.', 'a_verifier': False})
         these, _ = These.objects.update_or_create(organisation=fonds, defaults={
-            'ticket_min': 200 * M, 'ticket_max': 600 * M, 'zones': ['CEMAC'], 'stades': ['croissance'], 'instruments': ['equity', 'quasi'],
-            'exigence_esg': True, 'horizon_annees': 6})
-        these.secteurs.set(Secteur.objects.filter(nom__in=['Agro-industrie', 'Logistique portuaire']))
+            'ticket_min': 200 * M, 'ticket_max': 600 * M, 'zones': ['CEMAC'], 'stades': ['seed', 'serie_a'], 'instruments': ['equity', 'quasi'],
+            'exigence_esg': True, 'horizon_annees': 6, 'type_acteur': 'fonds', 'sorties': ['revente', 'industriel'], 'contact_accompagnateur': True})
+        these.secteurs.set(Secteur.objects.filter(nom__in=['Agro-industrie', 'Logistique portuaire', 'Agritech et transformation agroalimentaire',
+                                                           'Mobilité, transport et logistique']))
+        fonds.est_demo = True
+        fonds.type_acteur = 'fonds'
+        fonds.save(update_fields=['est_demo', 'type_acteur'])
+        # v3 · 8.4 : un cabinet fictif, désigné par la PME héroïne, pour montrer l’espace cabinet et les attestations
+        cabinet, _ = Organisation.objects.update_or_create(nom='Cabinet Exemple Comptabilité (FICTIF)', defaults={
+            'kind': 'consultant', 'ville': 'Douala', 'region': 'Littoral', 'est_demo': True, 'a_verifier': False, 'type_acteur': 'cabinet',
+            'description': 'Cabinet d’expertise comptable fictif, pour la démonstration.', 'specialites': ['comptabilite', 'fiscalite'],
+            'qualification_verifiee': True, 'tarif': 'forfait affiché sur devis (fictif)'})
+        profil_sav = sav.profil_pme
+        profil_sav.cabinet = profil_sav.accompagnateur = cabinet
+        profil_sav.accompagnateur_peut_repondre = True
+        profil_sav.save(update_fields=['cabinet', 'accompagnateur', 'accompagnateur_peut_repondre'])
         DemandeAcces.objects.get_or_create(investisseur=fonds, entreprise=sav, defaults={'statut': 'reunion', 'indice': 92})
 
         if o['comptes']:
@@ -69,9 +82,10 @@ class Command(BaseCommand):
             if len(mdp) < 8:
                 self.stderr.write('Indiquez --mot-de-passe (8 caractères au moins) pour créer les comptes de test.')
             else:
-                for email, role, org, prenom in [('pme@demo.cm', 'pme', sav, 'Awa'), ('investisseur@demo.cm', 'investisseur', fonds, 'Analyste')]:
+                for email, role, org, prenom in [('pme@demo.cm', 'pme', sav, 'Awa'), ('investisseur@demo.cm', 'investisseur', fonds, 'Analyste'),
+                                                 ('cabinet@demo.cm', 'partenaire', cabinet, 'Cabinet')]:
                     u, cree = User.objects.get_or_create(email=email, defaults={'role': role, 'organisation': org, 'first_name': prenom})
                     u.set_password(mdp)
                     u.save()
-                self.stdout.write('Comptes de test : pme@demo.cm et investisseur@demo.cm')
+                self.stdout.write('Comptes de test : pme@demo.cm, investisseur@demo.cm et cabinet@demo.cm')
         self.stdout.write(self.style.SUCCESS('Données de démonstration prêtes : 6 PME, 1 investisseur.'))

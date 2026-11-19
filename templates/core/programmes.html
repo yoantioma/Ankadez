@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Programmes d’accompagnement{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'core:landing' %}">Accueil</a> › Programmes</p><h1>Le bon programme <em>pour votre niche.</em></h1>
+  <p class="lead">Une même fiche pour tous : porteur, public, contenu, durée, prix ou gratuité, critères, prochaine session, source et date.</p></div></div>
+<nav class="filters" aria-label="Niches"><a class="chip {% if not niche %}ok{% else %}n{% endif %}" href="{% url 'core:programmes' %}">Toutes</a>{% for v, l in niches %}<a class="chip {% if niche == v %}ok{% else %}n{% endif %}" href="?niche={{ v }}">{{ l }}</a>{% endfor %}</nav>
+<div class="g g3">{% for p in programmes %}<section class="card"><p class="t1">{{ p.porteur }}</p><h3>{{ p.nom }}</h3><p class="muted">{{ p.contenu }}</p>
+  <dl style="display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13px;margin:8px 0"><dt class="t1">Public</dt><dd style="margin:0">{{ p.public }}</dd><dt class="t1">Durée</dt><dd style="margin:0">{{ p.duree }}</dd><dt class="t1">Prix</dt><dd style="margin:0">{{ p.prix }}</dd><dt class="t1">Critères</dt><dd style="margin:0">{{ p.criteres }}</dd><dt class="t1">Session</dt><dd style="margin:0">{{ p.prochaine_session }}</dd></dl>
+  <p class="t1">{% ic 'info' 13 %} {{ p.source_libelle }}{% if p.verifie_le %} · vérifié le {{ p.verifie_le|date:'d/m/Y' }}{% endif %}</p></section>
+{% empty %}<div class="empty"><b>Aucun programme référencé pour cette niche.</b><p>Numérique, industrie 4.0, export ZLECAf, artisanat, jeunes et diaspora : à compléter après le hackathon.</p></div>{% endfor %}</div>
+{% endblock %}

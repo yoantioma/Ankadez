@@ -195,3 +195,5 @@ opacity:0;pointer-events:none;transition:opacity .18s}
 
 /* logotype AnkadeZ : minuscules, le A et le Z dans la couleur principale (dossier BIH) */
 .nom-marque{letter-spacing:-.01em}.nom-marque i{font-style:normal;color:var(--violet)}
+.src-i{display:inline-grid;place-items:center;width:16px;height:16px;margin-left:5px;border-radius:50%;border:1px solid var(--lf);background:var(--surface);color:var(--t3);font:italic 700 10px Georgia,serif;cursor:help;vertical-align:middle;padding:0;position:relative}
+.src-i:hover::after,.src-i:focus-visible::after{content:attr(aria-label);position:absolute;z-index:40;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);width:280px;padding:10px 12px;border-radius:12px;background:var(--encre);color:var(--fond);font:normal 400 12px/1.45 var(--f);text-align:left;white-space:normal}

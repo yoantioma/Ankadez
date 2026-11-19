@@ -1,0 +1,44 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Diagnostic de 45 secondes{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'core:landing' %}">Accueil</a> › Diagnostic</p><h1>Votre entreprise est-elle <em>bancable ?</em></h1>
+  <p class="lead">8 questions, un clic chacune, 45 secondes. Le score est déclaré : il oriente, il ne donne aucun grade.</p></div></div>
+{% if r %}
+<div class="g" style="grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start">
+  <section class="card"><p class="t1">Votre score déclaré</p>
+    <p class="big" style="font-size:64px;color:var(--vp)">{% chiffre r.score "diagnostic" %}<small style="font-size:20px">/100</small></p>
+    <p style="font-size:18px;font-weight:600;margin:4px 0 16px">{{ r.phrase }}</p>
+    {% if r.manquantes %}<h3 style="margin:0 0 8px">Les {{ r.manquantes|length }} pièce{{ r.manquantes|length|pluralize }} qui vous manque{{ r.manquantes|length|pluralize:'nt' }}</h3>
+    <ol class="lst" style="margin:0 0 16px;padding-left:20px">{% for q in r.manquantes %}<li style="margin:6px 0"><b>{{ q.piece }}</b> <span class="t1">· {{ q.poids }} points · {{ q.action }}</span></li>{% endfor %}</ol>{% endif %}
+    <div class="band" style="margin:0 0 16px"><span class="bi">{% ic 'check' 22 %}</span><div><h3>Votre prochaine action, faisable en moins d’une semaine</h3><p>{{ r.prochaine }}</p></div></div>
+    <a class="btn p lg" href="{% url 'accounts:inscription_compte' 'pme' %}">Créer mon passeport {% ic 'fleche-d' 16 %}</a>
+    <p class="t1" style="margin-top:8px">Vos réponses sont reprises dans votre passeport : vous ne les saisirez pas deux fois.</p>
+    {% include 'partials/cartouche.html' %}</section>
+  <div class="g">
+    <section class="card"><h3>Qui peut vous aider maintenant</h3>
+      {% for a in r.accompagnateurs %}<div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--ligne)"><span class="lgm" style="width:40px;height:40px;border-radius:12px;background:var(--vd);color:var(--vp)">{{ a.initiales }}</span><div><b>{{ a.nom }}</b><br><span class="t1">{{ a.get_kind_display }}{% if a.ville %} · {{ a.ville }}{% endif %}{% if a.tarif %} · {{ a.tarif }}{% endif %}</span></div></div>
+      {% empty %}<p class="muted">Aucune structure référencée pour cette étape pour l’instant.</p>{% endfor %}
+      <p class="t1" style="margin-top:8px">Rang fondé sur des faits publics (qualification, dossiers menés), jamais sur un paiement.</p></section>
+    {% if secteur_choisi or region_choisie %}<section class="card"><h3>Déjà compatibles avec votre profil</h3>
+      <p class="muted">{{ n_financeurs }} financeur{{ n_financeurs|pluralize }} dont la thèse couvre {% if secteur_choisi %}{{ secteur_choisi.nom|lower }}{% endif %}{% if region_choisie %} en {{ region_choisie }}{% endif %}.</p>
+      <div class="chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0">{% for f in financeurs %}<span class="chip n">{{ f.nom }}</span>{% endfor %}</div>
+      {% if programmes %}<h3 style="margin-top:12px">Programmes pour votre niche</h3>{% for p in programmes %}<p style="margin:6px 0"><b>{{ p.porteur }}</b> · {{ p.nom }} <span class="t1">({{ p.source_libelle }})</span></p>{% endfor %}{% endif %}</section>{% endif %}
+  </div>
+</div>
+<p style="margin-top:16px"><a href="{% url 'core:diagnostic' %}">Refaire le diagnostic</a></p>
+{% else %}
+<form method="post" class="card" style="max-width:860px" id="diag45">{% csrf_token %}
+  {% for q in questions %}<fieldset style="border:0;margin:0;padding:12px 0;border-top:1px solid var(--ligne);display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+    <legend style="float:left;flex:1;min-width:240px;padding:0;font-size:15px"><b>{{ q.ordre }}.</b> {{ q.texte }}</legend>
+    <label class="chip n" style="cursor:pointer"><input type="radio" name="q{{ q.ordre }}" value="1" required> Oui</label>
+    <label class="chip n" style="cursor:pointer"><input type="radio" name="q{{ q.ordre }}" value="0"> Non</label></fieldset>{% endfor %}
+  <h3 style="margin:18px 0 6px">Trois questions de profil, pour voir déjà des financeurs compatibles</h3>
+  <div class="fgrid">
+    <div class="fl"><label for="d-secteur">Secteur</label><select id="d-secteur" name="secteur"><option value="">Choisir</option>{% for s in secteurs %}<option value="{{ s.pk }}">{{ s.nom }}</option>{% endfor %}</select></div>
+    <div class="fl"><label for="d-region">Région</label><select id="d-region" name="region"><option value="">Choisir</option>{% for r in regions %}<option>{{ r }}</option>{% endfor %}</select></div>
+    <div class="fl"><label for="d-ca">Chiffre d’affaires approximatif</label><select id="d-ca" name="ca"><option value="">Choisir</option>{% for v, l in tranches %}<option value="{{ v }}">{{ l }}</option>{% endfor %}</select></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px;flex-wrap:wrap"><span class="t1" id="chrono">Rien n’est publié. Vos réponses servent à pré-remplir votre passeport.</span><button class="btn p lg" type="submit">Voir mon résultat {% ic 'fleche-d' 16 %}</button></div>
+</form>
+{% endif %}
+{% endblock %}

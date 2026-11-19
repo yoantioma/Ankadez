@@ -14,9 +14,11 @@ from apps.investissement import tableaux
 from apps.investissement.models import DemandeAcces
 from apps.investissement.services import SEUIL_AFFICHAGE, compatibilite
 
-from . import services
+from apps.offres import services as offres
+
+from . import services, v3
 from .forms import ExerciceForm, PieceForm, ProfilForm
-from .models import EntrepriseProfile, ExerciceFinancier, Piece, ScoreSnapshot
+from .models import EntrepriseProfile, ExerciceFinancier, Piece, ScoreSnapshot, Signalement
 
 NIVEAUX = ['declaratif', 'coherent', 'recoupe', 'certifie']
 
@@ -74,6 +76,7 @@ def tableau(request):
         colonnes.append({'code': code, 'lab': lab, 'cases': cases, 'vides': range(max(0, 4 - len(cases))), 'n': len(niveaux)})
     montant = services.montant_legitime(org)
     profil = getattr(org, 'profil_pme', None)
+    produits = offres.produits_pour(org, score)
     return render(request, 'pme/tableau.html', {
         'org': org, 'score': score, 'restant': (score.prochain_palier[0] - score.total) if score.prochain_palier else 0,
         'montant': montant, 'actions': services.actions_prioritaires(org), 'preuves': preuves, 'colonnes': colonnes,
@@ -84,6 +87,9 @@ def tableau(request):
         'jauge': mark_safe(_radial(compatibles / len(invs), str(compatibles), f'sur {len(invs)} avec une thèse')) if invs else None,
         'photo': tableaux.photo(org), 'profil': profil,
         'n_a_faire': len(services.actions_prioritaires(org)) + sum(1 for d in demandes if d.statut == 'demande'),
+        # v3 : vitrine des produits (7.1), 4 P (5.1), indicateurs de préparation (5.3), fraîcheur du passeport (6.3)
+        'produits_maintenant': produits[0], 'produits_portee': produits[1], 'quatre_p': v3.quatre_p(org),
+        'indicateurs': v3.indicateurs_preparation(org), 'fraicheur': v3.coefficient_fraicheur(org)[1],
     })
 
 
@@ -114,7 +120,8 @@ def dossier(request):
                      key=lambda x: x[0], reverse=True)[:6]
     return render(request, 'pme/dossier.html', {
         'org': org, 'form': form, 'dossiers': dossiers, 'preuves': services.couverture_preuves(org), 'journal': journal,
-        'actifs': [d for d in demandes if d.statut not in ('demande', 'abandon')], 'en_attente': [d for d in demandes if d.statut == 'demande']})
+        'actifs': [d for d in demandes if d.statut not in ('demande', 'abandon')], 'en_attente': [d for d in demandes if d.statut == 'demande'],
+        'familles': v3.familles(org), 'signalements': org.signalements.all(), 'types_signalement': Signalement.TYPES})
 
 
 @role_requis('pme')
@@ -149,7 +156,8 @@ def finances(request):
     return render(request, 'pme/finances.html', {
         'org': org, 'form': form, 'exercices': exercices, 'montant': montant, 'curseur': curseur,
         'stress': tableaux.stress_tests(exercices[-1] if exercices else None), 'kpis': tableaux.kpis(exercices, services.confiance_donnees(org)),
-        'profil': getattr(org, 'profil_pme', None), 'ouvrir_exercices': request.method == 'POST'})
+        'profil': getattr(org, 'profil_pme', None), 'ouvrir_exercices': request.method == 'POST',
+        'ratios': v3.ratios(org), 'incitations': offres.incitations_pour(org)})
 
 
 @role_requis('pme')
@@ -222,7 +230,10 @@ def niveau(request):
         'org': org, 'score': services.score_preparation(org), 'actions': services.actions_prioritaires(org, limite=8),
         'sorties': SORTIES, 'actuelle': actuelle, 'voie': next((v for v, _ in SORTIES if actuelle.startswith(v)), ''),
         'conformite': conformite, 'n_conformes': sum(1 for _, ok, _ in conformite if ok),
-        'accompagnement': Organisation.objects.accompagnement().filter(pays='Cameroun').exclude(description='').order_by('-completude')[:5]})
+        'accompagnement': Organisation.objects.accompagnement().filter(pays='Cameroun').exclude(description='').order_by('-completude')[:5],
+        'etapes': offres.recommandations_par_etape(org, services.score_preparation(org)), 'profil': profil_pme,
+        'structures': Organisation.objects.accompagnement().order_by('nom'),
+        'questions': org.questions_recues_pme.select_related('investisseur', 'structure')})
 
 
 @login_required

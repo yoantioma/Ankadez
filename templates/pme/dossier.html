@@ -27,6 +27,19 @@
       {% else %}<p class="muted">Rien à signaler pour l’instant.</p>{% endif %}</section>
   </div>
 </div>
+<div class="g g2" style="margin-top:16px">
+  <section class="card tbl"><div class="ch"><h3>Les 12 familles de contrôle</h3><span>ce qu’un investisseur de rang mondial vérifie</span></div>
+    <table><tbody>{% for lab, etat, dossiers in familles %}<tr><td>{{ lab }}<span class="sub">dossier{{ dossiers|length|pluralize }} {{ dossiers|join:', ' }}</span></td>
+      <td style="text-align:right"><span class="etat {{ etat }}">{% if etat == 'verifie' %}vérifié{% elif etat == 'fourni' %}fourni{% else %}non fourni{% endif %}</span></td></tr>{% endfor %}</tbody></table></section>
+  <section class="card"><div class="ch"><h3>Déclarer une faiblesse avant tout contrôle</h3><span>divulgation spontanée</span></div>
+    <p class="muted">Une faiblesse que vous déclarez ne pénalise pas votre indice. La même, découverte par un investisseur, le fait.</p>
+    <form method="post" action="{% url 'pme:divulguer' %}" class="form" data-loader="Enregistrement…">{% csrf_token %}
+      <div class="fl"><label for="sig-type">Type</label><select id="sig-type" name="type">{% for v, l in types_signalement %}<option value="{{ v }}">{{ l }}</option>{% endfor %}</select></div>
+      <div class="fl"><label for="sig-desc">Description</label><input id="sig-desc" type="text" name="description" maxlength="255" required placeholder="Ex. caution personnelle sur le prêt de 2024"></div>
+      <label class="sw"><input type="checkbox" name="majeur" value="1"><span class="sw-t" aria-hidden="true"></span>Litige ou montant important</label>
+      <button class="btn s" type="submit">Déclarer</button></form>
+    {% if signalements %}<ul class="rows" style="margin-top:10px">{% for x in signalements %}<li><div><b>{{ x.get_type_display }}</b><span>{{ x.description }} · {{ x.created_at|date:'d/m/Y' }}</span></div>{% if x.divulgation_spontanee %}<span class="pill ok">déclaré par vous</span>{% else %}<span class="pill bad">découvert au contrôle</span>{% endif %}</li>{% endfor %}</ul>{% endif %}</section>
+</div>
 {% for d in dossiers %}{% if d.pieces %}<section class="card tbl" id="d{{ d.code }}" style="margin-top:16px"><div class="ch"><h3>{{ d.code }} · {{ d.lab }}</h3><span>{{ d.pieces|length }} pièce{{ d.pieces|length|pluralize }}</span></div>
   <table><tbody>{% for p in d.pieces %}<tr><td><b>{{ p.titre }}</b><span class="sub">versée le {{ p.created_at|date:'d/m/Y' }}</span></td>
     <td><span class="proof {% if p.niveau_preuve == 'certifie' %}p-cert{% elif p.niveau_preuve == 'recoupe' %}p-rec{% elif p.niveau_preuve == 'coherent' %}p-coh{% else %}p-decl{% endif %}">{{ p.get_niveau_preuve_display }}</span></td>

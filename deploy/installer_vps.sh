@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  Installation complète de ReadyMatch sur un VPS Ubuntu 22.04 / 24.04 (Contabo…)
+#  Installation complète de AnkadeZ sur un VPS Ubuntu 22.04 / 24.04 (Contabo…)
 #  Usage (en root ou avec sudo) :
-#     bash installer_vps.sh readymatch.mondomaine.cm moi@exemple.cm   # avec domaine : HTTPS automatique
+#     bash installer_vps.sh ankadez.mondomaine.cm moi@exemple.cm   # avec domaine : HTTPS automatique
 #     bash installer_vps.sh 203.0.113.10                                # sans domaine : HTTP sur l'IP
 #  Relançable sans risque : ce qui existe déjà est conservé, le code est mis à jour.
 # =============================================================================
 set -euo pipefail
-HOTE="${1:?Indiquez le domaine (ex. readymatch.mondomaine.cm) ou l’IP du VPS}"
+HOTE="${1:?Indiquez le domaine (ex. ankadez.mondomaine.cm) ou l’IP du VPS}"
 EMAIL="${2:-}"
 DEPOT="${DEPOT:-https://github.com/yoantioma/Ankadez.git}"
 BRANCHE="${BRANCHE:-main}"
-U=readymatch
-RACINE=/srv/readymatch
+U=ankadez
+RACINE=/srv/ankadez
 APP=$RACINE/app
 
 [ "$(id -u)" -eq 0 ] || { echo "Lancez ce script en root : sudo bash $0 $*"; exit 1; }
@@ -76,12 +76,12 @@ sudo -u "$U" .venv/bin/python manage.py migrate --noinput
 sudo -u "$U" .venv/bin/python manage.py collectstatic --noinput -v 0
 
 echo "▶ 7/8 Service Gunicorn et Nginx"
-cp deploy/readymatch.service /etc/systemd/system/readymatch.service
+cp deploy/ankadez.service /etc/systemd/system/ankadez.service
 systemctl daemon-reload
-systemctl enable readymatch >/dev/null
-systemctl restart readymatch
-sed "s/readymatch.exemple.cm/$HOTE/" deploy/nginx_readymatch.conf > /etc/nginx/sites-available/readymatch
-ln -sf /etc/nginx/sites-available/readymatch /etc/nginx/sites-enabled/readymatch
+systemctl enable ankadez >/dev/null
+systemctl restart ankadez
+sed "s/ankadez.exemple.cm/$HOTE/" deploy/nginx_ankadez.conf > /etc/nginx/sites-available/ankadez
+ln -sf /etc/nginx/sites-available/ankadez /etc/nginx/sites-enabled/ankadez
 rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
@@ -96,7 +96,7 @@ else
 fi
 
 echo
-echo "✔ ReadyMatch est en ligne : $( $EST_IP && echo "http" || echo "https" )://$HOTE"
+echo "✔ AnkadeZ est en ligne : $( $EST_IP && echo "http" || echo "https" )://$HOTE"
 echo "  Étapes suivantes (facultatives) :"
 echo "   - compte administrateur :  sudo -u $U $APP/.venv/bin/python $APP/manage.py createsuperuser"
 echo "   - annuaire depuis les CSV : sudo -u $U $APP/.venv/bin/python $APP/manage.py import_panaf '$RACINE/ajouts_panaf_*.csv'"

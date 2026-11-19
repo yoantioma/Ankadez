@@ -1,0 +1,14 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Reprises{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Cession, transmission, reprise · fiches anonymes, le nom n’est révélé qu’avec l’accord du cédant</p><h1>Entreprises à reprendre</h1></div></header>
+{% if lignes %}<section class="card tbl"><table><thead><tr><th>Entreprise</th><th>Opération</th><th>Grade</th><th>Valeur</th><th>Salariés</th><th>Compatibilité</th></tr></thead><tbody>
+{% for l in lignes %}<tr><td><b>{{ l.nom }}</b>{% if l.f.organisation.est_demo %} <span class="tag-fictif">FICTIF</span>{% endif %}<span class="sub">{{ l.f.motif|default:'motif non précisé' }}</span></td>
+  <td>{{ l.f.get_operation_display }}</td><td><span class="pill v">{{ l.score.palier }}</span></td>
+  <td>{% if l.f.valeur_min %}{{ l.f.valeur_min|fcfa }} à {{ l.f.valeur_max|fcfa }}{% else %}à établir{% endif %}</td><td>{{ l.f.salaries|default:'—' }}{% if l.f.maintien_emplois %}<span class="sub">maintien exigé</span>{% endif %}</td>
+  <td class="tot" title="{% for n, p, m in l.crit %}{{ n }} {{ p }}/{{ m }} · {% endfor %}">{{ l.total }}</td></tr>{% endfor %}
+</tbody></table></section>
+{% else %}<div class="card vide"><b>Aucune fiche de cession publiée.</b>Les entreprises ouvertes à une reprise apparaîtront ici, de façon anonyme.</div>{% endif %}
+<p class="note">{% ic 'info' 14 %} Même moteur de compatibilité, autres critères : secteur, région, prix, taille, maintien des emplois. AnkadeZ ne rédige aucun acte et ne fixe aucun prix.</p>
+{% include 'partials/cartouche.html' %}
+{% endblock %}

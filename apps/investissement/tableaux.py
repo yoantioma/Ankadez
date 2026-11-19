@@ -93,12 +93,16 @@ def stress_tests(dernier):
     return [(lab, f'{v:.2f}'.replace('.', ','), v < 1.2) for lab, v in cas]
 
 
-def carte_pme(org, c, these=None):
-    """Une ligne de la marketplace ou d’une liste : tout ce qu’affiche une carte de la maquette."""
+def carte_pme(org, c, these=None, acces=None):
+    """Une ligne de la marketplace ou d’une liste. Avant le consentement de l’entreprise, le nom est anonymisé (v3 · 4.2)."""
+    from .services import nom_public
     profil = getattr(org, 'profil_pme', None)
     s = pme.score_preparation(org)
     attestees = sum(1 for p in org.pieces.all() if p.niveau_preuve == 'certifie')
-    return {'org': org, 'c': c, 'score': s, 'profil': profil, 'photo': photo(org), 'attestees': attestees,
+    ouvert = bool(acces) and org.pk in acces
+    initiales = org.initiales if ouvert else ''.join(m[0] for m in (org.secteur.nom if org.secteur else 'P M').split()[:2]).upper()
+    return {'org': org, 'c': c, 'score': s, 'profil': profil, 'photo': photo(org), 'attestees': attestees, 'acces': ouvert,
+            'nom': nom_public(org, acces=ouvert), 'initiales': initiales, 'fictif': org.est_demo,
             'ticket': profil.ticket_recherche if profil else None, 'zlecaf': bool(profil and profil.export_zlecaf)}
 
 
@@ -107,13 +111,13 @@ def _mediane(vals):
     return median(vals) if vals else None
 
 
-def stats_secteur(secteur, orgs, these):
+def stats_secteur(secteur, orgs, these, acces=None):
     """Indicateurs d’un secteur, calculés sur les PME inscrites. Le score d’attractivité est expliqué axe par axe."""
     from .services import compatibilite
     lignes = []
     for o in orgs:
         ex = sorted(o.exercices.all(), key=lambda e: e.annee)
-        lignes.append({**carte_pme(o, compatibilite(these, o)), 'dernier': ex[-1] if ex else None, 'confiance': pme.confiance_donnees(o)})
+        lignes.append({**carte_pme(o, compatibilite(these, o), acces=acces), 'dernier': ex[-1] if ex else None, 'confiance': pme.confiance_donnees(o)})
     tickets = [l['ticket'] for l in lignes if l['ticket']]
     marges = [l['dernier'].marge_ebitda for l in lignes if l['dernier'] and l['dernier'].marge_ebitda is not None]
     return {'secteur': secteur, 'lignes': sorted(lignes, key=lambda l: -l['c']['total']), 'n': len(lignes), 'tickets': tickets,
@@ -155,7 +159,7 @@ def jauge(score, sous='sur 100'):
     return mark_safe(_radial(score / 100, str(score), sous))
 
 
-def classement_secteurs(these):
+def classement_secteurs(these, acces=None):
     """Tous les secteurs ayant au moins une PME, rangés par score d’attractivité. Renvoie (classement, stats, groupes)."""
     from apps.annuaire.models import Organisation
     base = (Organisation.objects.entreprises().filter(secteur__isnull=False)
@@ -166,7 +170,7 @@ def classement_secteurs(these):
     if not groupes:
         return [], {}, {}
     max_n = max(len(v) for v in groupes.values())
-    tous = {s: stats_secteur(s, orgs, these) for s, orgs in groupes.items()}
+    tous = {s: stats_secteur(s, orgs, these, acces) for s, orgs in groupes.items()}
     max_t = max(st['total_tickets'] for st in tous.values())
     classement = sorted(((attractivite(st, max_n, max_t), s) for s, st in tous.items()), key=lambda x: (-x[0][0], x[1].nom))
     return classement, tous, groupes

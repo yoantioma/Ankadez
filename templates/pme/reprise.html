@@ -1,0 +1,24 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Reprise et ouverture{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Cession, transmission, coentreprise, partenariat, fusion · confidentiel par défaut</p><h1>Reprise et ouverture</h1></div></header>
+<div class="g g3">
+  <section class="card span2"><div class="ch"><h3>Fiche de cession</h3><span>un repreneur achète un dossier avant d’acheter une entreprise</span></div>
+    <form method="post" class="form" novalidate data-loader="Enregistrement…">{% csrf_token %}
+      <div class="fgrid">{% for f in form %}{% if f.name in 'actifs dettes contrats_cles motif dependance_dirigeant' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>
+      <button class="btn p" type="submit">Enregistrer</button></form>
+    <p class="note">{% ic 'info' 14 %} AnkadeZ ne rédige aucun acte de cession et ne fixe pas de prix. Le texte applicable (OHADA) dépend de ce qui est cédé : parts, actions ou fonds de commerce.</p></section>
+  <div class="col">
+    <section class="card"><div class="ch"><h3>Ce que voit un repreneur</h3><span>fiche anonyme</span></div>
+      {% if fiche %}<p><b>{{ org.secteur.nom|default:'PME' }} · {{ org.region|default:org.pays }}</b></p>
+        <p class="muted">{{ fiche.get_operation_display }} · grade {{ score.palier }} · {% if fiche.valeur_min %}valeur {{ fiche.valeur_min|fcfa }} à {{ fiche.valeur_max|fcfa }}{% else %}valeur à établir{% endif %}{% if fiche.salaries %} · {{ fiche.salaries }} salariés{% endif %}</p>
+        <p>{% if fiche.publiee %}<span class="pill ok">publiée</span>{% else %}<span class="pill">non publiée</span>{% endif %} {% if fiche.nom_revele %}<span class="pill v">nom révélé</span>{% else %}<span class="pill">nom masqué</span>{% endif %}</p>
+      {% else %}<p class="muted">Remplissez la fiche pour la voir telle qu’un repreneur la verra.</p>{% endif %}</section>
+    <section class="card"><div class="ch"><h3>Financer la reprise</h3></div><p class="t1">Dette d’acquisition, crédit du vendeur, paiement échelonné, entrée progressive au capital.</p>
+      <ul class="rows">{% for p in financements %}<li><div><b>{{ p.institution_nom }}</b><span>{{ p.nom }}</span></div></li>{% empty %}<li><div><span>Aucun produit référencé pour l’instant.</span></div></li>{% endfor %}</ul></section>
+    <section class="card"><div class="ch"><h3>S’entourer</h3></div>
+      {% for lab, liste in conseils %}<p class="t1" style="margin:8px 0 2px">{{ lab }}</p>{% for a in liste %}<p style="margin:2px 0"><b>{{ a.nom }}</b>{% if a.ville %} · {{ a.ville }}{% endif %}</p>{% empty %}<p class="muted" style="margin:2px 0">À référencer</p>{% endfor %}{% endfor %}</section>
+  </div>
+</div>
+{% include 'partials/cartouche.html' %}
+{% endblock %}

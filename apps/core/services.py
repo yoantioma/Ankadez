@@ -30,7 +30,7 @@ def accueil_investisseur():
     tickets = sorted(t for t in entreprises.exclude(profil_pme__ticket_recherche=None).values_list('profil_pme__ticket_recherche', flat=True) if t)
     total_tickets = sum(tickets)
     deux_plus_gros = sum(tickets[-2:]) if tickets else 0
-    cibles = settings.READYMATCH_CIBLES
+    cibles = settings.ANKADEZ_CIBLES
     avec_comptes = len(derniers)
     dscr = sorted((ex.dscr for ex in derniers.values() if ex.dscr), reverse=True)
     sorties = entreprises.exclude(profil_pme__strategie_sortie='').exclude(profil_pme__strategie_sortie__isnull=True).count()

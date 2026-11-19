@@ -1,0 +1,46 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Passeport{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Un dossier numérique unique, signé, daté, transmissible avec votre accord</p><h1>Passeport</h1></div>
+  <div class="ph-act"><a class="btn s" href="{% url 'pme:passeport_imprimer' %}" target="_blank" rel="noopener">{% ic 'livre' 16 %}Version PDF signée</a><a class="btn s" href="{% url 'pme:passeport_json' %}">{% ic 'import' 16 %}Fichier structuré</a></div></header>
+{% if org.est_demo %}<p class="fictif-bandeau">{% ic 'info' 16 %} Passeport d’une entreprise FICTIVE (démonstration).</p>{% endif %}
+<section class="card"><div class="ch"><h3>{{ score.affichage }}</h3><span class="t1">signature SHA-256 · {{ contenu.signature_sha256|slice:':16' }}…</span></div>
+  <div class="g g3" style="margin-top:8px">
+    <div><p class="t1">Grade de préparation</p><p class="big" style="font-size:30px">{{ score.palier }}{% src "score" %}</p><p class="t1">à quel point le dossier est solide et prouvé</p></div>
+    <div><p class="t1">Stade d’investissement</p><p class="big" style="font-size:30px">{{ score.stade_libelle }}{% src "stade" %}</p><p class="t1">où en est l’entreprise, d’après sa traction</p></div>
+    <div><p class="t1">Indice de confiance</p><p class="big" style="font-size:30px">{% chiffre score.confiance "confiance" %} %</p><p class="t1">données justifiées ou attestées, vieillissement compris</p></div>
+  </div>
+  {% if score.points_rouges %}<div class="alert warn">{% ic 'alerte' 18 %}<span><b>Points rouges</b> (bloquent le grade suivant) : {{ score.points_rouges|join:' ; ' }}.</span></div>{% endif %}
+  {% for a in fraicheur %}<div class="alert info">{% ic 'info' 18 %}<span>{{ a }} : l’indice de confiance baisse jusqu’à l’actualisation.</span></div>{% endfor %}
+  <p class="note">{% ic 'info' 14 %} {{ contenu.avertissement }}</p></section>
+
+<div class="g g2" style="margin-top:16px">
+  <section class="card"><div class="ch"><h3>Transmettre le passeport</h3><span>APME → API → BVMAC</span></div>
+    <form method="post" class="form" id="partage">{% csrf_token %}<input type="hidden" name="action" value="partager">
+      <div class="fl"><label for="dest">Destinataire</label><select id="dest" name="destinataire_type" required>{% for v, l in destinataires %}<option value="{{ v }}">{{ l }}</option>{% endfor %}</select></div>
+      <div class="fl choices"><label>Rubriques transmises (chaque institution ne reçoit que ce dont elle a besoin)</label><div>{% for v, l in sections %}<label><input type="checkbox" name="perimetre" value="{{ v }}"> {{ l }}</label>{% endfor %}</div></div>
+      <label class="sw"><input type="checkbox" name="consentement" value="1" required><span class="sw-t" aria-hidden="true"></span>J’autorise cet envoi. Je peux le révoquer à tout moment.</label>
+      <button class="btn p" type="submit">{% ic 'fleche-d' 16 %}Transmettre</button></form>
+    <p class="note">{% ic 'info' 14 %} Le format cible de chaque institution sera validé avec elle après le hackathon ; le fichier AnkadeZ sert de base commune.</p></section>
+  <section class="card"><div class="ch"><h3>Journal des consentements</h3><span>{{ partages|length }}</span></div>
+    {% if partages %}<ul class="rows">{% for x in partages %}<li><div><b>{{ x.get_destinataire_type_display }}{% if x.destinataire %} · {{ x.destinataire.nom }}{% endif %}</b>
+      <span>{{ x.created_at|date:'d/m/Y H:i' }} · {{ x.perimetre|join:', ' }}{% if x.statut_retour %} · retour : {{ x.statut_retour }}{% endif %}</span></div>
+      {% if x.revoque_le %}<span class="pill">révoqué le {{ x.revoque_le|date:'d/m' }}</span>{% else %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="revoquer"><input type="hidden" name="pk" value="{{ x.pk }}"><button class="btn s sm" type="submit">Révoquer</button></form>{% endif %}</li>{% endfor %}</ul>
+    {% else %}<p class="muted">Aucun envoi pour l’instant. Rien ne part sans votre clic.</p>{% endif %}</section>
+</div>
+
+<section class="card tbl" style="margin-top:16px"><div class="ch"><h3>Portes de preuve par grade</h3><span>une porte non franchie bloque le grade, même si le score l’atteint</span></div>
+  <table><tbody>{% for seuil, lab, liste in portes %}<tr><td style="width:200px"><b>{{ lab }}</b><span class="sub">à partir de {{ seuil }}</span></td>
+    <td>{% for l, ok in liste %}<span class="etat {% if ok %}verifie{% else %}non_fourni{% endif %}" style="margin:2px 4px 2px 0">{% if ok %}✓{% else %}✕{% endif %} {{ l }}</span>{% endfor %}</td></tr>{% endfor %}</tbody></table></section>
+
+<section class="card tbl" style="margin-top:16px"><div class="ch"><h3>Pièces et empreintes numériques</h3><span>{{ contenu.pieces|length }}</span></div>
+  {% if contenu.pieces %}<table><thead><tr><th>Dossier</th><th>Pièce</th><th>Niveau</th><th>Empreinte SHA-256</th><th>Déposée le</th></tr></thead><tbody>
+  {% for p in contenu.pieces %}<tr><td class="mono">{{ p.dossier }}</td><td>{{ p.titre }}</td><td>{{ p.niveau }}</td><td class="mono">{{ p.empreinte_sha256 }}</td><td class="muted">{{ p.deposee_le }}</td></tr>{% endfor %}</tbody></table>
+  {% else %}<p class="muted">Aucune pièce. Versez vos documents dans la <a href="{% url 'pme:dossier' %}">data room</a>.</p>{% endif %}</section>
+{% include 'partials/cartouche.html' %}
+{% endblock %}
+{% block scripts %}<script>
+(function(){var P={{ perimetres|safe }},s=document.getElementById('dest');
+ function pre(){var l=P[s.value]||[];document.querySelectorAll('#partage input[name=perimetre]').forEach(function(c){c.checked=l.indexOf(c.value)>=0})}
+ s.addEventListener('change',pre);pre();})();
+</script>{% endblock %}

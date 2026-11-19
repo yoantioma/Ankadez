@@ -4,21 +4,29 @@
 <div class="gh"><div><p class="bc">{{ org.nom }} › Accueil</p><h1>Bonjour {{ user.first_name|default:org.nom }}</h1></div>
   <div class="acts"><span class="pbtn">{% ic 'agenda' 16 %}{% now 'D j M' %}</span>{% if actions %}<a href="{% url 'pme:niveau' %}" class="pbtn p">{% ic 'check' 16 %}Faire mes {{ actions|length }} action{{ actions|length|pluralize }}</a>{% endif %}</div>
 </div>
+{% if org.est_demo %}<p class="fictif-bandeau">{% ic 'info' 16 %} Entreprise FICTIVE, créée pour la démonstration. Aucune donnée réelle.</p>{% endif %}
+<p class="passeport-ligne">{% ic 'bouclier' 16 %}<b>{{ score.affichage }}</b>{% src "score" %}{% src "stade" %}{% src "confiance" %}{% if score.porte_bloquante %} · <span class="rouge">porte {{ score.porte_bloquante }} non franchie</span>{% endif %}{% for a in fraicheur %} · <span class="rouge">{{ a }}</span>{% endfor %}</p>
+{% if produits_maintenant or produits_portee %}<section class="vitrine">
+  {% if produits_maintenant %}<div class="vt-rang"><h2>Pour vous, maintenant</h2><p class="t1">Produits dont vous remplissez déjà les conditions. La banque décide : AnkadeZ n’est pas courtier.</p>
+    <div class="vt-cartes">{% for p, manque in produits_maintenant %}{% include 'offres/_produit.html' %}{% endfor %}</div></div>{% endif %}
+  {% if produits_portee %}<div class="vt-rang"><h2>À votre portée avec 2 pièces de plus</h2><p class="t1">Chaque condition manquante est une pièce à fournir.</p>
+    <div class="vt-cartes">{% for p, manque in produits_portee %}{% include 'offres/_produit.html' %}{% endfor %}</div></div>{% endif %}
+</section>{% endif %}
 <div class="bento">
   <section class="bx bph{% if not photo %} sans-photo{% endif %}" style="grid-area:ph{% if photo %};background-image:url('{{ photo }}'){% endif %}"><span class="tag"><i></i>{{ score.palier }} · {{ score.total }}/100</span>
     <span class="ov">{% ic 'oeil' 14 %}{% if n_acces %}{{ n_acces }} investisseur{{ n_acces|pluralize }} sui{{ n_acces|pluralize:'t,vent' }} votre dossier{% else %}Aucun investisseur ne suit encore votre dossier{% endif %}</span>
     <div class="pn2"><div><b>{{ org.nom }}</b><span>{{ org.ville|default:'Cameroun' }}{% if org.description %} · {{ org.description|truncatechars:42|lower }}{% endif %}</span></div>
       <a href="{% url 'pme:dossier' %}" aria-label="Ouvrir la data room">{% ic 'fleche-d' 18 %}</a></div></section>
 
-  <section class="bx" style="grid-area:bg"><div class="bbig"><div><div class="kpi1"><span class="ic">{% ic 'dossier' 18 %}</span><b>{{ preuves.deposees }}</b><span class="chipv">{{ preuves.pct_verifiees }} % vérifiées</span></div>
+  <section class="bx" style="grid-area:bg"><div class="bbig"><div><div class="kpi1"><span class="ic">{% ic 'dossier' 18 %}</span><b>{% chiffre preuves.deposees "pieces" %}</b><span class="chipv">{{ preuves.pct_verifiees }} % vérifiées</span></div>
       <p class="t1" style="margin-top:8px">pièces versées sur {{ preuves.exigees }} exigées, par dossier et par niveau de preuve</p>
       <div class="dmw" style="--ds:14px;--dg:7px"><div class="dmx" role="img" aria-label="Pièces par dossier et par niveau de preuve">{% for col in colonnes %}<div class="dcol" tabindex="0"><span class="tipc"><b>{{ col.code }} {{ col.lab|truncatechars:22 }}</b> · {{ col.n }} pièce{{ col.n|pluralize }}</span>{% for n in col.cases %}<i class="{% if n == 'certifie' %}c-cert{% elif n == 'recoupe' %}c-rec{% elif n == 'coherent' %}c-coh{% else %}c-decl{% endif %}"></i>{% endfor %}{% for _ in col.vides %}<i class="c-vide"></i>{% endfor %}</div>{% endfor %}</div>
         <div class="dlx">{% for col in colonnes %}<span>{{ col.code }}</span>{% endfor %}</div></div>
       <div class="lg2"><span><i class="c-cert"></i>Certifié</span><span><i class="c-rec"></i>Recoupé</span><span><i class="c-coh"></i>Cohérent</span><span><i class="c-decl"></i>Déclaratif</span><span><i class="c-vide"></i>Manquante</span></div></div>
     <div class="bv"><div class="top"><span class="ic">{% ic 'financer' 18 %}</span><span class="chip">calcul indicatif</span></div>
-      {% if montant %}<span class="big">{% widthratio montant.bas 1000000 1 %}–{{ montant.haut|fcfa }}</span><span class="lb">montant légitime à lever</span>
+      {% if montant %}<span class="big">{% widthratio montant.bas 1000000 1 %}–{{ montant.haut|fcfa }}</span><span class="lb">montant légitime à lever{% src "montant" %}</span>
         <div class="in"><div class="r"><span>Votre demande</span><span>{{ montant.demande|fcfa }}</span></div><b>{{ montant.couverture_pct }} %</b><span class="s">de votre demande est justifiée par vos chiffres.</span></div>
-      {% else %}<span class="big" style="font-size:24px">À calculer</span><span class="lb">montant légitime à lever</span>
+      {% else %}<span class="big" style="font-size:24px">À calculer</span><span class="lb">montant légitime à lever{% src "montant" %}</span>
         <div class="in"><span class="s">Indiquez le montant recherché et un EBITDA pour obtenir une fourchette.</span><a class="pbtn" href="{% url 'pme:finances' %}" style="margin-top:8px">Compléter</a></div>{% endif %}</div>
   </div></section>
 
@@ -27,7 +35,7 @@
       {% for titre, cat, pts, url in actions %}<li{% if forloop.first and not a_signer %} class="on"{% endif %}><a href="{% url url %}"><span class="av4 ico2">{% ic 'sortie' 20 %}</span><span class="tx"><b>{{ titre|truncatechars:40 }}</b><span class="s">{{ cat }}</span></span><span class="st">{% if pts %}<small class="tr-up">+{{ pts }} pts</small>{% else %}<small class="tr-eq">confiance</small>{% endif %}</span></a></li>{% empty %}{% if not a_signer %}<li><span class="tx" style="padding:10px"><b>Rien en attente</b><span class="s">Votre dossier est à jour.</span></span></li>{% endif %}{% endfor %}</ol></section>
 
   <section class="bx" style="grid-area:ln"><div class="bh"><div><p class="t1">Score de préparation</p><h3>Votre progression</h3></div></div>
-    <div class="vh"><b>{{ score.total }}</b><span style="color:var(--t3)">/100</span>{% if progression %}<span class="chipv">{{ progression|stringformat:'+d' }} depuis le début</span>{% endif %}</div>
+    <div class="vh"><b>{% chiffre score.total "score" %}</b><span style="color:var(--t3)">/100</span>{% if progression %}<span class="chipv">{{ progression|stringformat:'+d' }} depuis le début</span>{% endif %}</div>
     {% if courbe %}<div class="stc" role="img" aria-label="Évolution du score"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="{{ courbe.aire }}" fill="var(--vd)" opacity=".8"/><polyline points="{{ courbe.ligne }}" fill="none" stroke="var(--violet)" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg>
       <span class="yl" style="top:{{ courbe.seuil75 }}%">75</span><span class="yl" style="top:{{ courbe.seuil40 }}%">40</span>
       {% for p in courbe.points %}<span class="dp{% if forloop.last %} on{% endif %}" style="left:{{ p.x }}%;top:{{ p.y }}%" tabindex="0"><i></i><span class="tipc"><b>{{ p.d|date:'d/m' }}</b> · {{ p.s }}/100</span></span>{% endfor %}</div>
@@ -49,5 +57,12 @@
     {% else %}<p class="t1" style="margin-top:10px;color:rgba(255,255,255,.7)">Déclarez vos comptes et votre besoin pour voir ce que vous pouvez lever en dette et en capital.</p>{% endif %}
     <div class="ft"><a class="pbtn" href="{% url 'pme:finances' %}" style="height:36px">{% ic 'calc' 14 %}Ouvrir Financer</a></div></section>
 </div>
+<div class="sh6" style="margin-top:22px"><span class="n">4P</span><h3>Ce qu’un financeur regarde, dans l’ordre où il le regarde</h3><span class="r">le tableau de bord détaille l’indice, il ne le remplace pas</span></div>
+<div class="g g4 quatre-p">{% for b in quatre_p %}<section class="card"><div class="ch"><div><p class="t1">{{ b.cle }}</p><h3>{{ b.titre }}</h3></div><b class="qp-score">{% chiffre b.score "quatre_p" %}</b></div>
+  <span class="trk v"><i style="width:{{ b.score }}%"></i></span><p class="qp-lecture">{{ b.lecture }}</p><p class="t1">{{ b.question }}</p>
+  <ul class="qp-liste">{% for lab, pts, ok in b.criteres %}<li class="{% if ok %}ok{% endif %}">{% if ok %}{% ic 'check' 14 %}{% else %}{% ic 'croix' 14 %}{% endif %}{{ lab }} <small>{{ pts }}</small></li>{% endfor %}</ul>
+  <p class="note">{% ic 'info' 14 %} Pièces qui prouvent : {{ b.preuves }}.</p></section>{% endfor %}</div>
+<section class="card tbl" style="margin-top:16px"><div class="ch"><h3>Indicateurs de préparation à l’investissement</h3><a href="{% url 'pme:profil' %}">Compléter</a></div>
+  <table><tbody>{% for lab, val, aide in indicateurs %}<tr><td><b>{{ lab }}</b></td><td>{{ val }}</td><td class="muted">{{ aide }}</td></tr>{% endfor %}</tbody></table></section>
 {% include 'partials/cartouche.html' %}
 {% endblock %}

@@ -11,6 +11,7 @@ urlpatterns = [
     path('ecosysteme/', include('apps.annuaire.urls')),
     path('pme/', include('apps.pme.urls')),
     path('investisseur/', include('apps.investissement.urls')),
+    path('partenaire/', include('apps.pme.urls_partenaire')),
 ]
 
 # Les fichiers de data room ne sont jamais servis en accès libre : ils passent par pme:telecharger_piece.

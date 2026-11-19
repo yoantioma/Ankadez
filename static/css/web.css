@@ -158,3 +158,43 @@ html,body{margin:0;background:#F8F8FB}
 
 /* logotype AnkadeZ : minuscules, le A et le Z dans la couleur principale (dossier BIH) */
 .wapp .nom-marque{letter-spacing:-.01em}.wapp .nom-marque i{font-style:normal;color:var(--violet)}
+
+/* ---------- cahier des charges v3 ---------- */
+.wapp .fictif-bandeau{display:flex;align-items:center;gap:8px;margin:0 0 12px;padding:10px 14px;border-radius:14px;background:var(--ad);color:var(--alerte);font-size:13.5px;font-weight:700}
+.wapp .tag-fictif{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;padding:2px 8px;border-radius:999px;background:var(--ad);color:var(--alerte)}
+.wapp .passeport-ligne{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 16px;font-size:14px;color:var(--t2)}
+.wapp .passeport-ligne b{color:var(--encre)}
+.wapp .rouge{color:var(--erreur);font-weight:600}
+.wapp .vitrine{display:flex;flex-direction:column;gap:14px;margin-bottom:18px}
+.wapp .vt-rang h2{margin:0;font-size:20px;letter-spacing:-.02em}
+.wapp .vt-cartes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:10px}
+.wapp .vt-carte{background:var(--surface);border:1px solid var(--ligne);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.wapp .vt-carte.perime{opacity:.6;filter:grayscale(.6)}
+.wapp .vt-carte h3{margin:0;font-size:16px;line-height:1.3}
+.wapp .vt-inst{margin:0;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--violet)}
+.wapp .vt-carte dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin:0;font-size:13px}
+.wapp .vt-carte dt{color:var(--t3)}.wapp .vt-carte dd{margin:0}
+.wapp .vt-manque{margin:0;font-size:13px;font-weight:600;color:var(--alerte)}
+.wapp .vt-src{margin:auto 0 0;font-size:12px;color:var(--t3);line-height:1.45}
+.wapp .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.wapp .quatre-p .card{display:flex;flex-direction:column;gap:6px}
+.wapp .qp-score{font-size:34px;font-weight:300;color:var(--vp)}
+.wapp .qp-lecture{margin:0;font-weight:600;font-size:14px}
+.wapp .qp-liste{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--t3)}
+.wapp .qp-liste li{display:flex;gap:6px;align-items:center}.wapp .qp-liste li.ok{color:var(--encre)}.wapp .qp-liste li.ok svg{color:var(--succes)}
+.wapp .qp-liste small{margin-left:auto;color:var(--t3)}
+.wapp .etat{display:inline-flex;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+.wapp .etat.non_fourni{background:var(--ed);color:var(--erreur)}.wapp .etat.fourni{background:var(--ad);color:var(--alerte)}.wapp .etat.verifie{background:var(--sd);color:var(--succes)}
+.wapp .anon{font-style:normal;color:var(--t2)}
+@media (max-width:1180px){.wapp .g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.wapp .g4{grid-template-columns:1fr}}
+
+#t-banque:checked~.ctrl .tabs label[for="t-banque"],#t-4p:checked~.ctrl .tabs label[for="t-4p"]{color:var(--violet);border-color:var(--violet)}
+#t-banque:checked~.tp[data-p="banque"],#t-4p:checked~.tp[data-p="4p"]{display:block}
+#fin-ratios:checked~.tabs label[for="fin-ratios"],#fin-incit:checked~.tabs label[for="fin-incit"]{color:var(--violet);border-color:var(--violet)}
+#fin-ratios:checked~.tp[data-p="fin-ratios"],#fin-incit:checked~.tp[data-p="fin-incit"]{display:block}
+/* icône de source (v3 · 9.4) */
+.src-i{display:inline-grid;place-items:center;width:16px;height:16px;margin-left:5px;border-radius:50%;border:1px solid var(--lf);background:var(--surface);color:var(--t3);font:italic 700 10px Georgia,serif;cursor:help;vertical-align:middle;padding:0;position:relative}
+.src-i:hover,.src-i:focus-visible{color:var(--violet);border-color:var(--violet);outline:none}
+.src-i:hover::after,.src-i:focus-visible::after{content:attr(aria-label);position:absolute;z-index:40;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);width:280px;padding:10px 12px;border-radius:12px;background:var(--encre);color:var(--fond);font:normal 400 12px/1.45 var(--f);text-align:left;white-space:normal;box-shadow:var(--o2)}
+.chiffre{white-space:nowrap}

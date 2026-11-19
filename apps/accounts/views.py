@@ -10,7 +10,7 @@ from apps.annuaire.models import Organisation
 from apps.investissement.models import These
 from apps.pme.models import EntrepriseProfile, ExerciceFinancier
 
-from .forms import CompteForm, ConnexionForm, EntrepriseForm, FinancementForm, TheseForm
+from .forms import CompteForm, ConnexionForm, EntrepriseForm, FinancementForm, TheseForm, enregistrer_these
 from .models import User
 
 PARCOURS = {
@@ -57,14 +57,18 @@ def onboarding(request, role):
 def _onboarding_pme(request, user):
     org = user.organisation
     if org is None:
-        form = EntrepriseForm(request.POST or None)
+        diag = request.session.get('diagnostic') or {}
+        initial = {k: v for k, v in (('secteur', diag.get('secteur')), ('region', diag.get('region'))) if v}
+        form = EntrepriseForm(request.POST or None, initial=initial)
         if request.method == 'POST' and form.is_valid():
             d = form.cleaned_data
             with transaction.atomic():
                 org = Organisation.objects.create(kind=Organisation.Kind.PME, nom=d['nom'], secteur=d['secteur'], ville=d['ville'],
                                                   region=d['region'], description=d['description'], a_verifier=True, completude=40)
+                # v3 · 4.1 : le passeport reprend ce que la PME vient de dire dans le diagnostic de 45 secondes
+                rep = diag.get('reponses', {})
                 EntrepriseProfile.objects.create(organisation=org, forme_juridique=d['forme_juridique'], annee_creation=d['annee_creation'],
-                                                 effectif=d['effectif'])
+                                                 effectif=d['effectif'], diagnostic=diag, reporting_mensuel=bool(rep.get('5')))
                 user.organisation = org
                 user.save(update_fields=['organisation'])
             return redirect('accounts:onboarding', role='pme')
@@ -91,15 +95,12 @@ def _onboarding_investisseur(request, user):
         d = form.cleaned_data
         with transaction.atomic():
             org = user.organisation or Organisation.objects.create(kind=Organisation.Kind.INVESTISSEUR, nom=d['nom'], ville=d['ville'], pays=d['pays'] or 'Cameroun')
-            these, _ = These.objects.update_or_create(organisation=org, defaults={
-                'ticket_min': d['ticket_min'], 'ticket_max': d['ticket_max'], 'zones': d['zones'], 'stades': d['stades'],
-                'instruments': d['instruments'], 'exigence_esg': d['exigence_esg'], 'horizon_annees': d['horizon_annees']})
-            these.secteurs.set(d['secteurs'])
+            enregistrer_these(org, d)
             user.organisation = org
             user.save(update_fields=['organisation'])
-        messages.success(request, 'Votre thèse est enregistrée. Voici le Cameroun et les secteurs qui comptent pour vous.')
+        messages.success(request, 'Votre monde idéal est enregistré. Votre tableau de bord se remplit d’entreprises qui y ressemblent.')
         return redirect('investissement:cameroun')
-    return render(request, 'accounts/onboarding.html', _ctx('investisseur', 1, form, submit='Voir les entreprises compatibles'))
+    return render(request, 'accounts/onboarding.html', _ctx('investisseur', 1, form, submit='Construire mon tableau de bord', etapes_v3=True))
 
 
 class Connexion(LoginView):

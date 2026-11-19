@@ -14,11 +14,12 @@
     <div><h1 style="font-size:32px">{{ titre_etape }}</h1>
       <p class="lead">{% if etape == 0 %}Votre compte personnel. Vous pourrez inviter vos collaborateurs ensuite.{% elif role == 'pme' and etape == 1 %}L’identité de votre entreprise : elle alimente déjà votre score.{% elif role == 'pme' %}Facultatif mais utile : sans comptes, pas de montant légitime ni de score financier.{% else %}Votre thèse fixe les entreprises que vous verrez et le calcul de l’indice de compatibilité.{% endif %}</p></div>
     <form method="post" class="form" novalidate data-loader="{% if etape == n_etapes|add:-1 %}Calcul de votre espace…{% else %}Enregistrement…{% endif %}">{% csrf_token %}
+      {% if etapes_v3 %}{% include 'partials/monde_ideal.html' %}{% else %}
       {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors|join:' ' }}</div>{% endif %}
-      <div class="fgrid">{% for f in form %}{% if f.name == 'description' or f.name == 'secteurs' or f.name == 'zones' or f.name == 'stades' or f.name == 'instruments' or f.name == 'exigence_esg' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>
+      <div class="fgrid">{% for f in form %}{% if f.name == 'description' or f.name == 'secteurs' or f.name == 'zones' or f.name == 'stades' or f.name == 'instruments' or f.name == 'exigence_esg' %}{% include 'partials/champ.html' with f=f full=True %}{% else %}{% include 'partials/champ.html' with f=f %}{% endif %}{% endfor %}</div>{% endif %}
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px">
         {% if passer %}<a class="btn t" href="{{ passer }}">Passer cette étape</a>{% else %}<a class="btn t" href="{% url 'accounts:inscription' %}">Retour</a>{% endif %}
-        <button class="btn p lg" type="submit">{{ submit }} {% ic 'fleche-d' 16 %}</button></div>
+        {% if not etapes_v3 %}<button class="btn p lg" type="submit">{{ submit }} {% ic 'fleche-d' 16 %}</button>{% endif %}</div>
     </form>
     <p class="note">{% ic 'bouclier' 14 %} Vos données restent les vôtres : vous choisissez ce que vous partagez, et chaque investisseur signe un accord de confidentialité avant d’ouvrir une data room.</p>
   </div>

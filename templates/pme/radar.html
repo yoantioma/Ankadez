@@ -1,0 +1,17 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Radar de clauses{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">Term sheet, pacte d’associés, prêt convertible · on explique, on ne rédige pas</p><h1>Radar de clauses</h1></div></header>
+<div class="g g2">
+  <section class="card"><div class="ch"><h3>Collez le texte reçu</h3><span>rien n’est enregistré</span></div>
+    <form method="post" class="form">{% csrf_token %}<textarea name="texte" rows="14" placeholder="Collez ici la term sheet ou le projet de pacte…">{{ texte }}</textarea>
+      <button class="btn p" type="submit">{% ic 'loupe' 16 %}Repérer les clauses</button></form>
+    <p class="note">{% ic 'info' 14 %} Les modèles de clauses fournis ne sont pas rédigés pour le droit OHADA : faites toujours relire par un avocat.</p></section>
+  <section class="card"><div class="ch"><h3>Clauses repérées</h3><span>{% if analyse %}{{ trouvees|length }}{% endif %}</span></div>
+    {% if analyse %}{% if trouvees %}<ul class="rows">{% for lab, expl in trouvees %}<li><div><b>{{ lab }}</b><span>{{ expl }}</span></div></li>{% endfor %}</ul>
+      {% else %}<p class="muted">Aucune clause sensible reconnue. Cela ne remplace pas une relecture juridique.</p>{% endif %}
+    {% else %}<p class="muted">Les clauses clés apparaîtront ici, expliquées en mots simples.</p>{% endif %}
+    <h3 style="margin-top:16px">Avocats OHADA recommandés</h3>{% for a in avocats %}<p style="margin:4px 0"><b>{{ a.nom }}</b>{% if a.ville %} · {{ a.ville }}{% endif %}{% if a.tarif %} · {{ a.tarif }}{% endif %}</p>{% empty %}<p class="muted">À référencer.</p>{% endfor %}</section>
+</div>
+{% include 'partials/cartouche.html' %}
+{% endblock %}

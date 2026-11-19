@@ -1,4 +1,4 @@
-# ReadyMatch · image de l'application Django (Gunicorn)
+# AnkadeZ · image de l'application Django (Gunicorn)
 FROM python:3.13-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

@@ -16,10 +16,24 @@
   <section class="card"><div class="ch"><h3>Conformité</h3><span>{{ n_conformes }} sur {{ conformite|length }}</span></div>
     <ul class="rows mods">{% for lab, ok, ou in conformite %}<li>{% if ok %}<span class="ok-c">{% ic 'check' 14 %}</span>{% else %}<span class="warn-c">{% ic 'alerte' 14 %}</span>{% endif %}<div><b>{{ lab }}</b><span>{% if ok %}fourni{% else %}à fournir · {{ ou }}{% endif %}</span></div></li>{% endfor %}</ul>
     <p class="note">Non constitutif d’un avis juridique.</p></section>
-  <section class="card span2"><div class="ch"><h3>Accompagnement</h3><span>structures référencées au Cameroun</span></div>
-    {% if accompagnement %}<ul class="rows">{% for o in accompagnement %}<li><div><b>{{ o.nom }}</b><span>{{ o.categorie|default:o.get_kind_display }}{% if o.ville %} · {{ o.ville }}{% endif %}</span></div>{% if o.site_web %}<a class="btn t sm" href="{{ o.site_web }}" target="_blank" rel="noopener">Site</a>{% endif %}</li>{% endfor %}</ul>
-    {% else %}<p class="muted">Aucune structure référencée pour l’instant.</p>{% endif %}
-    <a class="btn s sm" href="{% url 'annuaire:ecosysteme' %}" style="margin-top:10px">Tout l’écosystème</a></section>
+  <section class="card span2"><div class="ch"><h3>Qui peut vous aider, à chaque marche</h3><span>rang fondé sur des faits, jamais sur un paiement</span></div>
+    {% for spec, etape, qui, liste in etapes %}<div style="padding:10px 0;border-top:1px solid var(--ligne)"><b>{{ etape }}</b> <span class="t1">· {{ qui }}</span>
+      <div class="chips2">{% for a in liste %}<span>{{ a.nom }}{% if a.ville %} · {{ a.ville }}{% endif %}{% if a.tarif %} · {{ a.tarif }}{% endif %}{% if a.partenaire_payant %} · partenaire{% endif %}{% if a.conflits %} · conflit déclaré{% endif %}</span>{% empty %}<span>À référencer</span>{% endfor %}</div></div>
+    {% empty %}<p class="muted">Aucune marche bloquante détectée.</p>{% endfor %}
+    <p class="note">{% ic 'info' 14 %} Règles publiques : qualification vérifiée, dossiers menés à terme, recommandations des deux côtés, prix affichés, conflits déclarés. Le référencement payant donne un badge séparé, sans effet sur le rang.</p></section>
+  <section class="card"><div class="ch"><h3>Mon accompagnement</h3></div>
+    <form method="post" action="{% url 'pme:choisir_accompagnateur' %}" class="form" data-loader="Enregistrement…">{% csrf_token %}
+      <div class="fl"><label for="acc">Structure qui m’accompagne</label><select id="acc" name="accompagnateur"><option value="">Aucune</option>{% for o in structures %}<option value="{{ o.pk }}"{% if profil.accompagnateur_id == o.pk %} selected{% endif %}>{{ o.nom }}</option>{% endfor %}</select></div>
+      <div class="fl"><label for="cab">Cabinet comptable, fiscaliste ou CGA</label><select id="cab" name="cabinet"><option value="">Aucun</option>{% for o in structures %}<option value="{{ o.pk }}"{% if profil.cabinet_id == o.pk %} selected{% endif %}>{{ o.nom }}</option>{% endfor %}</select></div>
+      <label class="sw"><input type="checkbox" name="peut_repondre" value="1"{% if profil.accompagnateur_peut_repondre %} checked{% endif %}><span class="sw-t" aria-hidden="true"></span>Mon accompagnateur peut répondre en mon nom pour un premier contact</label>
+      <button class="btn p" type="submit">Enregistrer</button></form>
+    {% if questions %}<h3 style="margin-top:14px">Échanges avec les investisseurs</h3><ul class="rows">{% for q in questions %}<li><div><b>{{ q.structure.nom }}</b><span>Question anonyme d’un investisseur : {{ q.question|truncatechars:90 }}{% if q.reponse %} · Réponse : {{ q.reponse|truncatechars:90 }}{% endif %}</span></div></li>{% endfor %}</ul>{% endif %}
+    <p class="note">{% ic 'info' 14 %} Sans votre accord, rien ne part. Le nom n’est révélé qu’après votre consentement.</p></section>
+  <section class="card"><div class="ch"><h3>Autres outils</h3></div><ul class="rows">
+    <li><div><b><a href="{% url 'pme:reprise' %}">Reprise et ouverture</a></b><span>cession, transmission, coentreprise, fusion</span></div></li>
+    <li><div><b><a href="{% url 'pme:radar' %}">Radar de clauses</a></b><span>comprendre une term sheet ou un pacte</span></div></li>
+    <li><div><b><a href="{% url 'core:academie' %}">Académie</a></b><span>leçons courtes et quiz{% if profil.badge_eduque %} · badge obtenu{% endif %}</span></div></li>
+    <li><div><b><a href="{% url 'core:programmes' %}">Programmes par niche</a></b><span>femmes, jeunes, agro, numérique…</span></div></li></ul></section>
   <section class="card"><div class="ch"><h3>Deux lectures</h3><span>{{ score.total }}/100</span></div>
     <div class="dims">{% for k, lab, pts, mx in score.dims %}<div class="dim"><span>{{ lab }}</span><span class="trk v"><i style="width:{% widthratio pts mx 100 %}%"></i></span><b>{{ pts }}/{{ mx }}</b></div>{% endfor %}</div>
     <p class="note">{% ic 'info' 14 %} Lecture banque {{ score.dette }} · lecture fonds {{ score.fonds_propres }} · confiance {{ score.confiance }} %.</p></section>

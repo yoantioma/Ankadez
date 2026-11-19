@@ -23,7 +23,7 @@
   </div></section>
 
   <section class="bx" style="grid-area:ls"><p class="t1">Selon votre thèse</p><div class="bh"><h3 style="font-size:24px">Meilleures PME</h3><span class="cnt"><i></i>{{ st.n }} PME</span></div>
-    <ol class="nl">{% for l in top %}<li{% if forloop.first %} class="on"{% endif %}><a href="{% url 'investissement:fiche' l.org.slug %}" data-loader="Ouverture de la fiche…"><span class="av4{% if not l.photo %} sans-photo{% endif %}"{% if l.photo %} style="background-image:url('{{ l.photo }}')"{% endif %}>{% if not l.photo %}{{ l.org.initiales }}{% endif %}<em>{{ forloop.counter }}</em></span><span class="tx"><b>{{ l.org.nom }}</b><span class="s">{{ l.org.description|truncatechars:40|default:l.org.ville }}</span></span><span class="st">{{ l.c.total }} <small class="tr-eq">indice</small></span></a></li>{% endfor %}</ol>
+    <ol class="nl">{% for l in top %}<li{% if forloop.first %} class="on"{% endif %}><a href="{% url 'investissement:fiche' l.org.slug %}" data-loader="Ouverture de la fiche…"><span class="av4{% if not l.photo %} sans-photo{% endif %}"{% if l.photo %} style="background-image:url('{{ l.photo }}')"{% endif %}>{% if not l.photo %}{{ l.initiales }}{% endif %}<em>{{ forloop.counter }}</em></span><span class="tx"><b>{{ l.nom }}</b><span class="s">{{ l.org.description|truncatechars:40|default:l.org.ville }}</span></span><span class="st">{{ l.c.total }} <small class="tr-eq">indice</small></span></a></li>{% endfor %}</ol>
     <a class="pbtn" href="{% url 'investissement:entreprises' %}?secteur={{ st.secteur.slug }}" style="width:100%;justify-content:center;margin-top:10px;box-sizing:border-box">Voir les {{ st.n }} entreprises</a></section>
 
   <section class="bx" style="grid-area:ln"><div class="bh"><div><p class="t1">Demande du secteur</p><h3>Montants recherchés</h3></div></div>
@@ -32,7 +32,7 @@
       <p class="src2">{% ic 'info' 14 %}Une sucette par PME, du plus petit au plus grand montant · médiane {{ ticket_median }}</p>
     {% else %}<p class="t1">Aucune PME du secteur n’a indiqué de montant.</p>{% endif %}</section>
 
-  <section class="bx" style="grid-area:ck"><div class="bh"><div><p class="t1">Pourquoi {{ score }} sur 100 ?</p><h3>Score d’attractivité</h3></div></div>
+  <section class="bx" style="grid-area:ck"><div class="bh"><div><p class="t1">Pourquoi {{ score }} sur 100 ?</p><h3>Score d’attractivité{% src "attractivite" %}</h3></div></div>
     {{ jauge }}
     <div class="rws">{% for lab, v, poids in axes %}<div><i style="background:{% cycle 'var(--violet)' '#6E55EC' '#8B78F0' '#A898F4' '#C3B8F8' %}"></i><span>{{ lab }} <small class="t1">· poids {{ poids }}</small></span><b>{{ v }}</b></div>{% endfor %}</div></section>
 

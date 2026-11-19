@@ -5,7 +5,7 @@
   <div class="ph-act"><a class="btn p" href="{% url 'investissement:marketplace' %}">{% ic 'pile' 16 %}Trouver des PME</a></div></header>
 <div class="kanban">{% for code, lab, items in colonnes %}
   <div class="kcol"><h3>{{ lab }} <span>{{ items|length }}</span></h3>
-    {% for d in items %}<div class="kcard"><a href="{% url 'investissement:fiche' d.entreprise.slug %}" data-loader="Ouverture de la fiche…">{% if d.photo %}<span class="thumb" style="background-image:url('{{ d.photo }}')"></span>{% else %}<span class="thumb sans-photo">{{ d.entreprise.initiales }}</span>{% endif %}<div><b>{{ d.entreprise.nom }}</b><span>{% if d.ticket %}{{ d.ticket }} · {% endif %}indice {{ d.indice|default:'—' }} · {{ d.updated_at|date:'d/m' }}</span></div></a>
+    {% for d in items %}<div class="kcard"><a href="{% url 'investissement:fiche' d.entreprise.slug %}" data-loader="Ouverture de la fiche…">{% if d.photo %}<span class="thumb" style="background-image:url('{{ d.photo }}')"></span>{% else %}<span class="thumb sans-photo">{{ d.initiales }}</span>{% endif %}<div><b>{{ d.nom }}</b><span>{% if d.ticket %}{{ d.ticket }} · {% endif %}indice {{ d.indice|default:'—' }} · {{ d.updated_at|date:'d/m' }}</span></div></a>
       {% if d.statut == 'abandon' %}<div class="k-act"><span class="muted" style="font-size:12px">Motif : {{ d.motif_abandon }}</span></div>
       {% elif d.statut != 'closing' %}<div class="k-act">
         {% if d.statut == 'demande' %}<span class="pill warn">En attente de l’accord de la PME</span>{% else %}<form method="post" action="{% url 'investissement:faire_avancer' d.pk %}" data-loader="Mise à jour du deal…">{% csrf_token %}<button class="btn p" name="action" value="avancer" type="submit">Étape suivante</button></form>{% endif %}

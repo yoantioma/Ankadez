@@ -1,0 +1,17 @@
+{% extends 'base_web.html' %}{% load rm %}
+{% block title %}Mes PME{% endblock %}
+{% block content %}
+<header class="ph"><div><p class="kicker">{{ org.nom }} · un seul travail comptable, des exports pour chaque financeur</p><h1>Mes PME</h1></div></header>
+<section class="card tbl"><div class="ch"><h3>Entreprises qui vous ont choisi</h3><span>{{ clients|length }}</span></div>
+  {% if clients %}<table><thead><tr><th>Entreprise</th><th>Rôle</th><th>Passeport</th><th>Vos attestations</th><th></th></tr></thead><tbody>
+  {% for c in clients %}<tr><td><b>{{ c.org.nom }}</b>{% if c.org.est_demo %} <span class="tag-fictif">FICTIF</span>{% endif %}<span class="sub">{{ c.org.secteur.nom|default:'' }}</span></td>
+    <td>{% if c.cabinet %}Cabinet{% else %}Accompagnateur{% endif %}</td><td><span class="pill v">{{ c.score.palier }} · {{ c.score.total }}</span>{% if c.score.points_rouges %}<span class="sub rouge">{{ c.score.points_rouges|length }} point{{ c.score.points_rouges|length|pluralize }} rouge{{ c.score.points_rouges|length|pluralize }}</span>{% endif %}</td>
+    <td>{{ c.attestations }}</td><td><a class="btn s sm" href="{% url 'partenaire:client' c.org.pk %}">Ouvrir</a></td></tr>{% endfor %}</tbody></table>
+  {% else %}<p class="muted">Aucune PME ne vous a encore désigné comme cabinet ou accompagnateur. Elle le fait depuis sa page « Niveau ».</p>{% endif %}
+  <p class="note">{% ic 'info' 14 %} Les dossiers des PME qui ne remplissent pas leurs obligations de régularisation restent au grade Structuring.</p></section>
+<section class="card" style="margin-top:16px"><div class="ch"><h3>Questions d’investisseurs</h3><span>vous répondez avec ce que la PME vous autorise à dire</span></div>
+  {% for q in questions %}<div style="padding:12px 0;border-top:1px solid var(--ligne)"><p style="margin:0"><b>À propos de {{ q.entreprise.nom }}</b> · {{ q.created_at|date:'d/m/Y' }}</p><p style="margin:4px 0">{{ q.question }}</p>
+    {% if q.reponse %}<p class="t1">Votre réponse : {{ q.reponse }}</p>{% else %}<form method="post" action="{% url 'partenaire:repondre' q.pk %}" class="form" style="gap:8px">{% csrf_token %}<textarea name="reponse" rows="2" required></textarea>
+      <label class="sw"><input type="checkbox" name="signaler" value="1"><span class="sw-t" aria-hidden="true"></span>Une réponse plus précise est nécessaire : solliciter la PME</label><button class="btn p sm" type="submit">Répondre</button></form>{% endif %}</div>
+  {% empty %}<p class="muted">Aucune question pour l’instant.</p>{% endfor %}</section>
+{% endblock %}

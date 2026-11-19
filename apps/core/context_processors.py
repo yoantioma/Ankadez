@@ -25,15 +25,21 @@ def navigation(request):
                  ('Entreprises', 'liste', reverse('investissement:entreprises'), ()),
                  ('Fiche PME', 'jauge', reverse('investissement:fiche_courante'), ('/investisseur/entreprise/',)),
                  ('Marketplace', 'pile', reverse('investissement:marketplace'), ()),
-                 ('Pipeline', 'cible', reverse('investissement:pipeline'), ())]
+                 ('Pipeline', 'cible', reverse('investissement:pipeline'), ()),
+                 ('Reprises', 'sortie', reverse('investissement:reprises'), ()),
+                 ('Impact', 'reseau', reverse('investissement:impact'), ())]
     elif u.is_authenticated and u.role == 'pme':
         # Barre de l'espace PME, comme dans les maquettes (la page « Compétitivité » viendra avec l'outil PESTEL)
         liens = [('Accueil', 'accueil', reverse('pme:tableau'), ()),
                  ('Data room', 'dossier', reverse('pme:dossier'), ()),
                  ('Financer', 'financer', reverse('pme:finances'), ()),
+                 ('Passeport', 'bouclier', reverse('pme:passeport'), ()),
                  ('Investisseurs', 'invest', reverse('pme:investisseurs'), ()),
                  ('Deals', 'cible', reverse('pme:deals'), ()),
-                 ('Niveau', 'jauge', reverse('pme:niveau'), ())]
+                 ('Niveau', 'jauge', reverse('pme:niveau'), ('/pme/reprise/', '/pme/radar-clauses/'))]
+    elif u.is_authenticated and u.role == 'partenaire':
+        liens = [('Mes PME', 'liste', reverse('partenaire:tableau'), ('/partenaire/',)), ('Programmes', 'livre', reverse('core:programmes'), ()),
+                 ('Académie', 'jauge', reverse('core:academie'), ())]
     else:
         liens = []
     if liens:

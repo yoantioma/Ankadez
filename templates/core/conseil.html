@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% load rm %}
+{% block title %}Conseil consultatif{% endblock %}
+{% block content %}
+<div class="gh"><div><p class="bc"><a href="{% url 'core:landing' %}">Accueil</a> › Conseil consultatif</p><h1>Ceux qui valident <em>nos règles.</em></h1>
+  <p class="lead">Le conseil valide les règles qui engagent la crédibilité de l’outil : pondérations du matching, portes de preuve, formats d’export, éthique des référencements. Il ne gère rien et ne reçoit aucune rémunération.</p></div></div>
+<div class="g g3">{% for siege, pourquoi in sieges %}<section class="card"><p class="t1">Siège {{ forloop.counter }}</p><h3>{{ siege }}</h3><p class="muted">{{ pourquoi }}</p><span class="chip n">titulaire annoncé après accord écrit</span></section>{% endfor %}</div>
+<section class="card" style="margin-top:16px"><h3>Règles</h3><p class="muted">Charte de conflits d’intérêts signée ; deux ou trois réunions par an ; compte rendu public ; mandat de deux ans, renouvelable une fois. Aucun nom n’est publié avant l’accord écrit de la personne.</p></section>
+{% endblock %}

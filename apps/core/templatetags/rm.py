@@ -73,3 +73,21 @@ def depuis(d):
     """Durée écoulée, en une seule unité : « 3 jours », « 2 semaines »."""
     from django.utils.timesince import timesince
     return timesince(d).split(',')[0] if d else ''
+
+
+@register.simple_tag
+def src(cle, niveau=None, origine=None):
+    """Icône « i » de source (v3 · 9.4) : libellé, origine, date, niveau de preuve, calcul, contact."""
+    from html import escape
+    from apps.core.sources import info
+    i = info(cle, niveau, origine)
+    texte = (f'{i["libelle"]}. Source : {i["origine"]}. Date : {i["date"]}. Niveau : {i["niveau"]}. '
+             f'Calcul : {i["calcul"]}. {i["contact"]}')
+    return mark_safe(f'<button type="button" class="src-i" data-src="{escape(cle)}" aria-label="{escape(texte)}" title="{escape(texte)}">i</button>')
+
+
+@register.simple_tag
+def chiffre(valeur, cle, niveau=None):
+    """Un chiffre et sa source, toujours ensemble : le test automatique vérifie que chaque [data-chiffre] porte une icône « i »."""
+    from html import escape
+    return mark_safe(f'<span class="chiffre" data-chiffre="{escape(cle)}">{escape(str(valeur))}{src(cle, niveau)}</span>')

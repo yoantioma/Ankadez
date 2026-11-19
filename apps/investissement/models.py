@@ -3,8 +3,18 @@ from django.db import models
 
 class These(models.Model):
     """Thèse d’investissement d’un investisseur : ce qu’il cherche. Elle alimente l’indice de compatibilité."""
-    STADES = [('amorcage', 'Amorçage'), ('croissance', 'Croissance'), ('maturite', 'Maturité')]
-    INSTRUMENTS = [('equity', 'Capital'), ('dette', 'Dette'), ('quasi', 'Quasi-fonds propres'), ('mixte', 'Mixte')]
+    # v3 · 6.1 : stades d’investissement (second axe du passeport)
+    STADES = [('angel', 'Angel / Pré-seed'), ('seed', 'Seed'), ('serie_a', 'Série A'), ('serie_b', 'Série B+'),
+              ('developpement', 'Développement et reprise')]
+    INSTRUMENTS = [('equity', 'Capital'), ('dette', 'Dette'), ('quasi', 'Quasi-fonds propres'), ('mixte', 'Mixte'),
+                   ('subvention', 'Subvention'), ('garantie', 'Garantie'), ('credit_bail', 'Crédit-bail')]
+    TYPES = [('banque', 'Banque'), ('fonds', 'Fonds d’investissement'), ('business_angel', 'Business angel'), ('diaspora', 'Diaspora'),
+             ('mutuelle', 'Mutuelle d’entreprises'), ('ptf', 'Partenaire technique et financier'), ('repreneur', 'Repreneur'),
+             ('incubateur', 'Incubateur ou structure d’appui')]
+    NON_NEGOCIABLES = [('comptes_certifies', 'Comptes certifiés'), ('esg', 'Politique ESG'), ('dirigeante', 'Entreprise dirigée par une femme'),
+                       ('emplois', 'Au moins 10 emplois'), ('garanties', 'Garanties disponibles')]
+    SORTIES = [('remboursement', 'Remboursement'), ('revente', 'Revente à un tiers'), ('rachat_dirigeant', 'Rachat par le dirigeant'),
+               ('introduction', 'Introduction en bourse'), ('industriel', 'Cession à un industriel')]
 
     organisation = models.OneToOneField('annuaire.Organisation', on_delete=models.CASCADE, related_name='these')
     secteurs = models.ManyToManyField('annuaire.Secteur', blank=True, related_name='theses')
@@ -15,6 +25,15 @@ class These(models.Model):
     instruments = models.JSONField(default=list, blank=True)
     exigence_esg = models.BooleanField('exigence ESG', default=False)
     horizon_annees = models.PositiveSmallIntegerField('horizon (années)', null=True, blank=True)
+    type_acteur = models.CharField('qui êtes-vous ?', max_length=16, choices=TYPES, blank=True)
+    non_negociables = models.JSONField('critères non négociables (filtres éliminatoires)', default=list, blank=True)
+    sorties = models.JSONField('sorties acceptées', default=list, blank=True)
+    contact_accompagnateur = models.BooleanField('parler d’abord à la structure qui accompagne l’entreprise', default=False)
+    # v3 · 7.3 : critères propres aux mutuelles
+    mutuelle_beneficiaires = models.CharField('mutuelle · qui peut bénéficier', max_length=200, blank=True)
+    mutuelle_apport = models.CharField('mutuelle · ce qu’elle apporte', max_length=200, blank=True)
+    mutuelle_delai = models.CharField('mutuelle · délai de décision annoncé', max_length=80, blank=True)
+    mutuelle_regle = models.CharField('mutuelle · règle de la communauté', max_length=200, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -63,3 +82,28 @@ class DemandeAcces(models.Model):
     def statut_suivant(self):
         i = self.etape_index
         return self.ORDRE[i + 1] if 0 <= i < len(self.ORDRE) - 1 else None
+
+
+class TheseVersion(models.Model):
+    """v3 · 4.2 : chaque changement du monde idéal est daté (fraîcheur de la thèse)."""
+    these = models.ForeignKey(These, on_delete=models.CASCADE, related_name='versions')
+    donnees = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+
+class QuestionAccompagnateur(models.Model):
+    """v3 · 8.3 : l’investisseur interroge la structure d’appui avant la PME, si la PME l’a autorisé. Journal visible de la PME."""
+    investisseur = models.ForeignKey('annuaire.Organisation', on_delete=models.CASCADE, related_name='questions_posees')
+    entreprise = models.ForeignKey('annuaire.Organisation', on_delete=models.CASCADE, related_name='questions_recues_pme')
+    structure = models.ForeignKey('annuaire.Organisation', on_delete=models.CASCADE, related_name='questions_a_traiter')
+    question = models.TextField()
+    reponse = models.TextField(blank=True)
+    signaler_pme = models.BooleanField('réponse plus précise : la PME est sollicitée', default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    repondu_le = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']

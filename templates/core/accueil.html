@@ -8,7 +8,7 @@
 
 <header class="rv-nav"><div class="rv-wrap">
   <a class="rv-logo" href="#cameroun">{% include 'partials/logo.html' with taille=30 %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></a>
-  <nav aria-label="Sections"><a href="#cameroun">Le Cameroun</a><a href="#diagnostic">Diagnostic</a><a href="#parcours">Le parcours</a><a href="#chaine">La chaîne</a><a href="#essayer">L’app</a></nav>
+  <nav aria-label="Sections"><a href="#cameroun">Le Cameroun</a><a href="#diagnostic">Diagnostic</a><a href="#parcours">Le parcours</a><a href="#chaine">La chaîne</a><a href="#cif">CIF 2026</a><a href="#essayer">L’app</a></nav>
   <button class="rv-theme" type="button" data-theme-toggle aria-label="Basculer le thème clair ou sombre">{% ic 'theme' 18 %}</button>
   <a class="rv-cta ghost sm" href="{% url 'accounts:connexion' %}">Se connecter</a>
   <a class="rv-cta sm" href="{% url 'accounts:inscription' %}">Créer un compte</a>
@@ -34,23 +34,23 @@
   <div class="diag">
     <div class="bx diag-q">
       <p class="kk">Diagnostic express</p><h2>Où en est votre dossier ?</h2>
-      <p class="diag-sous">6 questions, 45 secondes. Rien n’est enregistré.</p>
-      <form id="diag" onsubmit="return false">
-        {% for q, poids in diagnostic %}
-        <fieldset class="dq"><legend>{{ q }}</legend>
-          <label><input type="radio" name="q{{ forloop.counter }}" value="{{ poids }}"><span>Oui</span></label>
-          <label><input type="radio" name="q{{ forloop.counter }}" value="0"><span>Non</span></label></fieldset>
+      <p class="diag-sous">{{ questions|length }} questions, 45 secondes. Le score est déclaré : il oriente, il ne donne aucun grade.</p>
+      <form id="diag" method="post" action="{% url 'core:diagnostic' %}">{% csrf_token %}
+        {% for q in questions %}
+        <fieldset class="dq"><legend>{{ q.texte }}</legend>
+          <label><input type="radio" name="q{{ q.ordre }}" value="1" data-poids="{{ q.poids }}" data-piece="{{ q.piece }}"><span>Oui</span></label>
+          <label><input type="radio" name="q{{ q.ordre }}" value="0" data-poids="0" data-piece="{{ q.piece }}"><span>Non</span></label></fieldset>
         {% endfor %}
       </form>
     </div>
     <div class="diag-r">
-      <p class="d-k">Votre score déclaratif</p>
+      <p class="d-k">Votre score déclaré</p>
       <p class="d-num" data-diag-score>0<small>/100</small></p>
       <div class="d-barre"><i data-diag-barre></i></div>
       <p class="d-grade" data-diag-grade>Répondez aux questions</p>
-      <p class="d-ex" data-diag-texte>Le grade suit les paliers du passeport : Structuring, Pré-Ready, Investment-Ready, puis Série A et Institutional-Ready.</p>
-      <div class="d-in"><p>Sans pièce, un score s’arrête à 59. Le passeport complet vérifie vos pièces et calcule deux lectures : banque et fonds.</p>
-        <a class="cta-p" href="{% url 'accounts:inscription_compte' 'pme' %}">Créer mon passeport {% ic 'fleche-d' 16 %}</a></div>
+      <p class="d-ex" data-diag-texte>À la fin : les trois pièces qui vous manquent, votre prochaine action et les accompagnateurs qui peuvent vous aider.</p>
+      <div class="d-in"><p>Le résultat complet affiche aussi les financeurs et les programmes déjà compatibles avec votre profil.</p>
+        <button class="cta-p" type="submit" form="diag">Voir mon résultat complet {% ic 'fleche-d' 16 %}</button></div>
     </div>
   </div>
 </div></section>
@@ -129,6 +129,14 @@
   </div>
 </div></section>
 
+{# ================= CIF 2026 : qui est autour de la table (v3 · 3) ================= #}
+<section class="rv-trustsec" id="cif"><div class="rv-wrap">
+  <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">CIF 2026 · Défi n°3</p><h2>Les financeurs sont déjà <em>autour de la table.</em></h2>
+    <p class="rv-lead c">Le 19 novembre, le Marché de l’Investissement ouvre ses deal rooms avec Afreximbank, la SFI, la BAD, le système des Nations unies et les banques camerounaises. AnkadeZ prépare les dossiers qui y entrent.</p></header>
+  <div class="cif-table">{% for groupe, entites, role, usage in parties %}<article><p class="cif-g">{{ groupe }}</p><b>{{ entites }}</b><p>{{ role }}</p><p class="cif-u">{{ usage }}</p></article>{% endfor %}</div>
+  <p class="rv-small" style="margin-top:14px">Source : programme officiel du CIF 2026, termes de référence et règlement du BIH. Noms recopiés tels qu’imprimés, à revérifier avant tout contact. Aucune mise en relation réelle avant l’accord de l’acteur.</p>
+</div></section>
+
 {# ================= Confiance ================= #}
 <section class="rv-trustsec"><div class="rv-wrap">
   <header class="rv-rise rv-ch-head center"><p class="rv-eyebrow">Confiance</p><h2>La confiance <em>se voit.</em></h2></header>
@@ -154,6 +162,7 @@
 <footer class="rv-foot"><div class="rv-wrap">
   <p class="rv-logo">{% include 'partials/logo.html' with taille=28 %}<span class="nom-marque"><i>A</i>nkade<i>Z</i></span></p>
   <p>CIF 2026 · Défi n°3 · conçu par <b>Yoan Tioma</b>.</p>
+  <p class="rv-liens"><a href="{% url 'core:diagnostic' %}">Diagnostic de 45 secondes</a> · <a href="{% url 'core:programmes' %}">Programmes</a> · <a href="{% url 'core:academie' %}">Académie</a> · <a href="{% url 'core:observatoire' %}">Observatoire</a> · <a href="{% url 'core:conseil' %}">Conseil consultatif</a></p>
   <p class="rv-small">AnkadeZ n’est ni une banque, ni un conseiller en investissement, ni une plateforme de financement participatif. Les montants et les taux affichés sont indicatifs. Entreprises et personnes de démonstration fictives. Photographies Unsplash.</p>
 </div></footer>
 </div>

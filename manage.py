@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Point d'entrée des commandes Django de ReadyMatch."""
+"""Point d'entrée des commandes Django d’AnkadeZ."""
 import os
 import sys
 

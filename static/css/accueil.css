@@ -116,3 +116,12 @@
 
 /* logotype AnkadeZ : minuscules, le A et le Z dans la couleur principale (dossier BIH) */
 #vitrine .nom-marque{letter-spacing:-.01em}#vitrine .nom-marque i{font-style:normal;color:var(--violet)}
+
+/* CIF 2026 : parties prenantes (v3 · 3) */
+#vitrine .cif-table{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+#vitrine .cif-table article{background:var(--fond);border:1px solid var(--ligne);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:6px}
+#vitrine .cif-g{margin:0;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--violet)}
+#vitrine .cif-table b{font-size:15px;line-height:1.4}
+#vitrine .cif-table p{margin:0;font-size:14px;color:var(--t2);line-height:1.5}
+#vitrine .cif-table .cif-u{color:var(--encre);font-weight:600;margin-top:auto}
+#vitrine .rv-liens a{color:var(--violet);font-weight:600}

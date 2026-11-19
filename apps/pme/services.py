@@ -28,6 +28,16 @@ class Score:
     fonds_propres: int = 0                     # lecture « fonds »
     confiance: int = 0                         # % de données justifiées ou attestées
     plafonne: bool = False
+    stade: str = ''                            # v3 · 6.1 second axe
+    stade_libelle: str = ''
+    points_rouges: list = field(default_factory=list)
+    porte_bloquante: str = ''                  # grade gardé par une porte non franchie
+    portes_manquantes: list = field(default_factory=list)
+    penalite: int = 0                          # faiblesses découvertes (divulgation non spontanée)
+
+    @property
+    def affichage(self):
+        return f'{self.palier} ({self.total}/100) · Stade {self.stade_libelle} · Confiance {self.confiance} %'
 
 
 def confiance_donnees(org):
@@ -38,7 +48,8 @@ def confiance_donnees(org):
         return 0
     attestees = sum(1 for n in niveaux if n == 'certifie')
     justifiees = sum(1 for n in niveaux if n in ('coherent', 'recoupe'))
-    return round((attestees + 0.7 * justifiees) / len(niveaux) * 100)
+    from .v3 import coefficient_fraicheur   # v3 · 6.3 : un passeport vieillit
+    return round((attestees + 0.7 * justifiees) / len(niveaux) * 100 * coefficient_fraicheur(org)[0])
 
 
 def _pieces_par_dossier(org):
@@ -72,11 +83,23 @@ def score_preparation(org):
     plafonne = not justifie and total > PLAFOND_DECLARATIF
     if plafonne:
         total = PLAFOND_DECLARATIF
+    # v3 · 6.2 : pénalité des faiblesses découvertes, puis portes de preuve et points rouges
+    from . import v3
+    penalite = v3.penalite_divulgation(org)
+    total = max(0, total - penalite)
+    maxi, porte, manquantes = v3.plafond_portes(org)
+    if total > maxi:
+        total = maxi
+    else:
+        porte, manquantes = (porte, manquantes) if maxi < 100 and total >= maxi else ('', [])
+    st = v3.stade(org)
     lecture = lambda poids: round(sum(v / mx * poids[k] for k, _, v, mx in dims))
     palier = next(lab for seuil, lab in PALIERS if total >= seuil)
     suivant = next(((s, lab) for s, lab in reversed(PALIERS) if s > total), None)
     return Score(total=total, dims=dims, palier=palier, prochain_palier=suivant, dette=lecture(LUNETTE_DETTE),
-                 fonds_propres=lecture(LUNETTE_FONDS_PROPRES), confiance=confiance_donnees(org), plafonne=plafonne)
+                 fonds_propres=lecture(LUNETTE_FONDS_PROPRES), confiance=confiance_donnees(org), plafonne=plafonne,
+                 stade=st, stade_libelle=v3.STADES[st], points_rouges=v3.points_rouges(org), porte_bloquante=porte or '',
+                 portes_manquantes=manquantes, penalite=penalite)
 
 
 def montant_legitime(org):
